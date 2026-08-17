@@ -1,6 +1,9 @@
 .navbar {
-  position: relative;
-  z-index: 20;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
   background: #0f1b3d;
   padding: 14px 24px;
 }
@@ -36,6 +39,7 @@
 }
 
 .navLink {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -45,14 +49,140 @@
   text-decoration: none;
   white-space: nowrap;
   transition: color 0.2s ease;
+  padding-bottom: 4px;
 }
 
 .navLink:hover {
   color: #4f7bff;
 }
 
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: #4f7bff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
+}
+
+.navLinkActive {
+  color: #4f7bff;
+}
+
+.navLinkActive::after {
+  transform: scaleX(1);
+}
+
 .chevron {
   margin-top: 2px;
+  transition: transform 0.2s ease;
+}
+
+.navItem {
+  position: relative;
+}
+
+.navItem:hover .chevron,
+.navItem:focus-within .chevron {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 18px);
+  left: 0;
+  z-index: 30;
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  min-width: 240px;
+  background: #0f1b3d;
+  border-radius: 12px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.navItem:hover .dropdown,
+.navItem:focus-within .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdownItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  border-radius: 8px;
+  cursor: default;
+  transition: background 0.2s ease;
+}
+
+.dropdownItem:hover,
+.dropdownItem:focus-within {
+  background: rgba(255, 255, 255, 0.08);
+  color: #4f7bff;
+}
+
+.submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  z-index: 31;
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  min-width: 320px;
+  background: #0f1b3d;
+  border-radius: 12px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.dropdownItem:hover .submenu,
+.dropdownItem:focus-within .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.submenuLink {
+  display: block;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  white-space: normal;
+  border-radius: 8px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.submenuLink:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #4f7bff;
 }
 
 .cta {
@@ -117,7 +247,7 @@
 }
 
 .mobileMenu.open {
-  max-height: 480px;
+  max-height: 900px;
   padding-top: 16px;
 }
 
@@ -128,12 +258,64 @@
 }
 
 .mobileNavLink {
+  position: relative;
   color: #ffffff;
   font-size: 16px;
   font-weight: 500;
   text-decoration: none;
-  padding: 12px 4px;
+  padding: 12px 4px 12px 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.mobileNavLinkActive {
+  color: #4f7bff;
+}
+
+.mobileNavLinkActive::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 18px;
+  border-radius: 999px;
+  background: #4f7bff;
+}
+
+.mobileCourses {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: -8px 0 4px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.mobileCourseGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileCourseCategory {
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4f7bff;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.mobileCourseLink {
+  padding: 12px 14px 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #d7defa;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .mobileCta {

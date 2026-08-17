@@ -1,0 +1,141 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 24px 96px;
+}
+
+.header {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0 0 8px;
+}
+
+.heading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(28px, 3.6vw, 42px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+.panel {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 14px 28px rgba(15, 27, 61, 0.08);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.column {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  padding: 44px 40px;
+}
+
+.divider {
+  position: absolute;
+  right: 0;
+  top: 16%;
+  bottom: 16%;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(15, 27, 61, 0.25) 0,
+    rgba(15, 27, 61, 0.25) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.iconCircle {
+  width: 60px;
+  height: 60px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.column:nth-child(1) .iconCircle {
+  background: #2451e0;
+}
+
+.column:nth-child(2) .iconCircle {
+  background: #0f9d78;
+}
+
+.title {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+.text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #445;
+  margin: 0;
+  max-width: 320px;
+}
+
+@media (max-width: 720px) {
+  .panel {
+    grid-template-columns: 1fr;
+  }
+
+  .divider {
+    right: auto;
+    left: 16%;
+    right: 16%;
+    top: auto;
+    bottom: 0;
+    width: auto;
+    height: 1px;
+    background: repeating-linear-gradient(
+      to right,
+      rgba(15, 27, 61, 0.25) 0,
+      rgba(15, 27, 61, 0.25) 6px,
+      transparent 6px,
+      transparent 12px
+    );
+  }
+
+  .column {
+    padding: 36px 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 56px 16px 72px;
+  }
+
+  .column {
+    padding: 32px 20px;
+  }
+
+  .iconCircle {
+    width: 52px;
+    height: 52px;
+  }
+}

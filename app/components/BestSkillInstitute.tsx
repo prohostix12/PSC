@@ -1,3 +1,4 @@
+import SketchFrame from "./SketchFrame";
 import styles from "./BestSkillInstitute.module.css";
 
 const highlights = ["Career-relevant", "Industry-updated", "Globally recognized"];
@@ -71,6 +72,8 @@ export default function BestSkillInstitute() {
         </div>
 
         <aside className={styles.highlightCard}>
+          <SketchFrame rx={24} />
+
           <h3 className={styles.subheading}>
             Industry-relevant and globally recognized learning
           </h3>

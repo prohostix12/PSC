@@ -109,13 +109,14 @@
 }
 
 .highlightCard {
+  position: relative;
   background: #ffffff;
   border-radius: 24px;
   padding: 32px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-shadow: 0 20px 40px rgba(15, 27, 61, 0.12);
+  box-shadow: 0 14px 28px rgba(15, 27, 61, 0.08);
   transform: rotate(-1deg);
 }
 

@@ -1,0 +1,134 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 24px 96px;
+}
+
+.heading {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto 48px;
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(28px, 3.6vw, 42px);
+  font-weight: 700;
+  color: #0f1b3d;
+  text-align: center;
+}
+
+.list {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  align-items: center;
+  gap: 28px;
+}
+
+.rowReverse {
+  grid-template-columns: 1fr 160px;
+}
+
+.rowReverse .person {
+  order: 2;
+}
+
+.rowReverse .quoteCard {
+  order: 1;
+}
+
+.person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+.role {
+  font-size: 13px;
+  color: #667;
+  margin: 2px 0 0;
+}
+
+.quoteCard {
+  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quoteMark {
+  color: #0f1b3d;
+  opacity: 0.5;
+}
+
+.quoteText {
+  font-size: 15px;
+  line-height: 1.75;
+  font-style: italic;
+  color: #24304d;
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .row,
+  .rowReverse {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .rowReverse .person {
+    order: 1;
+  }
+
+  .rowReverse .quoteCard {
+    order: 2;
+  }
+
+  .person {
+    flex-direction: row;
+    justify-content: center;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 56px 16px 72px;
+  }
+
+  .quoteCard {
+    padding: 24px 22px;
+  }
+}

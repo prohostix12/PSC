@@ -1,3 +1,4 @@
+import SketchFrame from "./SketchFrame";
 import styles from "./WhyChooseUs.module.css";
 
 function BriefcaseIcon() {
@@ -108,6 +109,8 @@ export default function WhyChooseUs() {
               index % 2 === 0 ? styles.navyAccent : styles.redAccent
             }`}
           >
+            <SketchFrame rx={16} />
+
             <span className={styles.iconCircle}>{reason.icon}</span>
             <div className={styles.cardText}>
               <h3 className={styles.cardTitle}>{reason.title}</h3>
