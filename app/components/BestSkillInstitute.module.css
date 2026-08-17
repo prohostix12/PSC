@@ -1,0 +1,204 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: 80px 24px 96px;
+}
+
+.header {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #2451e0;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(20, 40, 90, 0.12);
+  margin: 0 0 16px;
+}
+
+.heading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(30px, 3.8vw, 46px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+/* Banner placeholder — replace with your own photo/collage image */
+.banner {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  min-height: 260px;
+  border-radius: 28px;
+  background: linear-gradient(160deg, #0f1b3d 0%, #2451e0 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 0 32px;
+  box-shadow: 0 24px 48px rgba(15, 27, 61, 0.22);
+}
+
+.statsStrip {
+  width: 100%;
+  transform: translateY(50%);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px 12px;
+  text-align: center;
+  box-shadow: 0 14px 30px rgba(15, 27, 61, 0.18);
+}
+
+.statValue {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 700;
+  color: #0f1b3d;
+}
+
+.statLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f9d78;
+}
+
+.body {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-top: calc(38px + 32px);
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.textCol {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.paragraph {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #1f2a44;
+  margin: 0;
+}
+
+.highlightCard {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 20px 40px rgba(15, 27, 61, 0.12);
+  transform: rotate(-1deg);
+}
+
+.subheading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(20px, 2.2vw, 24px);
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+.cardParagraph {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #445;
+  margin: 0;
+}
+
+.highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.highlightItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #f4f7ff;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f1b3d;
+}
+
+.highlightIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #2451e0;
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .statsStrip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .body {
+    grid-template-columns: 1fr;
+    margin-top: calc(19px + 28px);
+    gap: 28px;
+  }
+
+  .highlightCard {
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 56px 16px 72px;
+  }
+
+  .banner {
+    min-height: 200px;
+    border-radius: 20px;
+    padding: 0 16px;
+  }
+
+  .statCard {
+    padding: 16px 10px;
+  }
+
+  .paragraph {
+    font-size: 15px;
+  }
+
+  .highlightCard {
+    padding: 24px;
+  }
+}

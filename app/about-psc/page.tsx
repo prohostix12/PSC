@@ -1,0 +1,22 @@
+import Navbar from "../components/Navbar";
+import AboutHero from "../components/AboutHero";
+import BestSkillInstitute from "../components/BestSkillInstitute";
+import WhyChooseUs from "../components/WhyChooseUs";
+import Footer from "../components/Footer";
+import PageBackground from "../components/PageBackground";
+import styles from "../page.module.css";
+
+export default function AboutPsc() {
+  return (
+    <>
+      <Navbar />
+      <div className={styles.pageContent}>
+        <PageBackground />
+        <AboutHero />
+        <BestSkillInstitute />
+        <WhyChooseUs />
+      </div>
+      <Footer />
+    </>
+  );
+}
