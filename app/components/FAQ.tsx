@@ -63,12 +63,14 @@ const rightFaqs = [
 function FAQItem({
   question,
   answer,
+  open,
+  onToggle,
 }: {
   question: string;
   answer: string;
+  open: boolean;
+  onToggle: () => void;
 }) {
-  const [open, setOpen] = useState(false);
-
   return (
     <div className={styles.item}>
       <SketchFrame rx={14} />
@@ -77,7 +79,7 @@ function FAQItem({
         type="button"
         className={styles.question}
         aria-expanded={open}
-        onClick={() => setOpen((o) => !o)}
+        onClick={onToggle}
       >
         <span>{question}</span>
         <span className={`${styles.icon} ${open ? styles.iconOpen : ""}`}></span>
@@ -91,6 +93,8 @@ function FAQItem({
 }
 
 export default function FAQ() {
+  const [openKey, setOpenKey] = useState<string | null>(null);
+
   return (
     <section className={styles.section}>
       <div className={styles.header}>
@@ -103,14 +107,34 @@ export default function FAQ() {
 
       <div className={styles.grid}>
         <div className={styles.column}>
-          {leftFaqs.map((faq) => (
-            <FAQItem key={faq.question} {...faq} />
-          ))}
+          {leftFaqs.map((faq, index) => {
+            const key = `left-${index}`;
+            return (
+              <FAQItem
+                key={faq.question}
+                {...faq}
+                open={openKey === key}
+                onToggle={() =>
+                  setOpenKey((current) => (current === key ? null : key))
+                }
+              />
+            );
+          })}
         </div>
         <div className={styles.column}>
-          {rightFaqs.map((faq) => (
-            <FAQItem key={faq.question} {...faq} />
-          ))}
+          {rightFaqs.map((faq, index) => {
+            const key = `right-${index}`;
+            return (
+              <FAQItem
+                key={faq.question}
+                {...faq}
+                open={openKey === key}
+                onToggle={() =>
+                  setOpenKey((current) => (current === key ? null : key))
+                }
+              />
+            );
+          })}
         </div>
       </div>
     </section>

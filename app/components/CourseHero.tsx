@@ -1,12 +1,15 @@
 import styles from "./CourseHero.module.css";
 
-const features = [
+type Feature = { title: string; subtitle: string };
+type Detail = { label: string; value: string };
+
+const defaultFeatures: Feature[] = [
   { title: "Get Skilled", subtitle: "Hands-on gamified modules" },
   { title: "Get Certified", subtitle: "Industry-recognized certificate" },
   { title: "Get Hired", subtitle: "Dedicated placement support" },
 ];
 
-const details = [
+const defaultDetails: Detail[] = [
   { label: "Duration", value: "4 Months" },
   { label: "Mode", value: "Offline & Online" },
   { label: "Students Trained", value: "500+" },
@@ -27,22 +30,32 @@ function CheckIcon() {
   );
 }
 
-export default function CourseHero() {
+export default function CourseHero({
+  badge = "Online Course · Digital Marketing",
+  heading = "AI Integrated",
+  headingAccent = "Digital Marketing",
+  subheading = "India's first gamified, AI-integrated digital marketing program — built to take you from fundamentals to a job-ready portfolio.",
+  features = defaultFeatures,
+  details = defaultDetails,
+}: {
+  badge?: string;
+  heading?: string;
+  headingAccent?: string;
+  subheading?: string;
+  features?: Feature[];
+  details?: Detail[];
+}) {
   return (
     <section className={styles.hero}>
       <div className={styles.inner}>
         <div className={styles.content}>
-          <span className={styles.badge}>Online Course · Digital Marketing</span>
+          <span className={styles.badge}>{badge}</span>
 
           <h1 className={styles.heading}>
-            AI Integrated <span className={styles.accent}>Digital Marketing</span>
+            {heading} <span className={styles.accent}>{headingAccent}</span>
           </h1>
 
-          <p className={styles.subheading}>
-            India&apos;s first gamified, AI-integrated digital marketing
-            program — built to take you from fundamentals to a job-ready
-            portfolio.
-          </p>
+          <p className={styles.subheading}>{subheading}</p>
 
           <ul className={styles.checklist}>
             {features.map((feature) => (

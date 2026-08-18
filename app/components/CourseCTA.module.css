@@ -1,0 +1,70 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 24px 96px;
+}
+
+.banner {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  background: #0f1b3d;
+  border-radius: 24px;
+  padding: 56px 40px;
+  text-align: center;
+  box-shadow: 0 24px 48px rgba(15, 27, 61, 0.2);
+}
+
+.sketch rect {
+  stroke: rgba(255, 255, 255, 0.4);
+}
+
+.heading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(28px, 3.6vw, 40px);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 12px;
+}
+
+.subtext {
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 28px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 36px;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #0f9d78;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.button:hover {
+  background: #eef2ff;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 560px) {
+  .section {
+    padding: 16px 16px 72px;
+  }
+
+  .banner {
+    padding: 40px 24px;
+    border-radius: 20px;
+  }
+
+  .subtext {
+    font-size: 14px;
+  }
+}

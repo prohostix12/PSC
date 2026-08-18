@@ -22,7 +22,10 @@ const courseCategories = [
         label: "AI Integrated Digital Marketing",
         href: "/courses/ai-integrated-digital-marketing",
       },
-      { label: "Business Administration & Hospital Management", href: "#" },
+      {
+        label: "Business Administration & Hospital Management",
+        href: "/courses/business-administration-hospital-management",
+      },
     ],
   },
   {
@@ -32,7 +35,10 @@ const courseCategories = [
         label: "AI Integrated Digital Marketing",
         href: "/courses/ai-integrated-digital-marketing",
       },
-      { label: "Business Administration & Hospital Management", href: "#" },
+      {
+        label: "Business Administration & Hospital Management",
+        href: "/courses/business-administration-hospital-management",
+      },
       {
         label: "Professional Diploma in AI integrated Accounting & Taxation",
         href: "#",
