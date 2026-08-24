@@ -78,6 +78,11 @@
   color: #0f1b3d;
 }
 
+.highlightText {
+  font-weight: 700;
+  color: #2451e0;
+}
+
 .benefits {
   display: flex;
   flex-direction: column;

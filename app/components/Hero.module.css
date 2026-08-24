@@ -141,13 +141,92 @@
   position: relative;
   height: 100%;
   min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Placeholder for hero photo/illustration — replace with your own image */
-.mediaPlaceholder {
-  position: absolute;
-  inset: 0;
+.enquiryCard {
+  position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 24px 48px rgba(15, 27, 61, 0.16);
+}
+
+.enquiryHeading {
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0 0 4px;
+}
+
+.enquiryField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.enquiryLabel {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f1b3d;
+}
+
+.enquiryInput,
+.enquirySelect {
+  width: 100%;
+  border: 1.5px solid #e1e6f5;
+  border-radius: 12px;
+  padding: 13px 16px;
+  font-size: 15px;
+  font-family: var(--font-geist-sans), sans-serif;
+  color: #0f1b3d;
+  background: #f8faff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.enquirySelect {
+  cursor: pointer;
+}
+
+.enquiryInput::placeholder {
+  color: #97a2c0;
+}
+
+.enquiryInput:focus,
+.enquirySelect:focus {
+  outline: none;
+  border-color: #2451e0;
+  box-shadow: 0 0 0 4px rgba(36, 81, 224, 0.14);
+}
+
+.enquireButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+  padding: 15px 24px;
+  border-radius: 12px;
+  background: #2451e0;
+  color: #ffffff;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.enquireButton:hover {
+  background: #1a3fc0;
+  transform: translateY(-2px);
 }
 
 .ticker {
@@ -196,8 +275,7 @@
   }
 
   .media {
-    min-height: 280px;
-    order: -1;
+    min-height: 0;
   }
 
   .heading {
@@ -253,7 +331,11 @@
   }
 
   .media {
-    min-height: 220px;
+    min-height: 0;
+  }
+
+  .enquiryCard {
+    padding: 24px 20px;
   }
 
   .tickerItem {

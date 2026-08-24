@@ -8,15 +8,15 @@ import styles from "./Navbar.module.css";
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about-psc" },
-  { label: "Events", href: "#" },
-  { label: "Success Stories", href: "#" },
-  { label: "Blogs", href: "#" },
-  { label: "Contact us", href: "#" },
+  { label: "Events", href: "/events" },
+  { label: "Success Stories", href: "/success-stories" },
+  { label: "Blogs", href: "/blogs" },
+  { label: "Contact us", href: "/contact" },
 ];
 
 const courseCategories = [
   {
-    label: "Online Courses",
+    label: "Online Programs",
     courses: [
       {
         label: "AI Integrated Digital Marketing",
@@ -29,7 +29,7 @@ const courseCategories = [
     ],
   },
   {
-    label: "Offline Courses",
+    label: "Offline Programs",
     courses: [
       {
         label: "AI Integrated Digital Marketing",
@@ -41,7 +41,7 @@ const courseCategories = [
       },
       {
         label: "Professional Diploma in AI integrated Accounting & Taxation",
-        href: "#",
+        href: "/courses/ai-integrated-accounting-taxation",
       },
     ],
   },
@@ -141,22 +141,22 @@ export default function Navbar() {
                 pathname.startsWith("/courses") ? styles.navLinkActive : ""
               }`}
             >
-              Courses
+              Programs
               <ChevronDown />
             </a>
             <CoursesDropdown />
           </div>
 
-          <a href="#" className={styles.navLink}>
+          <a href="/events" className={linkClass("/events")}>
             Events
           </a>
-          <a href="#" className={styles.navLink}>
+          <a href="/success-stories" className={linkClass("/success-stories")}>
             Success Stories
           </a>
-          <a href="#" className={styles.navLink}>
+          <a href="/blogs" className={linkClass("/blogs")}>
             Blogs
           </a>
-          <a href="#" className={styles.navLink}>
+          <a href="/contact" className={linkClass("/contact")}>
             Contact us
           </a>
         </nav>
@@ -199,7 +199,7 @@ export default function Navbar() {
             </a>
           ))}
 
-          <span className={styles.mobileNavLink}>Courses</span>
+          <span className={styles.mobileNavLink}>Programs</span>
           <div className={styles.mobileCourses}>
             {courseCategories.map((category) => (
               <div key={category.label} className={styles.mobileCourseGroup}>

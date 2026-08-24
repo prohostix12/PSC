@@ -1,0 +1,136 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 24px 96px;
+}
+
+.header {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2451e0;
+  margin: 0 0 8px;
+}
+
+.heading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(30px, 3.8vw, 46px);
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+.grid {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 14px 30px rgba(15, 27, 61, 0.08);
+}
+
+.thumb {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(150deg, #2451e0 0%, #0f1b3d 100%);
+}
+
+.body {
+  position: relative;
+  z-index: 1;
+  padding: 22px 24px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.category {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2451e0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.date {
+  font-size: 12px;
+  color: #8891ab;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+.excerpt {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #445;
+  margin: 0;
+  flex: 1;
+}
+
+.viewButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2451e0;
+  text-decoration: none;
+  transition: gap 0.2s ease, color 0.2s ease;
+}
+
+.viewButton:hover {
+  gap: 12px;
+  color: #1a3fc0;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 16px 16px 72px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

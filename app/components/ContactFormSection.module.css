@@ -1,0 +1,101 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 24px 96px;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 16px 32px rgba(15, 27, 61, 0.1);
+}
+
+.sketch rect {
+  stroke: #0f9d78;
+}
+
+.heading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(24px, 2.8vw, 30px);
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0 0 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input {
+  width: 100%;
+  border: 1.5px solid rgba(15, 27, 61, 0.3);
+  border-radius: 999px;
+  padding: 14px 22px;
+  font-size: 15px;
+  font-family: var(--font-geist-sans), sans-serif;
+  color: #0f1b3d;
+  background: transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.textarea {
+  width: 100%;
+  border: 1.5px solid rgba(15, 27, 61, 0.3);
+  border-radius: 20px;
+  padding: 16px 22px;
+  font-size: 15px;
+  font-family: var(--font-geist-sans), sans-serif;
+  color: #0f1b3d;
+  background: transparent;
+  resize: vertical;
+  min-height: 130px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #8891ab;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #0f9d78;
+  box-shadow: 0 0 0 4px rgba(15, 157, 120, 0.14);
+}
+
+.submit {
+  margin-top: 4px;
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 12px;
+  background: #0f9d78;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.submit:hover {
+  background: #0c7f61;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 560px) {
+  .section {
+    padding: 16px 16px 72px;
+  }
+
+  .card {
+    padding: 28px 22px;
+  }
+}

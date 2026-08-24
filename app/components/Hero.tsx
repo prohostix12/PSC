@@ -32,7 +32,7 @@ export default function Hero() {
           </p>
 
           <h1 className={styles.heading}>
-            Professional Diploma in Training &amp; Development
+            Kerala&apos;s First WBL Academy Since 2009
           </h1>
 
           <ul className={styles.features}>
@@ -57,8 +57,78 @@ export default function Hero() {
         </div>
 
         <div className={styles.media}>
-          {/* Hero image placeholder — swap for your <Image> */}
-          <div className={styles.mediaPlaceholder}></div>
+          <div className={styles.enquiryCard}>
+            <h2 className={styles.enquiryHeading}>Make Your Enquiry</h2>
+
+            <div className={styles.enquiryField}>
+              <label htmlFor="enquiry-name" className={styles.enquiryLabel}>
+                Name
+              </label>
+              <input
+                id="enquiry-name"
+                name="name"
+                type="text"
+                placeholder="Your full name"
+                className={styles.enquiryInput}
+              />
+            </div>
+
+            <div className={styles.enquiryField}>
+              <label htmlFor="enquiry-email" className={styles.enquiryLabel}>
+                Email
+              </label>
+              <input
+                id="enquiry-email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                className={styles.enquiryInput}
+              />
+            </div>
+
+            <div className={styles.enquiryField}>
+              <label htmlFor="enquiry-phone" className={styles.enquiryLabel}>
+                Phone Number
+              </label>
+              <input
+                id="enquiry-phone"
+                name="phone"
+                type="tel"
+                placeholder="+91 00000 00000"
+                className={styles.enquiryInput}
+              />
+            </div>
+
+            <div className={styles.enquiryField}>
+              <label
+                htmlFor="enquiry-preference"
+                className={styles.enquiryLabel}
+              >
+                Preference
+              </label>
+              <select
+                id="enquiry-preference"
+                name="preference"
+                defaultValue=""
+                className={styles.enquirySelect}
+              >
+                <option value="" disabled>
+                  Select a course
+                </option>
+                <option value="ai-digital-marketing">
+                  AI Integrated Digital Marketing
+                </option>
+                <option value="business-hospital-management">
+                  Business Administration &amp; Hospital Management
+                </option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <a href="#" className={styles.enquireButton}>
+              Enquire Now
+            </a>
+          </div>
         </div>
       </div>
 

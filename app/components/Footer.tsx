@@ -9,13 +9,13 @@ const courseLinks = [
 ];
 
 const importantLinks = [
-  "About",
-  "Events",
-  "Courses",
-  "Blogs",
-  "Success Stories",
-  "Contact Us",
-  "Refer & Earn",
+  { label: "About", href: "/about-psc" },
+  { label: "Events", href: "/events" },
+  { label: "Courses", href: "/#courses" },
+  { label: "Blogs", href: "/blogs" },
+  { label: "Success Stories", href: "/success-stories" },
+  { label: "Contact Us", href: "/contact" },
+  { label: "Refer & Earn", href: "/refer-and-earn" },
 ];
 
 function ChevronIcon() {
@@ -89,11 +89,11 @@ export default function Footer() {
           <h3 className={styles.heading}>Important Links</h3>
           <span className={styles.underline}></span>
           <ul className={styles.list}>
-            {importantLinks.map((label) => (
-              <li key={label}>
-                <a href="#" className={styles.link}>
+            {importantLinks.map((link) => (
+              <li key={link.label}>
+                <a href={link.href} className={styles.link}>
                   <ChevronIcon />
-                  <span>{label}</span>
+                  <span>{link.label}</span>
                 </a>
               </li>
             ))}

@@ -1,6 +1,11 @@
 import Navbar from "../../components/Navbar";
 import CourseHero from "../../components/CourseHero";
 import BusinessCurriculum from "../../components/BusinessCurriculum";
+import WhyChooseBusiness from "../../components/WhyChooseBusiness";
+import BusinessCareerOutcomes from "../../components/BusinessCareerOutcomes";
+import CourseTestimonials from "../../components/CourseTestimonials";
+import BusinessFAQ from "../../components/BusinessFAQ";
+import CourseCTA from "../../components/CourseCTA";
 import Footer from "../../components/Footer";
 import PageBackground from "../../components/PageBackground";
 import styles from "../../page.module.css";
@@ -38,6 +43,11 @@ export default function BusinessAdministrationHospitalManagement() {
           details={details}
         />
         <BusinessCurriculum />
+        <WhyChooseBusiness />
+        <BusinessCareerOutcomes />
+        <CourseTestimonials />
+        <BusinessFAQ />
+        <CourseCTA />
       </div>
       <Footer />
     </>

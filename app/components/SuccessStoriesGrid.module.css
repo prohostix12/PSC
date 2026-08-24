@@ -1,0 +1,117 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 24px 96px;
+}
+
+.header {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2451e0;
+  margin: 0 0 8px;
+}
+
+.heading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(30px, 3.8vw, 46px);
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+.grid {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 14px 30px rgba(15, 27, 61, 0.08);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+.outcome {
+  font-size: 13px;
+  color: #667;
+  margin: 2px 0 0;
+}
+
+.courseTag {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #f4f7ff;
+  color: #2451e0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.quote {
+  font-size: 14px;
+  line-height: 1.7;
+  font-style: italic;
+  color: #24304d;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 16px 16px 72px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

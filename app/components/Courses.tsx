@@ -47,7 +47,7 @@ const courses = [
 
 export default function Courses() {
   return (
-    <section className={styles.section}>
+    <section id="courses" className={styles.section}>
       <div className={styles.header}>
         <h2 className={styles.heading}>Our Courses</h2>
         <p className={styles.subheading}>
