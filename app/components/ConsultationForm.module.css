@@ -125,6 +125,28 @@
   transform: translateY(-2px);
 }
 
+.submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.statusMessage {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f9d78;
+  text-align: center;
+}
+
+.statusMessageError {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #d92b3f;
+  text-align: center;
+}
+
 @media (max-width: 560px) {
   .section {
     padding: 64px 16px;

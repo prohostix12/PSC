@@ -212,8 +212,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   margin-top: 4px;
   padding: 15px 24px;
+  border: none;
   border-radius: 12px;
   background: #2451e0;
   color: #ffffff;
@@ -221,12 +223,35 @@
   font-size: 16px;
   font-weight: 700;
   text-decoration: none;
+  cursor: pointer;
   transition: background 0.2s ease, transform 0.15s ease;
 }
 
 .enquireButton:hover {
   background: #1a3fc0;
   transform: translateY(-2px);
+}
+
+.enquireButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.enquiryStatus {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f9d78;
+  text-align: center;
+}
+
+.enquiryStatusError {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #d92b3f;
+  text-align: center;
 }
 
 .ticker {

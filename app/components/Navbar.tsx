@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./Navbar.module.css";
 
@@ -108,6 +108,8 @@ function CoursesDropdown() {
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const logoClickTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isActive = (href: string) => href !== "#" && pathname === href;
   const linkClass = (href: string) =>
@@ -116,7 +118,26 @@ export default function Navbar() {
   return (
     <header className={styles.navbar}>
       <div className={styles.inner}>
-        <a href="#" className={styles.logo}>
+        <a
+          href="/"
+          className={styles.logo}
+          onClick={(event) => {
+            event.preventDefault();
+            if (logoClickTimeout.current) {
+              clearTimeout(logoClickTimeout.current);
+              logoClickTimeout.current = null;
+              return;
+            }
+            logoClickTimeout.current = setTimeout(() => {
+              logoClickTimeout.current = null;
+              router.push("/");
+            }, 250);
+          }}
+          onDoubleClick={(event) => {
+            event.preventDefault();
+            router.push("/admin");
+          }}
+        >
           <Image
             src="/logo-main.png"
             alt="Professional Skill Campus"

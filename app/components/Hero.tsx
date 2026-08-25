@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import styles from "./Hero.module.css";
 
 const features = [
@@ -15,6 +18,49 @@ const tickerItems = [
 ];
 
 export default function Hero() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    preference: "",
+  });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
+    "idle"
+  );
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStatus("sending");
+
+    // Read straight from the DOM via FormData rather than the React state
+    // alone — some browsers fill fields (autofill, password managers) in a
+    // way that satisfies `required` without firing React's onChange, which
+    // would otherwise leave the component state empty at submit time.
+    const data = new FormData(event.currentTarget);
+    const payload = {
+      name: String(data.get("name") || form.name || ""),
+      email: String(data.get("email") || form.email || ""),
+      phone: String(data.get("phone") || form.phone || ""),
+      preference: String(data.get("preference") || form.preference || ""),
+      source: "Home - Make Your Enquiry",
+    };
+
+    try {
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) throw new Error("Failed to submit");
+
+      setStatus("sent");
+      setForm({ name: "", email: "", phone: "", preference: "" });
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <section className={styles.hero}>
       <div className={styles.inner}>
@@ -57,7 +103,7 @@ export default function Hero() {
         </div>
 
         <div className={styles.media}>
-          <div className={styles.enquiryCard}>
+          <form className={styles.enquiryCard} onSubmit={handleSubmit}>
             <h2 className={styles.enquiryHeading}>Make Your Enquiry</h2>
 
             <div className={styles.enquiryField}>
@@ -70,6 +116,9 @@ export default function Hero() {
                 type="text"
                 placeholder="Your full name"
                 className={styles.enquiryInput}
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                required
               />
             </div>
 
@@ -83,11 +132,17 @@ export default function Hero() {
                 type="email"
                 placeholder="you@example.com"
                 className={styles.enquiryInput}
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                required
               />
             </div>
 
             <div className={styles.enquiryField}>
-              <label htmlFor="enquiry-phone" className={styles.enquiryLabel}>
+              <label
+                htmlFor="enquiry-phone"
+                className={styles.enquiryLabel}
+              >
                 Phone Number
               </label>
               <input
@@ -96,6 +151,9 @@ export default function Hero() {
                 type="tel"
                 placeholder="+91 00000 00000"
                 className={styles.enquiryInput}
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                required
               />
             </div>
 
@@ -109,26 +167,44 @@ export default function Hero() {
               <select
                 id="enquiry-preference"
                 name="preference"
-                defaultValue=""
                 className={styles.enquirySelect}
+                value={form.preference}
+                onChange={(e) =>
+                  setForm({ ...form, preference: e.target.value })
+                }
               >
                 <option value="" disabled>
                   Select a course
                 </option>
-                <option value="ai-digital-marketing">
+                <option value="AI Integrated Digital Marketing">
                   AI Integrated Digital Marketing
                 </option>
-                <option value="business-hospital-management">
+                <option value="Business Administration & Hospital Management">
                   Business Administration &amp; Hospital Management
                 </option>
-                <option value="other">Other</option>
+                <option value="Other">Other</option>
               </select>
             </div>
 
-            <a href="#" className={styles.enquireButton}>
-              Enquire Now
-            </a>
-          </div>
+            <button
+              type="submit"
+              className={styles.enquireButton}
+              disabled={status === "sending"}
+            >
+              {status === "sending" ? "Sending..." : "Enquire Now"}
+            </button>
+
+            {status === "sent" && (
+              <p className={styles.enquiryStatus}>
+                Thanks! We&apos;ll get back to you shortly.
+              </p>
+            )}
+            {status === "error" && (
+              <p className={styles.enquiryStatusError}>
+                Something went wrong. Please try again.
+              </p>
+            )}
+          </form>
         </div>
       </div>
 
