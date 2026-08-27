@@ -195,10 +195,13 @@
   color: #ffffff;
   font-size: 15px;
   font-weight: 600;
+  font-family: inherit;
   padding: 12px 24px;
+  border: none;
   border-radius: 999px;
   text-decoration: none;
   white-space: nowrap;
+  cursor: pointer;
   transition: background 0.2s ease;
 }
 
@@ -327,11 +330,14 @@
   color: #ffffff;
   font-size: 15px;
   font-weight: 600;
+  font-family: inherit;
   padding: 14px 24px;
+  border: none;
   border-radius: 999px;
   text-decoration: none;
   text-align: center;
   margin-top: 4px;
+  cursor: pointer;
 }
 
 @media (max-width: 1024px) {

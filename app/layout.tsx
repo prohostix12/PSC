@@ -16,6 +16,11 @@ const bitcountPropSingle = Bitcount_Prop_Single({
   variable: "--font-bitcount-prop-single",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  // Next has no precomputed fallback-metrics for this font, so it logs a
+  // "Failed to find font override values" warning on every build. This is
+  // harmless (the font still loads fine) — turning off the automatic
+  // fallback-metrics step just silences the warning.
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {

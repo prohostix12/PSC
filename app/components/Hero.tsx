@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./Hero.module.css";
+import { usePrograms, programLabel } from "../hooks/usePrograms";
 
 const features = [
   { title: "Get Skilled", subtitle: "Practical Learning" },
@@ -27,6 +28,7 @@ export default function Hero() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
+  const { programs } = usePrograms();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -177,13 +179,11 @@ export default function Hero() {
                 <option value="" disabled>
                   Select a course
                 </option>
-                <option value="AI Integrated Digital Marketing">
-                  AI Integrated Digital Marketing
-                </option>
-                <option value="Business Administration & Hospital Management">
-                  Business Administration &amp; Hospital Management
-                </option>
-                <option value="Other">Other</option>
+                {programs.map((program) => (
+                  <option key={program._id} value={programLabel(program)}>
+                    {programLabel(program)}
+                  </option>
+                ))}
               </select>
             </div>
 

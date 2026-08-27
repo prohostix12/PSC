@@ -8,6 +8,32 @@
   margin-bottom: 28px;
 }
 
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.addButton {
+  flex-shrink: 0;
+  padding: 11px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #2451e0;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.addButton:hover {
+  background: #1a3ec0;
+}
+
 .heading {
   font-family: var(--font-bitcount-prop-single), sans-serif;
   font-size: clamp(26px, 3.2vw, 36px);
@@ -67,4 +93,90 @@
 
 .table tbody tr:hover {
   background: #fafbff;
+}
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.categoryBadge::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.categoryOnline {
+  background: #e6f7ef;
+  color: #16a34a;
+}
+
+.categoryOffline {
+  background: #fdeee9;
+  color: #ea580c;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actionButton,
+.actionButtonDanger {
+  padding: 7px 14px;
+  border: 1px solid #d7ddec;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.actionButton {
+  color: #2451e0;
+}
+
+.actionButton:hover {
+  background: #eef2ff;
+  border-color: #2451e0;
+}
+
+.actionButtonDanger {
+  color: #d92b3f;
+}
+
+.actionButtonDanger:hover {
+  background: #fdeeee;
+  border-color: #d92b3f;
+}
+
+.actionButtonDanger:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.reviewCell {
+  max-width: 360px;
+  white-space: normal;
 }

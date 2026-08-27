@@ -4,6 +4,12 @@ import { useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./Navbar.module.css";
+import AdmissionModal from "./AdmissionModal";
+import {
+  usePrograms,
+  programSlug,
+  type ProgramGroup,
+} from "../hooks/usePrograms";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -12,39 +18,6 @@ const navLinks = [
   { label: "Success Stories", href: "/success-stories" },
   { label: "Blogs", href: "/blogs" },
   { label: "Contact us", href: "/contact" },
-];
-
-const courseCategories = [
-  {
-    label: "Online Programs",
-    courses: [
-      {
-        label: "AI Integrated Digital Marketing",
-        href: "/courses/ai-integrated-digital-marketing",
-      },
-      {
-        label: "Business Administration & Hospital Management",
-        href: "/courses/business-administration-hospital-management",
-      },
-    ],
-  },
-  {
-    label: "Offline Programs",
-    courses: [
-      {
-        label: "AI Integrated Digital Marketing",
-        href: "/courses/ai-integrated-digital-marketing",
-      },
-      {
-        label: "Business Administration & Hospital Management",
-        href: "/courses/business-administration-hospital-management",
-      },
-      {
-        label: "Professional Diploma in AI integrated Accounting & Taxation",
-        href: "/courses/ai-integrated-accounting-taxation",
-      },
-    ],
-  },
 ];
 
 function ChevronDown() {
@@ -82,19 +55,27 @@ function ChevronRight() {
   );
 }
 
-function CoursesDropdown() {
+function CoursesDropdown({ groups }: { groups: ProgramGroup[] }) {
   return (
     <ul className={styles.dropdown}>
-      {courseCategories.map((category) => (
-        <li key={category.label} className={styles.dropdownItem}>
-          <span>{category.label}</span>
+      {groups.map((group) => (
+        <li key={group.label} className={styles.dropdownItem}>
+          <span>{group.label}</span>
           <ChevronRight />
 
           <ul className={styles.submenu}>
-            {category.courses.map((course) => (
-              <li key={course.label}>
-                <a href={course.href} className={styles.submenuLink}>
-                  {course.label}
+            {group.programs.length === 0 && (
+              <li>
+                <span className={styles.submenuLink}>Coming soon</span>
+              </li>
+            )}
+            {group.programs.map((program) => (
+              <li key={program._id}>
+                <a
+                  href={`/courses/${programSlug(program.name)}`}
+                  className={styles.submenuLink}
+                >
+                  {program.name}
                 </a>
               </li>
             ))}
@@ -107,6 +88,8 @@ function CoursesDropdown() {
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [admissionOpen, setAdmissionOpen] = useState(false);
+  const { groups: programGroups } = usePrograms();
   const pathname = usePathname();
   const router = useRouter();
   const logoClickTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -165,7 +148,7 @@ export default function Navbar() {
               Programs
               <ChevronDown />
             </a>
-            <CoursesDropdown />
+            <CoursesDropdown groups={programGroups} />
           </div>
 
           <a href="/events" className={linkClass("/events")}>
@@ -182,9 +165,13 @@ export default function Navbar() {
           </a>
         </nav>
 
-        <a href="#" className={styles.cta}>
+        <button
+          type="button"
+          className={styles.cta}
+          onClick={() => setAdmissionOpen(true)}
+        >
           Get an Admission
-        </a>
+        </button>
 
         <button
           type="button"
@@ -222,29 +209,42 @@ export default function Navbar() {
 
           <span className={styles.mobileNavLink}>Programs</span>
           <div className={styles.mobileCourses}>
-            {courseCategories.map((category) => (
-              <div key={category.label} className={styles.mobileCourseGroup}>
-                <p className={styles.mobileCourseCategory}>
-                  {category.label}
-                </p>
-                {category.courses.map((course) => (
+            {programGroups.map((group) => (
+              <div key={group.label} className={styles.mobileCourseGroup}>
+                <p className={styles.mobileCourseCategory}>{group.label}</p>
+                {group.programs.length === 0 && (
+                  <span className={styles.mobileCourseLink}>Coming soon</span>
+                )}
+                {group.programs.map((program) => (
                   <a
-                    key={course.label}
-                    href={course.href}
+                    key={program._id}
+                    href={`/courses/${programSlug(program.name)}`}
                     className={styles.mobileCourseLink}
                     onClick={() => setIsOpen(false)}
                   >
-                    {course.label}
+                    {program.name}
                   </a>
                 ))}
               </div>
             ))}
           </div>
         </nav>
-        <a href="#" className={styles.mobileCta} onClick={() => setIsOpen(false)}>
+        <button
+          type="button"
+          className={styles.mobileCta}
+          onClick={() => {
+            setIsOpen(false);
+            setAdmissionOpen(true);
+          }}
+        >
           Get an Admission
-        </a>
+        </button>
       </div>
+
+      <AdmissionModal
+        open={admissionOpen}
+        onClose={() => setAdmissionOpen(false)}
+      />
     </header>
   );
 }

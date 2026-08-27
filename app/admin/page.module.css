@@ -1,6 +1,12 @@
 .page {
   position: fixed;
   inset: 0;
-  overflow-y: auto;
+  display: flex;
   background: #f5f7fb;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
 }

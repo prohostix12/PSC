@@ -4,19 +4,19 @@ import getClientPromise from "../../../lib/mongodb";
 export const dynamic = "force-dynamic";
 
 const DB_NAME = "psc";
-const COLLECTION = "enquiries";
+const COLLECTION = "reviews";
 
 export async function GET() {
   try {
     const client = await getClientPromise();
-    const enquiries = await client
+    const reviews = await client
       .db(DB_NAME)
       .collection(COLLECTION)
       .find({})
       .sort({ createdAt: -1 })
       .toArray();
 
-    return NextResponse.json({ enquiries });
+    return NextResponse.json({ reviews });
   } catch (error) {
     return NextResponse.json(
       { error: (error as Error).message },
@@ -28,11 +28,28 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, phone, preference, message, source } = body;
+    const name = String(body.name || "").trim();
+    const image = String(body.image || "").trim();
+    const review = String(body.review || "").trim();
+    const ratings = Number(body.ratings);
 
-    if (!name || !email || !phone) {
+    if (!name) {
       return NextResponse.json(
-        { error: "Name, email, and phone are required" },
+        { error: "Name is required" },
+        { status: 400 }
+      );
+    }
+
+    if (!review) {
+      return NextResponse.json(
+        { error: "Review is required" },
+        { status: 400 }
+      );
+    }
+
+    if (!Number.isFinite(ratings) || ratings < 1 || ratings > 5) {
+      return NextResponse.json(
+        { error: "Ratings must be a number between 1 and 5" },
         { status: 400 }
       );
     }
@@ -41,15 +58,7 @@ export async function POST(request: NextRequest) {
     await client
       .db(DB_NAME)
       .collection(COLLECTION)
-      .insertOne({
-        name,
-        email,
-        phone,
-        preference: preference || "",
-        message: message || "",
-        source: source || "",
-        createdAt: new Date(),
-      });
+      .insertOne({ name, image, ratings, review, createdAt: new Date() });
 
     return NextResponse.json({ success: true });
   } catch (error) {
