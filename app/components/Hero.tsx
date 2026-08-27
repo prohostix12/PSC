@@ -30,6 +30,7 @@ export default function Hero() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log("enquiry clicked");
     setStatus("sending");
 
     // Read straight from the DOM via FormData rather than the React state

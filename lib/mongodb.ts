@@ -1,20 +1,23 @@
 import dns from "node:dns";
-import { MongoClient } from "mongodb";
+import { MongoClient, type MongoClientOptions } from "mongodb";
 
-// Node's default resolver can fail to reach the system DNS servers on some
-// Windows setups even though the OS resolver works fine — point it at a
-// public resolver so Atlas hostnames resolve reliably.
-dns.setServers(["8.8.8.8", "1.1.1.1"]);
+const isDev = process.env.NODE_ENV === "development";
+
+// The following two tweaks are workarounds for a specific local Windows
+// setup (antivirus TLS scanning / flaky system DNS). They must NOT run on
+// Vercel: overriding the resolver breaks mongodb+srv SRV lookups and
+// forcing IPv4 there triggers "tlsv1 alert internal error" on the Atlas
+// handshake. So they are dev-only.
+if (isDev) {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+}
+
+const clientOptions: MongoClientOptions = isDev ? { family: 4 } : {};
 
 declare global {
   // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
-
-// Force IPv4 — works around a "tlsv1 alert internal error" seen on some
-// Windows machines where antivirus HTTPS/TLS scanning or IPv6 routing
-// interferes with the handshake.
-const clientOptions = { family: 4 as const };
 
 // Lazily create the connection. Doing this at module-eval time makes the
 // whole route module throw during Next's build-time "collect page data"
@@ -26,7 +29,7 @@ export default function getClientPromise(): Promise<MongoClient> {
     throw new Error("Missing MONGODB_URI environment variable");
   }
 
-  if (process.env.NODE_ENV === "development") {
+  if (isDev) {
     // Reuse the client across HMR reloads in dev so we don't open a new
     // connection to Atlas on every file change.
     if (!global._mongoClientPromise) {

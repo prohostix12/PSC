@@ -4,7 +4,7 @@ import getClientPromise from "../../../lib/mongodb";
 export const dynamic = "force-dynamic";
 
 const DB_NAME = "psc";
-const COLLECTION = "enquiries";
+const COLLECTION = "enquires";
 
 export async function GET() {
   try {
