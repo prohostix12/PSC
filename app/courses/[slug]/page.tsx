@@ -26,6 +26,7 @@ async function findProgram(slug: string): Promise<Program | null> {
           _id: String(match._id),
           category: match.category,
           name: match.name,
+          duration: match.duration ?? "",
           createdAt: match.createdAt?.toISOString?.() ?? "",
         }
       : null;
