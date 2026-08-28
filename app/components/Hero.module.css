@@ -12,23 +12,23 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 40px;
-  padding: 56px 24px 96px;
+  gap: 34px;
+  padding: 47px 24px 80px;
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 17px;
 }
 
 .rating {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   background: #ffffff;
   border-radius: 16px;
-  padding: 12px 20px;
+  padding: 10px 17px;
   width: fit-content;
   box-shadow: 0 10px 30px rgba(20, 40, 90, 0.12);
 }
@@ -63,7 +63,7 @@
 }
 
 .heading {
-  font-size: clamp(36px, 5vw, 56px);
+  font-size: clamp(38px, 5.5vw, 58px);
   line-height: 1.08;
   font-weight: 800;
   color: #0f1b3d;
@@ -74,9 +74,9 @@
 .features {
   display: flex;
   flex-wrap: wrap;
-  gap: 28px;
+  gap: 24px;
   list-style: none;
-  margin: 8px 0 0;
+  margin: 7px 0 0;
   padding: 0;
 }
 
@@ -100,8 +100,8 @@
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 12px;
+  gap: 14px;
+  margin-top: 10px;
 }
 
 .primaryButton,
@@ -109,9 +109,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 28px;
+  padding: 13px 34px;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   text-decoration: none;
   transition: transform 0.15s ease, background 0.2s ease;
@@ -140,7 +140,7 @@
 .media {
   position: relative;
   height: 100%;
-  min-height: 420px;
+  min-height: 360px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,15 +153,15 @@
   max-width: 380px;
   background: #ffffff;
   border-radius: 24px;
-  padding: 32px;
+  padding: 26px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 13px;
   box-shadow: 0 24px 48px rgba(15, 27, 61, 0.16);
 }
 
 .enquiryHeading {
-  font-size: clamp(20px, 2.4vw, 26px);
+  font-size: clamp(22px, 2.6vw, 28px);
   font-weight: 700;
   color: #0f1b3d;
   margin: 0 0 4px;
@@ -170,7 +170,7 @@
 .enquiryField {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
 }
 
 .enquiryLabel {
@@ -185,7 +185,7 @@
   width: 100%;
   border: 1.5px solid #e1e6f5;
   border-radius: 12px;
-  padding: 13px 16px;
+  padding: 11px 16px;
   font-size: 15px;
   font-family: var(--font-geist-sans), sans-serif;
   color: #0f1b3d;
@@ -214,7 +214,7 @@
   justify-content: center;
   width: 100%;
   margin-top: 4px;
-  padding: 15px 24px;
+  padding: 12px 24px;
   border: none;
   border-radius: 12px;
   background: #2451e0;
@@ -254,49 +254,11 @@
   text-align: center;
 }
 
-.ticker {
-  position: relative;
-  overflow: hidden;
-  background: #0f1b3d;
-  padding: 16px 0;
-}
-
-.tickerTrack {
-  display: flex;
-  width: max-content;
-  animation: scroll 22s linear infinite;
-}
-
-.tickerItem {
-  display: inline-flex;
-  align-items: center;
-  gap: 24px;
-  padding: 0 24px;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.tickerDot {
-  color: #4f7bff;
-  margin-left: 24px;
-}
-
-@keyframes scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 @media (max-width: 900px) {
   .inner {
     grid-template-columns: 1fr;
-    padding: 40px 20px 72px;
-    gap: 32px;
+    padding: 34px 20px 60px;
+    gap: 26px;
   }
 
   .media {
@@ -310,12 +272,12 @@
 
 @media (max-width: 600px) {
   .inner {
-    padding: 32px 16px 56px;
-    gap: 24px;
+    padding: 26px 16px 47px;
+    gap: 20px;
   }
 
   .rating {
-    padding: 10px 16px;
+    padding: 8px 14px;
     gap: 10px;
   }
 
@@ -328,11 +290,11 @@
   }
 
   .heading {
-    font-size: clamp(28px, 8vw, 40px);
+    font-size: clamp(31px, 9.6vw, 43px);
   }
 
   .features {
-    gap: 18px;
+    gap: 17px;
   }
 
   .featureTitle {
@@ -345,13 +307,13 @@
 
   .actions {
     flex-direction: column;
-    gap: 12px;
+    gap: 11px;
   }
 
   .primaryButton,
   .secondaryButton {
     width: 100%;
-    padding: 14px 24px;
+    padding: 12px 24px;
     font-size: 15px;
   }
 
@@ -360,16 +322,6 @@
   }
 
   .enquiryCard {
-    padding: 24px 20px;
-  }
-
-  .tickerItem {
-    font-size: 13px;
-    gap: 16px;
-    padding: 0 16px;
-  }
-
-  .tickerDot {
-    margin-left: 16px;
+    padding: 20px 17px;
   }
 }

@@ -1,64 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./FAQ.module.css";
-
-const leftFaqs = [
-  {
-    question: "What is Professional Skill Campus and what makes it unique?",
-    answer:
-      "Professional Skill Campus is a training academy focused on turning practical skills into real career outcomes. What makes us different is our hands-on, mentor-led approach — every course is built around live projects, not just theory.",
-  },
-  {
-    question: "What courses does Professional Skill Campus offer?",
-    answer:
-      "We offer industry-focused diploma and certification programs across digital marketing, business administration, accounting and taxation, and more — each designed around current job-market skills.",
-  },
-  {
-    question: "Do students get real-time practical training?",
-    answer:
-      "Yes. Every course includes hands-on assignments, live projects, and practical sessions so you're applying what you learn from day one, not just watching lectures.",
-  },
-  {
-    question: "Are the trainers certified and experienced?",
-    answer:
-      "All our trainers are industry professionals with real-world experience in their fields, so you're learning from people who've actually done the job you're training for.",
-  },
-  {
-    question: "Do you provide placement assistance?",
-    answer:
-      "Yes, we offer dedicated placement support — including resume guidance, interview preparation, and connections to our hiring partners — to help you land a job after certification.",
-  },
-];
-
-const rightFaqs = [
-  {
-    question: "Do you offer certificates for all courses?",
-    answer:
-      "Yes, every course at Professional Skill Campus comes with a recognized certificate upon successful completion, which you can add to your resume and professional profiles.",
-  },
-  {
-    question: "Are the classes available online and offline?",
-    answer:
-      "Most of our programs are available in both offline and online formats, so you can choose the mode that fits your schedule and learning style.",
-  },
-  {
-    question: "Who can join Professional Skill Campus?",
-    answer:
-      "Our courses are open to students, graduates, and working professionals looking to build practical, job-ready skills — no matter your current experience level.",
-  },
-  {
-    question: "Will I get placement support from Professional Skill Campus?",
-    answer:
-      "Yes. Along with training, we actively support students with career guidance and placement assistance to help you transition into your first role or next opportunity.",
-  },
-  {
-    question: "Do I get a certificate after completion?",
-    answer:
-      "Yes, you'll receive a recognized certificate of completion once you finish your course, along with any project work you've completed during the program.",
-  },
-];
+import type { Faq } from "../lib/faqUtils";
 
 function FAQItem({
   question,
@@ -93,7 +38,32 @@ function FAQItem({
 }
 
 export default function FAQ() {
+  const [faqs, setFaqs] = useState<Faq[]>([]);
+  const [status, setStatus] = useState<"loading" | "loaded" | "error">(
+    "loading"
+  );
   const [openKey, setOpenKey] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/faqs")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load FAQs");
+        return res.json();
+      })
+      .then((data) => {
+        setFaqs(Array.isArray(data.faqs) ? data.faqs : []);
+        setStatus("loaded");
+      })
+      .catch(() => setStatus("error"));
+  }, []);
+
+  if (status !== "loaded" || faqs.length === 0) return null;
+
+  // Split into two reading columns, same layout as before but driven by
+  // however many FAQs exist in the DB.
+  const mid = Math.ceil(faqs.length / 2);
+  const leftFaqs = faqs.slice(0, mid);
+  const rightFaqs = faqs.slice(mid);
 
   return (
     <section className={styles.section}>
@@ -107,34 +77,30 @@ export default function FAQ() {
 
       <div className={styles.grid}>
         <div className={styles.column}>
-          {leftFaqs.map((faq, index) => {
-            const key = `left-${index}`;
-            return (
-              <FAQItem
-                key={faq.question}
-                {...faq}
-                open={openKey === key}
-                onToggle={() =>
-                  setOpenKey((current) => (current === key ? null : key))
-                }
-              />
-            );
-          })}
+          {leftFaqs.map((faq) => (
+            <FAQItem
+              key={faq._id}
+              question={faq.question}
+              answer={faq.answer}
+              open={openKey === faq._id}
+              onToggle={() =>
+                setOpenKey((current) => (current === faq._id ? null : faq._id))
+              }
+            />
+          ))}
         </div>
         <div className={styles.column}>
-          {rightFaqs.map((faq, index) => {
-            const key = `right-${index}`;
-            return (
-              <FAQItem
-                key={faq.question}
-                {...faq}
-                open={openKey === key}
-                onToggle={() =>
-                  setOpenKey((current) => (current === key ? null : key))
-                }
-              />
-            );
-          })}
+          {rightFaqs.map((faq) => (
+            <FAQItem
+              key={faq._id}
+              question={faq.question}
+              answer={faq.answer}
+              open={openKey === faq._id}
+              onToggle={() =>
+                setOpenKey((current) => (current === faq._id ? null : faq._id))
+              }
+            />
+          ))}
         </div>
       </div>
     </section>

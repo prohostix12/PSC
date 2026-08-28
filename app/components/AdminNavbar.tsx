@@ -2,12 +2,14 @@
 
 import styles from "./AdminNavbar.module.css";
 
-export type AdminView = "enquiries" | "programs" | "reviews";
+export type AdminView = "enquiries" | "programs" | "reviews" | "faq" | "events";
 
 const NAV_ITEMS: { id: AdminView; label: string }[] = [
   { id: "enquiries", label: "Enquiries" },
   { id: "programs", label: "Programs" },
   { id: "reviews", label: "Reviews" },
+  { id: "faq", label: "FAQ" },
+  { id: "events", label: "Events" },
 ];
 
 type Props = {

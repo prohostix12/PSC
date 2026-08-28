@@ -1,15 +1,12 @@
-import styles from "./EventsGallery.module.css";
+"use client";
 
-const events = [
-  { title: "Annual Tech Fest 2025", tag: "Workshop", tall: true },
-  { title: "Graduation Day", tag: "Convocation", tall: false },
-  { title: "Guest Lecture Series", tag: "Seminar", tall: false },
-  { title: "Placement Drive", tag: "Careers", tall: true },
-  { title: "Digital Marketing Bootcamp", tag: "Workshop", tall: false },
-  { title: "Campus Open Day", tag: "Community", tall: true },
-  { title: "Alumni Meet 2025", tag: "Networking", tall: false },
-  { title: "Skill Showcase", tag: "Exhibition", tall: false },
-];
+import { useEffect, useState } from "react";
+import styles from "./EventsGallery.module.css";
+import { eventSlug, type EventItem } from "../lib/eventUtils";
+
+// Cycle through this tall/short pattern for masonry variety since the DB
+// doesn't track a layout hint per event.
+const tallPattern = [true, false, false, true, false, true, false, false];
 
 function CameraIcon() {
   return (
@@ -26,35 +23,77 @@ function CameraIcon() {
 }
 
 export default function EventsGallery() {
+  const [events, setEvents] = useState<EventItem[]>([]);
+  const [status, setStatus] = useState<"loading" | "loaded" | "error">(
+    "loading"
+  );
+
+  useEffect(() => {
+    fetch("/api/events")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load events");
+        return res.json();
+      })
+      .then((data) => {
+        setEvents(Array.isArray(data.events) ? data.events : []);
+        setStatus("loaded");
+      })
+      .catch(() => setStatus("error"));
+  }, []);
+
   return (
     <section className={styles.section}>
       <div className={styles.header}>
         <p className={styles.label}>Photo Gallery</p>
         <h2 className={styles.heading}>Life at Professional Skill Campus</h2>
         <p className={styles.subheading}>
-          Photos will be added here soon — this is a placeholder gallery
-          layout ready for real event images.
+          {status === "loaded" && events.length === 0
+            ? "Photos will be added here soon — this is a placeholder gallery layout ready for real event images."
+            : "A look back at workshops, graduation days, guest sessions, and milestones from our community."}
         </p>
       </div>
 
-      <div className={styles.grid}>
-        {events.map((event) => (
-          <div
-            key={event.title}
-            className={`${styles.card} ${event.tall ? styles.cardTall : ""}`}
-          >
-            <div className={styles.placeholder}>
-              <span className={styles.icon}>
-                <CameraIcon />
-              </span>
-            </div>
-            <div className={styles.caption}>
-              <span className={styles.tag}>{event.tag}</span>
-              <span className={styles.title}>{event.title}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+      {status === "loaded" && events.length > 0 && (
+        <div className={styles.grid}>
+          {events.map((event, index) => {
+            const tall = tallPattern[index % tallPattern.length];
+            return (
+              <div
+                key={event._id}
+                className={`${styles.card} ${tall ? styles.cardTall : ""}`}
+              >
+                <div className={styles.placeholder}>
+                  {event.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={event.image}
+                      alt={event.eventName}
+                      className={styles.image}
+                    />
+                  ) : (
+                    <span className={styles.icon}>
+                      <CameraIcon />
+                    </span>
+                  )}
+                </div>
+                <div className={styles.caption}>
+                  <div className={styles.captionText}>
+                    <span className={styles.tag}>{event.eventCategory}</span>
+                    <span className={styles.title}>{event.eventName}</span>
+                  </div>
+                  <a
+                    href={`/events/${eventSlug(event.eventName)}`}
+                    className={styles.viewMore}
+                    aria-label={`View more about ${event.eventName}`}
+                  >
+                    &gt;
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
-import ReferEarnHero from "../components/ReferEarnHero";
+import PageHero from "../components/PageHero";
+import Marquee from "../components/Marquee";
 import ReferEarnContent from "../components/ReferEarnContent";
 import Footer from "../components/Footer";
 import PageBackground from "../components/PageBackground";
@@ -11,7 +12,12 @@ export default function ReferAndEarn() {
       <Navbar />
       <div className={styles.pageContent}>
         <PageBackground />
-        <ReferEarnHero />
+        <PageHero
+          eyebrow="Refer & Earn"
+          heading="Refer Your Friend & Earn"
+          subheading="Love your experience at Professional Skill Campus? Share it with a friend — when they enroll, you both get rewarded."
+        />
+        <Marquee />
         <ReferEarnContent />
       </div>
       <Footer />

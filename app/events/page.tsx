@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
-import EventsHero from "../components/EventsHero";
+import PageHero from "../components/PageHero";
+import Marquee from "../components/Marquee";
 import EventsGallery from "../components/EventsGallery";
 import Footer from "../components/Footer";
 import PageBackground from "../components/PageBackground";
@@ -11,7 +12,12 @@ export default function Events() {
       <Navbar />
       <div className={styles.pageContent}>
         <PageBackground />
-        <EventsHero />
+        <PageHero
+          eyebrow="Events"
+          heading="Moments Worth Remembering"
+          subheading="A look back at workshops, graduation days, guest sessions, and milestones from the Professional Skill Campus community."
+        />
+        <Marquee />
         <EventsGallery />
       </div>
       <Footer />

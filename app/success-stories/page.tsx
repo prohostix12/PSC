@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
-import SuccessStoriesHero from "../components/SuccessStoriesHero";
+import PageHero from "../components/PageHero";
+import Marquee from "../components/Marquee";
 import SuccessStoriesGrid from "../components/SuccessStoriesGrid";
 import Footer from "../components/Footer";
 import PageBackground from "../components/PageBackground";
@@ -11,7 +12,12 @@ export default function SuccessStoriesPage() {
       <Navbar />
       <div className={styles.pageContent}>
         <PageBackground />
-        <SuccessStoriesHero />
+        <PageHero
+          eyebrow="Success Stories"
+          heading="Real Students, Real Growth"
+          subheading="From classrooms to careers — see how learners at Professional Skill Campus turned hands-on training into real job offers, promotions, and new businesses."
+        />
+        <Marquee />
         <SuccessStoriesGrid />
       </div>
       <Footer />

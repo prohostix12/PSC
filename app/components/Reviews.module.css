@@ -101,6 +101,14 @@
   font-weight: 700;
 }
 
+.avatarImage {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
 .name {
   flex: 1;
   font-size: 15px;

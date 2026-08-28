@@ -10,14 +10,6 @@ const features = [
   { title: "Get Hired", subtitle: "Career Growth" },
 ];
 
-const tickerItems = [
-  "Active Community Access",
-  "Expert Trainers",
-  "Innovative Tools",
-  "Structured Approach",
-  "Consistent Support",
-];
-
 export default function Hero() {
   const [form, setForm] = useState({
     name: "",
@@ -206,17 +198,6 @@ export default function Hero() {
               </p>
             )}
           </form>
-        </div>
-      </div>
-
-      <div className={styles.ticker}>
-        <div className={styles.tickerTrack}>
-          {[...tickerItems, ...tickerItems].map((item, i) => (
-            <span key={i} className={styles.tickerItem}>
-              {item}
-              <span className={styles.tickerDot}>✦</span>
-            </span>
-          ))}
         </div>
       </div>
     </section>

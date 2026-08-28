@@ -1,0 +1,209 @@
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 56px 24px 120px;
+}
+
+.heading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  color: #0f1b3d;
+  text-align: center;
+  margin: 0 0 28px;
+}
+
+/* Same shape as the admin "view more" editor: a wide image next to a
+   narrower More Events panel, both in one row. */
+.topRow {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 32px;
+}
+
+.imageBox {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #eef2ff;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 40px rgba(15, 27, 61, 0.16);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imagePlaceholder {
+  font-size: 13px;
+  color: #7783a6;
+}
+
+.badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #ffffff;
+  color: #2451e0;
+}
+
+.sidebar {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px 20px;
+  box-shadow: 0 14px 30px rgba(15, 27, 61, 0.08);
+}
+
+.sidebarHeading {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f1b3d;
+  margin: 0 0 16px;
+}
+
+.sidebarEmpty {
+  font-size: 13px;
+  color: #97a2c0;
+  margin: 0;
+}
+
+.sidebarList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebarItem {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eef1f8;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebarItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.sidebarLink {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2451e0;
+  text-decoration: none;
+  line-height: 1.35;
+}
+
+.sidebarLink:hover {
+  text-decoration: underline;
+}
+
+.sidebarReadMore {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7ba8;
+  text-decoration: none;
+}
+
+.sidebarReadMore:hover {
+  color: #2451e0;
+}
+
+.message {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #445;
+  margin: 0;
+}
+
+/* Sections run the full page width, below the image/More Events row —
+   same as the section cards in the admin editor. */
+.contentSections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contentSection {
+  background: #ffffff;
+  border: 1px solid #e6eaf5;
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionHeading {
+  font-size: clamp(19px, 2.2vw, 24px);
+  font-weight: 700;
+  color: #2451e0;
+  margin: 0;
+}
+
+.sectionParagraph {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #34405c;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.gallerySection {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid #e6eaf5;
+}
+
+.galleryHeading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(22px, 2.8vw, 30px);
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0 0 20px;
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.galleryImage {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(15, 27, 61, 0.1);
+}
+
+@media (max-width: 760px) {
+  .topRow {
+    grid-template-columns: 1fr;
+  }
+
+  .galleryGrid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}

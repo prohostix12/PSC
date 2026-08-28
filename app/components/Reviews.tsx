@@ -1,39 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./Reviews.module.css";
+import type { Review } from "../lib/reviewUtils";
 
-const reviews = [
-  {
-    name: "Aisha K.",
-    initial: "A",
-    color: "#2e7d5b",
-    rating: 5,
-    text: "Best training institute I've attended — practical and career focused.",
-  },
-  {
-    name: "Rahul Menon",
-    initial: "R",
-    color: "#7b3fa0",
-    rating: 5,
-    text: "The mentors genuinely care about your growth. I use what I learned here every day at work.",
-  },
-  {
-    name: "Fathima S.",
-    initial: "F",
-    color: "#2e7d5b",
-    rating: 4,
-    text: "Great hands-on sessions and a supportive team throughout the entire course.",
-  },
-  {
-    name: "Nikhil P.",
-    initial: "N",
-    color: "#3949ab",
-    rating: 5,
-    text: "Helped me switch careers with real confidence. Highly recommend Professional Skill Campus.",
-  },
-];
+const avatarColors = ["#2e7d5b", "#7b3fa0", "#3949ab", "#c2410c", "#0f766e"];
 
 function Stars({ rating }: { rating: number }) {
   return (
@@ -95,6 +67,23 @@ function VerifiedBadge() {
 
 export default function Reviews() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [status, setStatus] = useState<"loading" | "loaded" | "error">(
+    "loading"
+  );
+
+  useEffect(() => {
+    fetch("/api/reviews")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load reviews");
+        return res.json();
+      })
+      .then((data) => {
+        setReviews(Array.isArray(data.reviews) ? data.reviews : []);
+        setStatus("loaded");
+      })
+      .catch(() => setStatus("error"));
+  }, []);
 
   const scroll = (direction: "left" | "right") => {
     const track = trackRef.current;
@@ -106,14 +95,23 @@ export default function Reviews() {
     });
   };
 
+  const averageRating = reviews.length
+    ? Math.round(
+        reviews.reduce((sum, r) => sum + (r.ratings || 0), 0) /
+          reviews.length
+      )
+    : 5;
+
+  if (status !== "loaded" || reviews.length === 0) return null;
+
   return (
     <section className={styles.section}>
       <div className={styles.inner}>
         <div className={styles.summary}>
           <p className={styles.excellent}>EXCELLENT</p>
-          <Stars rating={5} />
+          <Stars rating={averageRating} />
           <p className={styles.basedOn}>
-            Based on <strong>262 reviews</strong>
+            Based on <strong>{reviews.length} reviews</strong>
           </p>
           <div className={styles.googleWordmark}>
             <GoogleG />
@@ -140,17 +138,28 @@ export default function Reviews() {
           </button>
 
           <div className={styles.track} ref={trackRef}>
-            {reviews.map((review) => (
-              <div className={styles.card} key={review.name}>
+            {reviews.map((review, index) => (
+              <div className={styles.card} key={review._id}>
                 <SketchFrame rx={18} />
 
                 <div className={styles.cardHeader}>
-                  <span
-                    className={styles.avatar}
-                    style={{ background: review.color }}
-                  >
-                    {review.initial}
-                  </span>
+                  {review.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={review.image}
+                      alt={review.name}
+                      className={styles.avatarImage}
+                    />
+                  ) : (
+                    <span
+                      className={styles.avatar}
+                      style={{
+                        background: avatarColors[index % avatarColors.length],
+                      }}
+                    >
+                      {review.name.charAt(0).toUpperCase()}
+                    </span>
+                  )}
                   <span className={styles.name}>{review.name}</span>
                   <span className={styles.googleIcon}>
                     <GoogleG />
@@ -158,11 +167,11 @@ export default function Reviews() {
                 </div>
 
                 <div className={styles.rating}>
-                  <Stars rating={review.rating} />
+                  <Stars rating={review.ratings} />
                   <VerifiedBadge />
                 </div>
 
-                <p className={styles.text}>{review.text}</p>
+                <p className={styles.text}>{review.review}</p>
               </div>
             ))}
           </div>

@@ -96,6 +96,53 @@
   min-height: 76px;
 }
 
+.imageRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.imagePreview {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #d7ddec;
+}
+
+.imageActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fileInput {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: #24304d;
+}
+
+.removeImage {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border: 1px solid #d7ddec;
+  border-radius: 8px;
+  background: #fff;
+  color: #d92b3f;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.removeImage:hover {
+  background: #fdeeee;
+  border-color: #d92b3f;
+}
+
 .input:focus,
 .select:focus,
 .textarea:focus {

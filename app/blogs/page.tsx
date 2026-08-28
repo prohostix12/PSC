@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
-import BlogsHero from "../components/BlogsHero";
+import PageHero from "../components/PageHero";
+import Marquee from "../components/Marquee";
 import BlogsGrid from "../components/BlogsGrid";
 import Footer from "../components/Footer";
 import PageBackground from "../components/PageBackground";
@@ -11,7 +12,12 @@ export default function Blogs() {
       <Navbar />
       <div className={styles.pageContent}>
         <PageBackground />
-        <BlogsHero />
+        <PageHero
+          eyebrow="Blogs"
+          heading="Insights & Career Tips"
+          subheading="Practical guides, industry updates, and career advice from the Professional Skill Campus team to help you learn smarter and grow faster."
+        />
+        <Marquee />
         <BlogsGrid />
       </div>
       <Footer />

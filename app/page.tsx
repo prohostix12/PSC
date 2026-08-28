@@ -1,5 +1,6 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
+import Marquee from "./components/Marquee";
 import SuccessStories from "./components/SuccessStories";
 import AboutUs from "./components/AboutUs";
 import WhyUs from "./components/WhyUs";
@@ -18,6 +19,7 @@ export default function Home() {
       <div className={styles.pageContent}>
         <PageBackground />
         <Hero />
+        <Marquee />
         <SuccessStories />
         <AboutUs />
         <Certifications />

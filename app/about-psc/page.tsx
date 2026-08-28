@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
-import AboutHero from "../components/AboutHero";
+import PageHero from "../components/PageHero";
+import Marquee from "../components/Marquee";
 import BestSkillInstitute from "../components/BestSkillInstitute";
 import WhyChooseUs from "../components/WhyChooseUs";
 import MissionVision from "../components/MissionVision";
@@ -16,7 +17,12 @@ export default function AboutPsc() {
       <Navbar />
       <div className={styles.pageContent}>
         <PageBackground />
-        <AboutHero />
+        <PageHero
+          eyebrow="About Us"
+          heading="Building Skills, Shaping Careers"
+          subheading="Get to know Professional Skill Campus — our story, our mission, and the promise we make to every student who walks through our doors."
+        />
+        <Marquee />
         <BestSkillInstitute />
         <WhyChooseUs />
         <MissionVision />

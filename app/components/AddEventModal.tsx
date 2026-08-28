@@ -2,27 +2,27 @@
 
 import { useEffect, useRef, useState } from "react";
 import styles from "./AdmissionModal.module.css";
-import type { Review } from "../lib/reviewUtils";
+import type { EventItem } from "../lib/eventUtils";
 import { compressImageToDataUrl, MAX_RAW_IMAGE_BYTES } from "../lib/imageUpload";
 
 type Props = {
   open: boolean;
   onClose: () => void;
   onSaved: () => void;
-  // When set, the modal edits this review (PATCH) instead of creating a
+  // When set, the modal edits this event (PATCH) instead of creating a
   // new one (POST).
-  review?: Review | null;
+  event?: EventItem | null;
 };
 
-const emptyForm = { name: "", image: "", ratings: "5", review: "" };
+const emptyForm = { eventCategory: "", eventName: "", image: "" };
 
-export default function AddReviewModal({
+export default function AddEventModal({
   open,
   onClose,
   onSaved,
-  review,
+  event,
 }: Props) {
-  const isEdit = !!review;
+  const isEdit = !!event;
   const [form, setForm] = useState(emptyForm);
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -48,12 +48,11 @@ export default function AddReviewModal({
   useEffect(() => {
     if (open) {
       setForm(
-        review
+        event
           ? {
-              name: review.name,
-              image: review.image || "",
-              ratings: String(review.ratings ?? 5),
-              review: review.review,
+              eventCategory: event.eventCategory,
+              eventName: event.eventName,
+              image: event.image || "",
             }
           : emptyForm
       );
@@ -61,14 +60,14 @@ export default function AddReviewModal({
       setErrorMsg("");
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
-  }, [open, review]);
+  }, [open, event]);
 
   if (!open) return null;
 
   const handleImageChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const file = event.target.files?.[0];
+    const file = e.target.files?.[0];
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
@@ -84,7 +83,8 @@ export default function AddReviewModal({
     }
 
     try {
-      const dataUrl = await compressImageToDataUrl(file);
+      // Event photos are shown wider than an avatar, so keep more detail.
+      const dataUrl = await compressImageToDataUrl(file, 800, 0.82);
       setForm((f) => ({ ...f, image: dataUrl }));
       setErrorMsg("");
       setStatus("idle");
@@ -94,27 +94,24 @@ export default function AddReviewModal({
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setStatus("sending");
     setErrorMsg("");
 
     try {
       const response = await fetch(
-        isEdit ? `/api/reviews/${review!._id}` : "/api/reviews",
+        isEdit ? `/api/events/${event!._id}` : "/api/events",
         {
           method: isEdit ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...form,
-            ratings: Number(form.ratings),
-          }),
+          body: JSON.stringify(form),
         }
       );
 
       const data = await response.json();
       if (!response.ok)
-        throw new Error(data.error || "Failed to save review");
+        throw new Error(data.error || "Failed to save event");
 
       onSaved();
       onClose();
@@ -129,7 +126,7 @@ export default function AddReviewModal({
       className={styles.overlay}
       role="dialog"
       aria-modal="true"
-      aria-labelledby="add-review-title"
+      aria-labelledby="add-event-title"
       onClick={onClose}
     >
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -142,34 +139,54 @@ export default function AddReviewModal({
           &times;
         </button>
 
-        <h2 id="add-review-title" className={styles.heading}>
-          {isEdit ? "Edit Review" : "Add Review"}
+        <h2 id="add-event-title" className={styles.heading}>
+          {isEdit ? "Edit Event" : "Add Event"}
         </h2>
         <p className={styles.subheading}>
           {isEdit
-            ? "Update this reviewer's details."
-            : "Add a new reviewer, rating, and their review."}
+            ? "Update this event's category, name, and image."
+            : "Create a new event with a category, name, and image."}
         </p>
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
-            <label htmlFor="review-name" className={styles.label}>
-              Name
+            <label htmlFor="event-category" className={styles.label}>
+              Event Category
             </label>
             <input
-              id="review-name"
-              name="name"
+              id="event-category"
+              name="eventCategory"
               type="text"
-              placeholder="Reviewer's name"
+              placeholder="e.g. Workshop, Webinar, Graduation Day"
               className={styles.input}
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              value={form.eventCategory}
+              onChange={(e) =>
+                setForm({ ...form, eventCategory: e.target.value })
+              }
               required
             />
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="review-image" className={styles.label}>
+            <label htmlFor="event-name" className={styles.label}>
+              Event Name
+            </label>
+            <input
+              id="event-name"
+              name="eventName"
+              type="text"
+              placeholder="e.g. AI Career Bootcamp"
+              className={styles.input}
+              value={form.eventName}
+              onChange={(e) =>
+                setForm({ ...form, eventName: e.target.value })
+              }
+              required
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="event-image" className={styles.label}>
               Image
             </label>
             <div className={styles.imageRow}>
@@ -184,7 +201,7 @@ export default function AddReviewModal({
               <div className={styles.imageActions}>
                 <input
                   ref={fileInputRef}
-                  id="review-image"
+                  id="event-image"
                   name="image"
                   type="file"
                   accept="image/*"
@@ -207,42 +224,6 @@ export default function AddReviewModal({
             </div>
           </div>
 
-          <div className={styles.field}>
-            <label htmlFor="review-ratings" className={styles.label}>
-              Ratings
-            </label>
-            <select
-              id="review-ratings"
-              name="ratings"
-              className={styles.select}
-              value={form.ratings}
-              onChange={(e) => setForm({ ...form, ratings: e.target.value })}
-              required
-            >
-              {[5, 4, 3, 2, 1].map((n) => (
-                <option key={n} value={n}>
-                  {n} Star{n === 1 ? "" : "s"}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className={styles.field}>
-            <label htmlFor="review-text" className={styles.label}>
-              Review
-            </label>
-            <textarea
-              id="review-text"
-              name="review"
-              rows={4}
-              placeholder="What did they say?"
-              className={styles.textarea}
-              value={form.review}
-              onChange={(e) => setForm({ ...form, review: e.target.value })}
-              required
-            />
-          </div>
-
           <button
             type="submit"
             className={styles.submit}
@@ -254,7 +235,7 @@ export default function AddReviewModal({
                 : "Adding..."
               : isEdit
               ? "Save Changes"
-              : "Add Review"}
+              : "Add Event"}
           </button>
 
           {status === "error" && (
