@@ -1,4 +1,4 @@
 /* Shared backdrop used by any section that should visually match the hero */
 .sectionGradient {
-  background: linear-gradient(135deg, #dbe9ff 0%, #c3dbfb 55%, #aecdf7 100%);
+  background: #6f9dfc;
 }

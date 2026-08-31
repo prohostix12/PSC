@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Hero.module.css";
 import { usePrograms, programLabel } from "../hooks/usePrograms";
-
-const features = [
-  { title: "Get Skilled", subtitle: "Practical Learning" },
-  { title: "Get Certified", subtitle: "Recognized Certification" },
-  { title: "Get Hired", subtitle: "Career Growth" },
-];
+import {
+  DEFAULT_HERO_TAG,
+  DEFAULT_HERO_HEADING,
+  DEFAULT_HERO_CHILDREN,
+  type HeroChild,
+} from "../lib/heroUtils";
 
 export default function Hero() {
   const [form, setForm] = useState({
@@ -21,6 +21,32 @@ export default function Hero() {
     "idle"
   );
   const { programs } = usePrograms();
+  const [heroContent, setHeroContent] = useState<{
+    tag: string;
+    heading: string;
+    children: HeroChild[];
+  }>({
+    tag: DEFAULT_HERO_TAG,
+    heading: DEFAULT_HERO_HEADING,
+    children: DEFAULT_HERO_CHILDREN,
+  });
+
+  useEffect(() => {
+    fetch("/api/hero")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!data) return;
+        setHeroContent({
+          tag: data.tag || DEFAULT_HERO_TAG,
+          heading: data.heading || DEFAULT_HERO_HEADING,
+          children:
+            Array.isArray(data.children) && data.children.length === 3
+              ? data.children
+              : DEFAULT_HERO_CHILDREN,
+        });
+      })
+      .catch(() => {});
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -68,28 +94,30 @@ export default function Hero() {
             </div>
           </div>
 
-          <p className={styles.eyebrow}>
-            Thinking about a future as a professional trainer?
-          </p>
+          <p className={styles.eyebrow}>{heroContent.tag}</p>
 
-          <h1 className={styles.heading}>
-            Kerala&apos;s First WBL Academy Since 2009
-          </h1>
+          <h1 className={styles.heading}>{heroContent.heading}</h1>
 
           <ul className={styles.features}>
-            {features.map((feature) => (
-              <li key={feature.title} className={styles.feature}>
-                <span className={styles.featureTitle}>{feature.title}</span>
+            {heroContent.children
+              .filter((child) => child.visible !== false)
+              .map((child, i) => (
+              <li key={i} className={styles.feature}>
+                <span className={styles.featureTitle}>{child.heading}</span>
                 <span className={styles.featureSubtitle}>
-                  {feature.subtitle}
+                  {child.paragraph}
                 </span>
               </li>
             ))}
           </ul>
 
           <div className={styles.actions}>
-            <a href="#" className={styles.primaryButton}>
-              Enroll Now
+            <a
+              href="https://findyouruniversity.com/"
+              target="_self"
+              className={styles.primaryButton}
+            >
+              Find Your University
             </a>
             <a href="#" className={styles.secondaryButton}>
               Book a Free Consultation

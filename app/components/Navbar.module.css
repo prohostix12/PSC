@@ -254,8 +254,11 @@
 }
 
 .mobileMenu.open {
-  max-height: 900px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding-top: 16px;
+  padding-bottom: 8px;
 }
 
 .mobileNav {
@@ -288,6 +291,27 @@
   height: 18px;
   border-radius: 999px;
   background: #4f7bff;
+}
+
+.mobileProgramsToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mobileProgramsToggle .chevron {
+  margin-right: 4px;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
 }
 
 .mobileCourses {
@@ -352,6 +376,12 @@
 
   .mobileMenu {
     display: flex;
+  }
+
+  .navbar {
+    background: #0f1b3d;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }
 

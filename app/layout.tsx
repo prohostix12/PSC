@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Bitcount_Prop_Single } from "next/font/google";
+import ConnectModal from "./components/ConnectModal";
+import WhatsAppButton from "./components/WhatsAppButton";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,7 +39,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${bitcountPropSingle.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <ConnectModal />
+        <WhatsAppButton />
+      </body>
     </html>
   );
 }

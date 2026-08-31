@@ -167,11 +167,16 @@
 @media (max-width: 900px) {
   .statsStrip {
     grid-template-columns: repeat(2, 1fr);
+    /* On 2 rows, 50% of the stack's own (taller) height overlaps too far
+       into the content below — the cards now stay fully inside the
+       banner instead of poking out under it. */
+    transform: none;
+    padding-bottom: 24px;
   }
 
   .body {
     grid-template-columns: 1fr;
-    margin-top: calc(19px + 28px);
+    margin-top: 40px;
     gap: 28px;
   }
 
@@ -186,9 +191,9 @@
   }
 
   .banner {
-    min-height: 200px;
+    min-height: 0;
     border-radius: 20px;
-    padding: 0 16px;
+    padding: 24px 16px 0;
   }
 
   .statCard {

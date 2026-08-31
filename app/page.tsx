@@ -5,7 +5,10 @@ import SuccessStories from "./components/SuccessStories";
 import AboutUs from "./components/AboutUs";
 import WhyUs from "./components/WhyUs";
 import Reviews from "./components/Reviews";
+import Directors from "./components/Directors";
+import SuccessStoriesGallery from "./components/SuccessStoriesGallery";
 import Certifications from "./components/Certifications";
+import SkillCreators from "./components/SkillCreators";
 import Courses from "./components/Courses";
 import FAQ from "./components/FAQ";
 import Footer from "./components/Footer";
@@ -23,9 +26,12 @@ export default function Home() {
         <SuccessStories />
         <AboutUs />
         <Certifications />
+        <SkillCreators />
         <Courses />
         <WhyUs />
         <Reviews />
+        <Directors />
+        <SuccessStoriesGallery />
         <FAQ />
       </div>
       <Footer />

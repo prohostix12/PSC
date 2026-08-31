@@ -11,19 +11,24 @@ import {
   type ProgramGroup,
 } from "../hooks/usePrograms";
 
-const navLinks = [
+const navLinksBeforeLogin = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about-psc" },
   { label: "Events", href: "/events" },
-  { label: "Success Stories", href: "/success-stories" },
+  { label: "Our Gallery", href: "/gallery" },
+];
+
+const navLinksAfterLogin = [
   { label: "Blogs", href: "/blogs" },
   { label: "Contact us", href: "/contact" },
 ];
 
-function ChevronDown() {
+const STUDENTS_LOGIN_URL = "https://pypeerm.com/login";
+
+function ChevronDown({ className }: { className?: string } = {}) {
   return (
     <svg
-      className={styles.chevron}
+      className={className ?? styles.chevron}
       width="10"
       height="6"
       viewBox="0 0 10 6"
@@ -88,6 +93,7 @@ function CoursesDropdown({ groups }: { groups: ProgramGroup[] }) {
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileProgramsOpen, setMobileProgramsOpen] = useState(false);
   const [admissionOpen, setAdmissionOpen] = useState(false);
   const { groups: programGroups } = usePrograms();
   const pathname = usePathname();
@@ -154,8 +160,16 @@ export default function Navbar() {
           <a href="/events" className={linkClass("/events")}>
             Events
           </a>
-          <a href="/success-stories" className={linkClass("/success-stories")}>
-            Success Stories
+          <a href="/gallery" className={linkClass("/gallery")}>
+            Our Gallery
+          </a>
+          <a
+            href={STUDENTS_LOGIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.navLink}
+          >
+            Students Login
           </a>
           <a href="/blogs" className={linkClass("/blogs")}>
             Blogs
@@ -194,7 +208,7 @@ export default function Navbar() {
 
       <div className={`${styles.mobileMenu} ${isOpen ? styles.open : ""}`}>
         <nav className={styles.mobileNav}>
-          {navLinks.map((link) => (
+          {navLinksBeforeLogin.map((link) => (
             <a
               key={link.label}
               href={link.href}
@@ -207,27 +221,64 @@ export default function Navbar() {
             </a>
           ))}
 
-          <span className={styles.mobileNavLink}>Programs</span>
-          <div className={styles.mobileCourses}>
-            {programGroups.map((group) => (
-              <div key={group.label} className={styles.mobileCourseGroup}>
-                <p className={styles.mobileCourseCategory}>{group.label}</p>
-                {group.programs.length === 0 && (
-                  <span className={styles.mobileCourseLink}>Coming soon</span>
-                )}
-                {group.programs.map((program) => (
-                  <a
-                    key={program._id}
-                    href={`/courses/${programSlug(program.name)}`}
-                    className={styles.mobileCourseLink}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {program.name}
-                  </a>
-                ))}
-              </div>
-            ))}
-          </div>
+          <a
+            href={STUDENTS_LOGIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.mobileNavLink}
+            onClick={() => setIsOpen(false)}
+          >
+            Students Login
+          </a>
+
+          {navLinksAfterLogin.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className={`${styles.mobileNavLink} ${
+                isActive(link.href) ? styles.mobileNavLinkActive : ""
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              {link.label}
+            </a>
+          ))}
+
+          <button
+            type="button"
+            className={`${styles.mobileNavLink} ${styles.mobileProgramsToggle}`}
+            aria-expanded={mobileProgramsOpen}
+            onClick={() => setMobileProgramsOpen((open) => !open)}
+          >
+            Programs
+            <ChevronDown
+              className={`${styles.chevron} ${
+                mobileProgramsOpen ? styles.chevronOpen : ""
+              }`}
+            />
+          </button>
+          {mobileProgramsOpen && (
+            <div className={styles.mobileCourses}>
+              {programGroups.map((group) => (
+                <div key={group.label} className={styles.mobileCourseGroup}>
+                  <p className={styles.mobileCourseCategory}>{group.label}</p>
+                  {group.programs.length === 0 && (
+                    <span className={styles.mobileCourseLink}>Coming soon</span>
+                  )}
+                  {group.programs.map((program) => (
+                    <a
+                      key={program._id}
+                      href={`/courses/${programSlug(program.name)}`}
+                      className={styles.mobileCourseLink}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {program.name}
+                    </a>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
         </nav>
         <button
           type="button"

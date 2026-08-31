@@ -1,0 +1,172 @@
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 40px 32px 80px;
+}
+
+.pageHeading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(26px, 3.2vw, 36px);
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+.loading {
+  font-size: 15px;
+  color: #556;
+}
+
+/* Clean division between the header and the fields below it */
+.divider {
+  height: 1px;
+  background: #e6eaf5;
+  margin: 20px 0 28px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #e6eaf5;
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 14px 30px rgba(15, 27, 61, 0.06);
+}
+
+.fieldHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f1b3d;
+}
+
+.wordCount {
+  font-size: 12px;
+  font-weight: 600;
+  color: #97a2c0;
+}
+
+.wordCountMax {
+  color: #d92b3f;
+}
+
+.textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 56px;
+  border: 1px solid #d7ddec;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #0f1b3d;
+  background: #f8faff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #2451e0;
+  box-shadow: 0 0 0 3px rgba(36, 81, 224, 0.14);
+}
+
+.childrenGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.childCard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #f7f9ff;
+  border: 1px solid #e4eaff;
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.childCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.childLabel {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #2451e0;
+}
+
+.eyeButton {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cfd9ff;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #2451e0;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.eyeButton:hover {
+  background: #eef2ff;
+}
+
+.eyeButtonOff {
+  border-color: #e2e6f0;
+  background: #f1f3f8;
+  color: #97a2c0;
+}
+
+.eyeButtonOff:hover {
+  background: #e6e9f2;
+}
+
+.statusRow {
+  margin-top: 18px;
+  min-height: 20px;
+}
+
+.statusSaving {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7ba8;
+}
+
+.statusSaved {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a8a4b;
+}
+
+.statusError {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #d92b3f;
+}

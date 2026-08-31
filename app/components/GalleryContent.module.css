@@ -1,0 +1,71 @@
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 8px 24px 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.empty {
+  text-align: center;
+  color: #556;
+  font-size: 15px;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.categoryHeading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0;
+  text-align: center;
+}
+
+/* Photo-collage layout — a CSS multi-column masonry, so each photo keeps
+   its own natural aspect ratio instead of being cropped into a uniform
+   grid cell. */
+.grid {
+  columns: 4 260px;
+  column-gap: 18px;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  break-inside: avoid;
+  margin-bottom: 18px;
+  border-radius: 16px;
+  box-shadow: 0 14px 30px rgba(15, 27, 61, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.image:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(15, 27, 61, 0.16);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    columns: 2 220px;
+  }
+}
+
+@media (max-width: 560px) {
+  .wrap {
+    padding: 8px 16px 72px;
+    gap: 40px;
+  }
+
+  .grid {
+    columns: 1;
+  }
+}

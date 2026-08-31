@@ -15,70 +15,71 @@
   margin: 0 0 40px;
 }
 
+/* Grid instead of a row, so a single contact (or a partial last row)
+   centers as a group instead of hugging the left edge. */
 .grid {
   position: relative;
   z-index: 1;
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
+  justify-content: center;
   gap: 24px;
 }
 
 .card {
-  position: relative;
   background: #ffffff;
   border-radius: 20px;
-  padding: 32px 24px;
+  padding: 36px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 10px;
-}
-
-.iconBox {
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 6px;
-}
-
-.tealIcon {
-  background: #0f9d78;
-}
-
-.navyIcon {
-  background: #0f1b3d;
+  gap: 14px;
+  box-shadow: 0 14px 30px rgba(15, 27, 61, 0.08);
 }
 
 .title {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
   color: #0f1b3d;
   margin: 0;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5b6584;
+  margin: 0;
+  max-width: 320px;
 }
 
 .lines {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
 }
 
 .line {
-  font-size: 14px;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
   color: #0f1b3d;
-  margin: 0;
+  text-decoration: none;
 }
 
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.line:hover {
+  color: #2451e0;
+}
+
+.line svg {
+  flex-shrink: 0;
+  color: #c9a06c;
 }
 
 @media (max-width: 560px) {
@@ -87,6 +88,10 @@
   }
 
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 340px);
+  }
+
+  .card {
+    padding: 28px 22px;
   }
 }

@@ -2,14 +2,29 @@
 
 import styles from "./AdminNavbar.module.css";
 
-export type AdminView = "enquiries" | "programs" | "reviews" | "faq" | "events";
+export type AdminView =
+  | "hero"
+  | "enquiries"
+  | "programs"
+  | "reviews"
+  | "faq"
+  | "events"
+  | "directors"
+  | "contacts"
+  | "skillCreators"
+  | "successStories";
 
 const NAV_ITEMS: { id: AdminView; label: string }[] = [
+  { id: "hero", label: "Hero Updation" },
   { id: "enquiries", label: "Enquiries" },
   { id: "programs", label: "Programs" },
   { id: "reviews", label: "Reviews" },
   { id: "faq", label: "FAQ" },
   { id: "events", label: "Events" },
+  { id: "directors", label: "Directors" },
+  { id: "contacts", label: "Contact" },
+  { id: "skillCreators", label: "Skill Creators" },
+  { id: "successStories", label: "Success Stories" },
 ];
 
 type Props = {
