@@ -1,7 +1,33 @@
 .ticker {
   position: relative;
+  display: flex;
+  align-items: stretch;
   overflow: hidden;
   background: #0f1b3d;
+}
+
+.bell {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  padding: 0 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.bell:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.tickerScroll {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
   padding: 16px 0;
 }
 
