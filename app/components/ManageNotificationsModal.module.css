@@ -1,0 +1,149 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(15, 27, 61, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 24px 60px rgba(15, 27, 61, 0.35);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+.close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #667;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.close:hover {
+  background: #f0f2f8;
+  color: #0f1b3d;
+}
+
+.empty {
+  font-size: 14px;
+  color: #97a2c0;
+  text-align: center;
+  padding: 24px 0;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.table th,
+.table td {
+  padding: 10px 12px;
+  border: 1px solid #eef1f8;
+  font-size: 13px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table th {
+  background: #f4f7ff;
+  color: #0f1b3d;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.accessHeading {
+  background: #eef2ff;
+  color: #2451e0;
+}
+
+.notifCol {
+  text-align: left;
+  min-width: 220px;
+  max-width: 280px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #24304d;
+}
+
+.pageCol {
+  min-width: 70px;
+}
+
+.checkboxCell {
+  background: #fafbff;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #2451e0;
+  cursor: pointer;
+}
+
+.eyeButton {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: #eef2ff;
+  color: #2451e0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.eyeButton:hover {
+  background: #dfe6ff;
+}
+
+.eyeButtonOff {
+  background: #f1f3f8;
+  color: #97a2c0;
+}
+
+.eyeButtonOff:hover {
+  background: #e6e9f2;
+}

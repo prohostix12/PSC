@@ -1,6 +1,16 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import styles from "./Marquee.module.css";
-import { notificationItems } from "../lib/notifications";
+import { PAGE_PATH_MAP } from "../lib/pageNotificationUtils";
+
+// Roughly how wide one ticker item is, used to make sure a repeated block
+// of notifications is always wider than the viewport — otherwise a short
+// list (or a very wide/ultrawide screen) leaves blank space once the loop
+// runs past the end of what's actually rendered.
+const ITEM_SPAN_PX = 260;
 
 function BellIcon() {
   return (
@@ -22,9 +32,71 @@ function BellIcon() {
   );
 }
 
+// Reverse-lookup: pathname -> the admin dropdown label for that page.
+function pageLabelForPath(pathname: string | null): string | null {
+  if (!pathname) return null;
+  const entry = Object.entries(PAGE_PATH_MAP).find(
+    ([, path]) => path === pathname
+  );
+  return entry ? entry[0] : null;
+}
+
 // Scrolling ticker strip placed under the hero section on every page, with
-// a bell button on the left that opens the full notifications page.
+// a bell button on the left that opens the full notifications page. Shows
+// only that page's admin-created notifications — nothing hardcoded, and
+// nothing renders at all until real data (or the "no notifications" state)
+// is known.
 export default function Marquee() {
+  const pathname = usePathname();
+  const [items, setItems] = useState<string[] | null>(null);
+  // Tracks the real viewport width so the repeated block is sized against
+  // the screen that's actually showing it — a fixed guess is what let
+  // ultrawide screens outrun the block and hit blank space mid-scroll.
+  const [viewportWidth, setViewportWidth] = useState(1600);
+
+  useEffect(() => {
+    const updateWidth = () => setViewportWidth(window.innerWidth);
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
+  useEffect(() => {
+    const pageLabel = pageLabelForPath(pathname);
+    if (!pageLabel) {
+      setItems([]);
+      return;
+    }
+
+    fetch(`/api/page-notifications?page=${encodeURIComponent(pageLabel)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        const messages = Array.isArray(data?.notifications)
+          ? data.notifications.map((n: { message: string }) => n.message)
+          : [];
+        setItems(messages);
+      })
+      .catch(() => setItems([]));
+  }, [pathname]);
+
+  if (!items || items.length === 0) return null;
+
+  // Repeat the notification list enough times that one "half" of the
+  // track is always comfortably wider than the viewport, then duplicate
+  // that whole half once more. With translateX(-50%) that makes the reset
+  // point exactly seamless — the next notification starts right where the
+  // last one ended, with no gap, lag, or empty stretch.
+  const minBlockWidth = viewportWidth * 2;
+  const repeats = Math.max(
+    1,
+    Math.ceil(minBlockWidth / (ITEM_SPAN_PX * items.length))
+  );
+  const block = Array.from({ length: repeats }, () => items).flat();
+  const track = [...block, ...block];
+
+  // Constant scroll speed regardless of how long the track ends up being.
+  const duration = Math.max(10, block.length * 1.8);
+
   return (
     <div className={styles.ticker}>
       <Link
@@ -36,8 +108,11 @@ export default function Marquee() {
       </Link>
 
       <div className={styles.tickerScroll}>
-        <div className={styles.tickerTrack}>
-          {[...notificationItems, ...notificationItems].map((item, i) => (
+        <div
+          className={styles.tickerTrack}
+          style={{ animationDuration: `${duration}s` }}
+        >
+          {track.map((item, i) => (
             <span key={i} className={styles.tickerItem}>
               {item}
               <span className={styles.tickerDot}>✦</span>

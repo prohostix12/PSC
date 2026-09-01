@@ -1,5 +1,10 @@
 .ticker {
   position: relative;
+  /* Full-bleed regardless of any max-width/padding on an ancestor —
+     stretches to the actual viewport edge on both sides. */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   display: flex;
   align-items: stretch;
   overflow: hidden;
@@ -34,14 +39,19 @@
 .tickerTrack {
   display: flex;
   width: max-content;
-  animation: scroll 22s linear infinite;
+  /* animation-duration is set inline (scaled to how many notifications
+     there are) so items flow back-to-back at a constant pace instead of
+     a fixed time making a short list crawl with visible gaps. */
+  animation-name: scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .tickerItem {
   display: inline-flex;
   align-items: center;
-  gap: 24px;
-  padding: 0 24px;
+  gap: 14px;
+  padding: 0 20px;
   color: #ffffff;
   font-size: 16px;
   font-weight: 600;
@@ -50,7 +60,6 @@
 
 .tickerDot {
   color: #4f7bff;
-  margin-left: 24px;
 }
 
 @keyframes scroll {

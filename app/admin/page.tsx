@@ -12,6 +12,10 @@ import DirectorsPanel from "../components/DirectorsPanel";
 import ContactsPanel from "../components/ContactsPanel";
 import SkillCreatorsPanel from "../components/SkillCreatorsPanel";
 import SuccessStoriesPanel from "../components/SuccessStoriesPanel";
+import SuccessVideosPanel from "../components/SuccessVideosPanel";
+import NotificationsPanel from "../components/NotificationsPanel";
+import CertificationsPanel from "../components/CertificationsPanel";
+import BlogsTable from "../components/BlogsTable";
 import styles from "./page.module.css";
 
 export default function AdminPanel() {
@@ -32,6 +36,10 @@ export default function AdminPanel() {
         {view === "contacts" && <ContactsPanel />}
         {view === "skillCreators" && <SkillCreatorsPanel />}
         {view === "successStories" && <SuccessStoriesPanel />}
+        {view === "successVideos" && <SuccessVideosPanel />}
+        {view === "notifications" && <NotificationsPanel />}
+        {view === "certifications" && <CertificationsPanel />}
+        {view === "blogs" && <BlogsTable />}
       </main>
     </div>
   );

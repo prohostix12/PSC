@@ -1,0 +1,224 @@
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 32px 80px;
+}
+
+.pageHeading {
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(26px, 3.2vw, 36px);
+  font-weight: 700;
+  color: #0f1b3d;
+  margin: 0;
+}
+
+.divider {
+  height: 1px;
+  background: #e6eaf5;
+  margin: 20px 0 28px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: #ffffff;
+  border: 1px solid #e6eaf5;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 14px 30px rgba(15, 27, 61, 0.06);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f1b3d;
+}
+
+.sourceRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sourceButton {
+  padding: 9px 16px;
+  border: 1px solid #d7ddec;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #24304d;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.sourceButton:hover {
+  background: #f0f2f8;
+}
+
+.sourceButtonActive {
+  background: #2451e0;
+  border-color: #2451e0;
+  color: #ffffff;
+}
+
+.input,
+.fileInput {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #d7ddec;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #0f1b3d;
+  background: #f8faff;
+}
+
+.fileInput {
+  padding: 9px 10px;
+  font-size: 13px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #2451e0;
+  box-shadow: 0 0 0 3px rgba(36, 81, 224, 0.14);
+}
+
+.fileHint {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7ba8;
+}
+
+.createButton {
+  align-self: flex-start;
+  padding: 11px 22px;
+  border: none;
+  border-radius: 10px;
+  background: #2451e0;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.createButton:hover {
+  background: #1a3ec0;
+}
+
+.createButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.formError {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #d92b3f;
+}
+
+.message {
+  font-size: 15px;
+  color: #556;
+}
+
+.messageError {
+  font-size: 15px;
+  color: #d92b3f;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  position: relative;
+}
+
+.deleteButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #d92b3f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(15, 27, 61, 0.16);
+}
+
+.deleteButton:hover {
+  background: #fdeeee;
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Same look as the home page "Our success stories never end!" cards */
+.cardMedia {
+  position: relative;
+  aspect-ratio: 9 / 14;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(160deg, #14141a 0%, #05050a 70%);
+  box-shadow: 0 20px 40px rgba(15, 27, 61, 0.25);
+}
+
+.cardBrand {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 2;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(2px);
+  cursor: pointer;
+}
+
+.player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover;
+  background: #000;
+}

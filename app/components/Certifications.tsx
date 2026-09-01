@@ -1,14 +1,33 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./Certifications.module.css";
-
-const certifications = [
-  { name: "Certification 01" },
-  { name: "Certification 02" },
-  { name: "Certification 03" },
-  { name: "Certification 04" },
-];
+import type { Certification } from "../lib/certificationUtils";
 
 export default function Certifications() {
+  const [certifications, setCertifications] = useState<Certification[]>([]);
+  const [status, setStatus] = useState<"loading" | "loaded" | "error">(
+    "loading"
+  );
+
+  useEffect(() => {
+    fetch("/api/certifications")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load certifications");
+        return res.json();
+      })
+      .then((data) => {
+        setCertifications(
+          Array.isArray(data.certifications) ? data.certifications : []
+        );
+        setStatus("loaded");
+      })
+      .catch(() => setStatus("error"));
+  }, []);
+
+  if (status !== "loaded" || certifications.length === 0) return null;
+
   return (
     <section className={styles.section}>
       <div className={styles.header}>
@@ -22,7 +41,7 @@ export default function Certifications() {
 
       <div className={styles.grid}>
         {certifications.map((cert) => (
-          <div className={styles.card} key={cert.name}>
+          <div className={styles.card} key={cert._id}>
             <SketchFrame />
 
             <div className={styles.ribbon}>
@@ -37,8 +56,12 @@ export default function Certifications() {
               </svg>
             </div>
 
-            {/* Certification logo placeholder — swap for your <Image> */}
-            <div className={styles.logo}></div>
+            <div className={styles.imageWrap}>
+              {cert.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={cert.image} alt={cert.name} className={styles.image} />
+              )}
+            </div>
 
             <p className={styles.name}>{cert.name}</p>
           </div>

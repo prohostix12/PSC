@@ -53,18 +53,17 @@
 
 .card {
   position: relative;
-  flex: 0 0 260px;
+  flex: 0 0 190px;
   aspect-ratio: 9 / 14;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   scroll-snap-align: start;
-  box-shadow: 0 20px 40px rgba(15, 27, 61, 0.25);
+  box-shadow: 0 16px 32px rgba(15, 27, 61, 0.2);
 }
 
 .cardMedia {
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, #14141a 0%, #05050a 70%);
 }
 
 .cardBrand {
@@ -106,9 +105,54 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(2px);
+  cursor: pointer;
+}
+
+.player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover;
+}
+
+.customControls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.controlButton {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.volumeSlider {
+  flex: 1;
+  height: 4px;
+  accent-color: #ffffff;
+  cursor: pointer;
 }
 
 .arrow {
@@ -138,7 +182,7 @@
   }
 
   .card {
-    flex-basis: 200px;
+    flex-basis: 150px;
   }
 
   .cardText {

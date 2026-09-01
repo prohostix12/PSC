@@ -12,7 +12,11 @@ export type AdminView =
   | "directors"
   | "contacts"
   | "skillCreators"
-  | "successStories";
+  | "successStories"
+  | "successVideos"
+  | "notifications"
+  | "certifications"
+  | "blogs";
 
 const NAV_ITEMS: { id: AdminView; label: string }[] = [
   { id: "hero", label: "Hero Updation" },
@@ -25,6 +29,10 @@ const NAV_ITEMS: { id: AdminView; label: string }[] = [
   { id: "contacts", label: "Contact" },
   { id: "skillCreators", label: "Skill Creators" },
   { id: "successStories", label: "Success Stories" },
+  { id: "successVideos", label: "Success Video" },
+  { id: "notifications", label: "Notifications" },
+  { id: "certifications", label: "Certifications" },
+  { id: "blogs", label: "Blogs" },
 ];
 
 type Props = {

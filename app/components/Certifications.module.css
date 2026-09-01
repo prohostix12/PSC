@@ -41,29 +41,45 @@
   position: relative;
   background: #ffffff;
   border-radius: 20px;
-  padding: 36px 24px 28px;
+  padding: 28px 24px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 20px;
-  min-height: 260px;
-  justify-content: center;
+  min-height: 320px;
 }
 
 .ribbon {
   position: absolute;
   top: 20px;
   right: 20px;
+  z-index: 1;
 }
 
-/* Certification logo placeholder — replace with your own image */
-.logo {
-  width: 96px;
-  height: 96px;
+/* Certificate image fills most of the card — the name sits below it near
+   the bottom, not centered in the middle of the card. */
+.imageWrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #eef2ff;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .name {
+  position: relative;
+  z-index: 1;
   font-size: 17px;
   font-weight: 600;
   color: #0f1b3d;

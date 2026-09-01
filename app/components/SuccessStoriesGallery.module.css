@@ -48,10 +48,6 @@
   animation-iteration-count: infinite;
 }
 
-.viewport:hover .track {
-  animation-play-state: paused;
-}
-
 @keyframes scroll {
   from {
     transform: translateX(0);
@@ -88,9 +84,41 @@
   display: block;
 }
 
+.ctaRow {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 999px;
+  background: #0f1b3d;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 12px 28px rgba(15, 27, 61, 0.25);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.ctaButton:hover {
+  background: #16224a;
+  transform: translateY(-2px);
+}
+
 @media (max-width: 640px) {
   .card {
     flex-basis: 220px;
     min-height: 200px;
+  }
+
+  .ctaRow {
+    margin-top: 28px;
   }
 }
