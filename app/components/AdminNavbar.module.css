@@ -24,6 +24,46 @@
   gap: 6px;
 }
 
+.navGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.chevron {
+  float: right;
+  color: #b7c0dd;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.subNav {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 2px 0 4px 14px;
+  padding-left: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.subNavLink {
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #b7c0dd;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.subNavLink:hover,
+.subNavLinkActive {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .navLink {
   display: block;
   width: 100%;

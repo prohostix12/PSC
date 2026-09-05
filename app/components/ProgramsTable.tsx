@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import AddProgramModal from "./AddProgramModal";
+import ProgramDetailsEditor from "./ProgramDetailsEditor";
 import styles from "./EnquiriesTable.module.css";
 import type { Program } from "../lib/programUtils";
 
@@ -12,6 +13,7 @@ export default function ProgramsTable() {
   );
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Program | null>(null);
+  const [detailsProgram, setDetailsProgram] = useState<Program | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const load = useCallback(() => {
@@ -42,6 +44,10 @@ export default function ProgramsTable() {
     setModalOpen(true);
   };
 
+  const openDetails = (program: Program) => {
+    setDetailsProgram(program);
+  };
+
   const handleDelete = async (program: Program) => {
     if (!confirm(`Delete "${program.name}"? This can't be undone.`)) return;
 
@@ -58,6 +64,16 @@ export default function ProgramsTable() {
       setDeletingId(null);
     }
   };
+
+  if (detailsProgram) {
+    return (
+      <ProgramDetailsEditor
+        program={detailsProgram}
+        onBack={() => setDetailsProgram(null)}
+        onSaved={load}
+      />
+    );
+  }
 
   return (
     <section className={styles.section}>
@@ -100,6 +116,9 @@ export default function ProgramsTable() {
               <tr>
                 <th>Program Category</th>
                 <th>Program Name</th>
+                <th>Hero Heading</th>
+                <th>About</th>
+                <th>Hero Para</th>
                 <th>Duration</th>
                 <th>Added</th>
                 <th>Actions</th>
@@ -124,6 +143,9 @@ export default function ProgramsTable() {
                     )}
                   </td>
                   <td>{program.name || "—"}</td>
+                  <td>{program.heroHeading || "—"}</td>
+                  <td>{program.heroAbout || "—"}</td>
+                  <td>{program.heroPara || "—"}</td>
                   <td>{program.duration || "—"}</td>
                   <td>
                     {program.createdAt
@@ -132,6 +154,13 @@ export default function ProgramsTable() {
                   </td>
                   <td>
                     <div className={styles.actions}>
+                      <button
+                        type="button"
+                        className={styles.actionButton}
+                        onClick={() => openDetails(program)}
+                      >
+                        Add Details
+                      </button>
                       <button
                         type="button"
                         className={styles.actionButton}

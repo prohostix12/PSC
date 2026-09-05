@@ -1,6 +1,8 @@
 .section {
   position: relative;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
   padding: 72px 24px 96px;
 }
 
@@ -27,10 +29,36 @@
   text-align: center;
 }
 
+.editorActions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 28px;
+}
+
+.addLogoButton,
+.removeLogoButton,
+.closePicker,
+.logoOption {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.addLogoButton {
+  border-radius: 9px;
+  padding: 11px 18px;
+  color: #ffffff;
+  background: #2451e0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .grid {
   position: relative;
   z-index: 1;
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -85,6 +113,104 @@
   transition: color 0.2s ease;
 }
 
+.removeLogoButton {
+  position: relative;
+  z-index: 1;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #d92b3f;
+  background: #fff1f2;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pickerOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(15, 27, 61, 0.58);
+}
+
+.picker {
+  width: min(720px, 100%);
+  max-height: min(720px, 90vh);
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(15, 27, 61, 0.28);
+}
+
+.pickerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.pickerHeader h3 {
+  margin: 0;
+  color: #0f1b3d;
+  font-size: 20px;
+}
+
+.closePicker {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #0f1b3d;
+  background: #eef2ff;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.logoOptions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.logoOption {
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  border: 1px solid #dbe1ef;
+  border-radius: 9px;
+  padding: 9px 11px;
+  color: #0f1b3d;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.logoOptionSelected {
+  border-color: #2451e0;
+  background: #eef2ff;
+}
+
+.optionIcon {
+  display: grid;
+  place-items: center;
+  color: #2451e0;
+}
+
+.optionIcon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.optionState {
+  color: #2451e0;
+  font-size: 11px;
+}
+
 .card:hover .title {
   color: #2451e0;
 }
@@ -106,5 +232,9 @@
 
   .card {
     padding: 26px 18px 22px;
+  }
+
+  .logoOptions {
+    grid-template-columns: 1fr;
   }
 }

@@ -70,10 +70,6 @@ export default function SuccessStoriesGallery() {
   const block = Array.from({ length: repeats }, () => images).flat();
   const track = [...block, ...block];
 
-  // Constant scroll speed regardless of how long the track ends up being —
-  // higher multiplier/floor here means a slower crawl.
-  const duration = Math.max(40, block.length * 6.5);
-
   return (
     <section className={styles.section}>
       <div className={styles.header}>
@@ -85,10 +81,7 @@ export default function SuccessStoriesGallery() {
       </div>
 
       <div className={styles.viewport}>
-        <div
-          className={styles.track}
-          style={{ animationDuration: `${duration}s` }}
-        >
+        <div className={styles.track}>
           {track.map((src, i) => (
             <div className={styles.card} key={i}>
               <SketchFrame rx={20} />

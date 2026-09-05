@@ -1,4 +1,8 @@
+"use client";
+
 import SketchFrame from "./SketchFrame";
+import { useEffect, useState } from "react";
+import { careerLogoOptions } from "../lib/careerUtils";
 import styles from "./CareerOutcomes.module.css";
 
 function DigitalMarketingIcon() {
@@ -146,25 +150,134 @@ const roles = [
   { title: "Shopify Expert", icon: <ShopifyIcon /> },
 ];
 
-export default function CareerOutcomes() {
+export default function CareerOutcomes({
+  editable = false,
+  selectedTitles: selectedTitlesProp,
+  paragraph = "Your learning journey doesn't end with a course; it leads to strong career outcomes through skills, support, and real-world exposure.",
+}: {
+  editable?: boolean;
+  selectedTitles?: string[];
+  paragraph?: string;
+}) {
+  const [availableTitles, setAvailableTitles] = useState<string[]>(
+    careerLogoOptions.map((logo) => logo.title)
+  );
+  const [selectedTitles, setSelectedTitles] = useState<string[]>(
+    selectedTitlesProp ?? careerLogoOptions.map((logo) => logo.title)
+  );
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const visibleRoles = roles.filter((role) => availableTitles.includes(role.title));
+  const selectedRoles = visibleRoles.filter((role) => selectedTitles.includes(role.title));
+
+  useEffect(() => {
+    fetch("/api/career")
+      .then((response) => (response.ok ? response.json() : Promise.reject()))
+      .then((data) => {
+        const titles = Array.isArray(data.logos)
+          ? data.logos.map((logo: { title?: unknown }) => String(logo.title || ""))
+          : [];
+        if (titles.length > 0) {
+          setAvailableTitles(titles);
+          if (selectedTitlesProp === undefined) {
+            setSelectedTitles((current) =>
+              current.filter((title) => titles.includes(title)).length > 0
+                ? current.filter((title) => titles.includes(title))
+                : titles
+            );
+          }
+        }
+      })
+      .catch(() => undefined);
+  }, [selectedTitlesProp]);
+
+  useEffect(() => {
+    if (selectedTitlesProp !== undefined) setSelectedTitles(selectedTitlesProp);
+  }, [selectedTitlesProp]);
+
+  const toggleRole = (title: string) => {
+    setSelectedTitles((current) =>
+      current.includes(title)
+        ? current.filter((item) => item !== title)
+        : [...current, title]
+    );
+  };
+
   return (
     <section className={styles.section}>
       <h2 className={styles.heading}>Career Outcomes</h2>
-      <p className={styles.subheading}>
-        Your learning journey doesn&apos;t end with a course; it leads to
-        strong career outcomes through skills, support, and real-world
-        exposure.
-      </p>
+      <p className={styles.subheading}>{paragraph}</p>
+
+      {editable && (
+        <div className={styles.editorActions}>
+          <button
+            type="button"
+            className={styles.addLogoButton}
+            onClick={() => setPickerOpen(true)}
+          >
+            Add Career Logo
+          </button>
+        </div>
+      )}
 
       <div className={styles.grid}>
-        {roles.map((role) => (
+        {selectedRoles.map((role) => (
           <div key={role.title} className={styles.card}>
             <SketchFrame rx={18} />
             <span className={styles.icon}>{role.icon}</span>
             <p className={styles.title}>{role.title}</p>
+            {editable && (
+              <button
+                type="button"
+                className={styles.removeLogoButton}
+                onClick={() => toggleRole(role.title)}
+              >
+                Remove
+              </button>
+            )}
           </div>
         ))}
       </div>
+
+      {editable && pickerOpen && (
+        <div
+          className={styles.pickerOverlay}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="career-logo-picker-title"
+          onClick={() => setPickerOpen(false)}
+        >
+          <div className={styles.picker} onClick={(event) => event.stopPropagation()}>
+            <div className={styles.pickerHeader}>
+              <h3 id="career-logo-picker-title">Add Career Logo</h3>
+              <button
+                type="button"
+                className={styles.closePicker}
+                onClick={() => setPickerOpen(false)}
+                aria-label="Close"
+              >
+                ×
+              </button>
+            </div>
+            <div className={styles.logoOptions}>
+              {visibleRoles.map((role) => {
+                const selected = selectedTitles.includes(role.title);
+                return (
+                  <button
+                    type="button"
+                    key={role.title}
+                    className={`${styles.logoOption} ${selected ? styles.logoOptionSelected : ""}`}
+                    onClick={() => toggleRole(role.title)}
+                  >
+                    <span className={styles.optionIcon}>{role.icon}</span>
+                    <span>{role.title}</span>
+                    <span className={styles.optionState}>{selected ? "Added" : "Add"}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

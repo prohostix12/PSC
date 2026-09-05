@@ -16,6 +16,7 @@ import SuccessVideosPanel from "../components/SuccessVideosPanel";
 import NotificationsPanel from "../components/NotificationsPanel";
 import CertificationsPanel from "../components/CertificationsPanel";
 import BlogsTable from "../components/BlogsTable";
+import CareerPanel from "../components/CareerPanel";
 import styles from "./page.module.css";
 
 export default function AdminPanel() {
@@ -40,6 +41,7 @@ export default function AdminPanel() {
         {view === "notifications" && <NotificationsPanel />}
         {view === "certifications" && <CertificationsPanel />}
         {view === "blogs" && <BlogsTable />}
+        {view === "career" && <CareerPanel />}
       </main>
     </div>
   );

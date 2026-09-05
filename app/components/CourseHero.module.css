@@ -1,28 +1,26 @@
 .hero {
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
+  min-height: 720px;
   display: flex;
   align-items: center;
-  padding: 56px 24px 64px;
+  padding: 96px 24px 72px;
 }
 
 .inner {
   position: relative;
   z-index: 1;
-  max-width: 1280px;
+  max-width: 1150px;
   margin: 0 auto;
   width: 100%;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 56px;
-  align-items: center;
 }
 
 .content {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 22px;
+  max-width: 690px;
 }
 
 .badge {
@@ -42,11 +40,12 @@
 
 .heading {
   font-family: var(--font-bitcount-prop-single), sans-serif;
-  font-size: clamp(36px, 5vw, 58px);
-  line-height: 1.08;
+  font-size: clamp(42px, 5.5vw, 64px);
+  line-height: 1.12;
   font-weight: 700;
   color: #0f1b3d;
   margin: 0;
+  letter-spacing: 0;
 }
 
 .accent {
@@ -54,17 +53,17 @@
 }
 
 .subheading {
-  font-size: 17px;
-  line-height: 1.7;
-  color: #445;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #24365d;
   margin: 0;
-  max-width: 540px;
+  max-width: 680px;
 }
 
 .checklist {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   list-style: none;
   margin: 8px 0 0;
   padding: 0;
@@ -73,12 +72,12 @@
 .checkItem {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 14px;
 }
 
 .checkTitle {
   display: block;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: #0f1b3d;
 }
@@ -92,8 +91,8 @@
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 14px;
+  gap: 18px;
+  margin-top: 16px;
 }
 
 .primaryButton,
@@ -101,7 +100,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 30px;
+  min-height: 58px;
+  padding: 16px 34px;
   border-radius: 999px;
   font-size: 16px;
   font-weight: 700;
@@ -131,9 +131,7 @@
 }
 
 .sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: none;
 }
 
 .ratingCard {
@@ -202,31 +200,18 @@
 
 @media (max-width: 900px) {
   .hero {
-    padding: 48px 20px 56px;
+    min-height: 680px;
+    padding: 72px 20px 56px;
   }
 
   .inner {
-    grid-template-columns: 1fr;
-    gap: 36px;
-  }
-
-  .sidebar {
-    flex-direction: row;
-  }
-
-  .ratingCard,
-  .detailsCard {
-    flex: 1;
+    max-width: 720px;
   }
 }
 
 @media (max-width: 600px) {
   .heading {
-    font-size: clamp(30px, 8vw, 40px);
-  }
-
-  .sidebar {
-    flex-direction: column;
+    font-size: clamp(36px, 10vw, 48px);
   }
 
   .actions {

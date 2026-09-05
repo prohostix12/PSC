@@ -1,4 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import styles from "./CourseHero.module.css";
+import AdmissionModal from "./AdmissionModal";
 
 type Feature = { title: string; subtitle: string };
 type Detail = { label: string; value: string };
@@ -45,59 +49,88 @@ export default function CourseHero({
   features?: Feature[];
   details?: Detail[];
 }) {
+  const [admissionOpen, setAdmissionOpen] = useState(false);
+  const [consultOpen, setConsultOpen] = useState(false);
+
   return (
-    <section className={styles.hero}>
-      <div className={styles.inner}>
-        <div className={styles.content}>
-          <span className={styles.badge}>{badge}</span>
+    <>
+      <section className={styles.hero}>
+        <div className={styles.inner}>
+          <div className={styles.content}>
+            <span className={styles.badge}>{badge}</span>
 
-          <h1 className={styles.heading}>
-            {heading} <span className={styles.accent}>{headingAccent}</span>
-          </h1>
+            <h1 className={styles.heading}>
+              {heading} <span className={styles.accent}>{headingAccent}</span>
+            </h1>
 
-          <p className={styles.subheading}>{subheading}</p>
+            <p className={styles.subheading}>{subheading}</p>
 
-          <ul className={styles.checklist}>
-            {features.map((feature) => (
-              <li key={feature.title} className={styles.checkItem}>
-                <CheckIcon />
-                <div>
-                  <span className={styles.checkTitle}>{feature.title}</span>
-                  <span className={styles.checkSubtitle}>
-                    {feature.subtitle}
-                  </span>
+            <ul className={styles.checklist}>
+              {features.map((feature) => (
+                <li key={feature.title} className={styles.checkItem}>
+                  <CheckIcon />
+                  <div>
+                    <span className={styles.checkTitle}>{feature.title}</span>
+                    <span className={styles.checkSubtitle}>{feature.subtitle}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div className={styles.actions}>
+              <button
+                type="button"
+                className={styles.primaryButton}
+                onClick={() => setAdmissionOpen(true)}
+              >
+                Enroll Now
+              </button>
+              <button
+                type="button"
+                className={styles.secondaryButton}
+                onClick={() => setConsultOpen(true)}
+              >
+                Book a Free Consultation
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.sidebar}>
+            <div className={styles.ratingCard}>
+              <span className={styles.ratingScore}>4.9</span>
+              <span className={styles.ratingLabel}>Star Rating</span>
+              <span className={styles.ratingSource}>Google ★★★★★</span>
+            </div>
+
+            <div className={styles.detailsCard}>
+              {details.map((detail) => (
+                <div key={detail.label} className={styles.detailRow}>
+                  <span className={styles.detailLabel}>{detail.label}</span>
+                  <span className={styles.detailValue}>{detail.value}</span>
                 </div>
-              </li>
-            ))}
-          </ul>
-
-          <div className={styles.actions}>
-            <a href="#" className={styles.primaryButton}>
-              Enroll Now
-            </a>
-            <a href="#" className={styles.secondaryButton}>
-              Book a Free Consultation
-            </a>
+              ))}
+            </div>
           </div>
         </div>
+      </section>
 
-        <div className={styles.sidebar}>
-          <div className={styles.ratingCard}>
-            <span className={styles.ratingScore}>4.9</span>
-            <span className={styles.ratingLabel}>Star Rating</span>
-            <span className={styles.ratingSource}>Google ★★★★★</span>
-          </div>
+      <AdmissionModal
+        open={admissionOpen}
+        onClose={() => setAdmissionOpen(false)}
+        title="Get Your Admission"
+        subheading="Share your details and our admissions team will reach out to you."
+        submitLabel="Submit Admission"
+        source="Course Page - Get Your Admission"
+      />
 
-          <div className={styles.detailsCard}>
-            {details.map((detail) => (
-              <div key={detail.label} className={styles.detailRow}>
-                <span className={styles.detailLabel}>{detail.label}</span>
-                <span className={styles.detailValue}>{detail.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
+      <AdmissionModal
+        open={consultOpen}
+        onClose={() => setConsultOpen(false)}
+        title="Make Your Enquiry"
+        subheading="Tell us what you need and our team will get in touch with the best guidance for you."
+        submitLabel="Submit Enquiry"
+        source="Course Page - Make Your Enquiry"
+      />
+    </>
   );
 }

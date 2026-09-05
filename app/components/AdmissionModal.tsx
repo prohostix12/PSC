@@ -7,6 +7,11 @@ import { usePrograms, programLabel } from "../hooks/usePrograms";
 type Props = {
   open: boolean;
   onClose: () => void;
+  title?: string;
+  subheading?: string;
+  submitLabel?: string;
+  source?: string;
+  defaultPreference?: string;
 };
 
 const emptyForm = {
@@ -17,8 +22,16 @@ const emptyForm = {
   message: "",
 };
 
-export default function AdmissionModal({ open, onClose }: Props) {
-  const [form, setForm] = useState(emptyForm);
+export default function AdmissionModal({
+  open,
+  onClose,
+  title = "Get Your Admission",
+  subheading = "Share your details and our admissions team will reach out to you.",
+  submitLabel = "Submit Admission",
+  source = "Navbar - Get Your Admission",
+  defaultPreference = "",
+}: Props) {
+  const [form, setForm] = useState({ ...emptyForm, preference: defaultPreference });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
@@ -45,10 +58,10 @@ export default function AdmissionModal({ open, onClose }: Props) {
   // Reset the form the next time the modal is opened.
   useEffect(() => {
     if (open) {
-      setForm(emptyForm);
+      setForm({ ...emptyForm, preference: defaultPreference });
       setStatus("idle");
     }
-  }, [open]);
+  }, [open, defaultPreference]);
 
   if (!open) return null;
 
@@ -63,7 +76,7 @@ export default function AdmissionModal({ open, onClose }: Props) {
       phone: String(data.get("phone") || form.phone || ""),
       preference: String(data.get("preference") || form.preference || ""),
       message: String(data.get("message") || form.message || ""),
-      source: "Navbar - Get Your Admission",
+      source,
     };
 
     try {
@@ -101,11 +114,9 @@ export default function AdmissionModal({ open, onClose }: Props) {
         </button>
 
         <h2 id="admission-modal-title" className={styles.heading}>
-          Get Your Admission
+          {title}
         </h2>
-        <p className={styles.subheading}>
-          Share your details and our admissions team will reach out to you.
-        </p>
+        <p className={styles.subheading}>{subheading}</p>
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
@@ -202,7 +213,7 @@ export default function AdmissionModal({ open, onClose }: Props) {
             className={styles.submit}
             disabled={status === "sending"}
           >
-            {status === "sending" ? "Sending..." : "Submit Admission"}
+            {status === "sending" ? "Sending..." : submitLabel}
           </button>
 
           {status === "sent" && (
