@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import PageBackground from "./PageBackground";
 import styles from "./AdminLogin.module.css";
+import { ADMIN_TAB_SESSION } from "../lib/adminSession";
 
 export default function AdminLogin() {
   const [password, setPassword] = useState("");
@@ -22,6 +23,7 @@ export default function AdminLogin() {
         body: JSON.stringify({ password }),
       });
       if (!response.ok) throw new Error("Incorrect password.");
+      window.sessionStorage.setItem(ADMIN_TAB_SESSION, "active");
       window.location.reload();
     } catch (loginError) {
       setError((loginError as Error).message);

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 // Same placeholder number used for the phone/WhatsApp links in the
 // Footer — update both together once the real number is available.
-const WHATSAPP_NUMBER = "910000000000";
+const WHATSAPP_NUMBER = "919946556002";
 
 function WhatsAppIcon() {
   return (

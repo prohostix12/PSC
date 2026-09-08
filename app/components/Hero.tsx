@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AdmissionModal from "./AdmissionModal";
 import styles from "./Hero.module.css";
 import { usePrograms, programLabel } from "../hooks/usePrograms";
 import {
@@ -20,6 +21,7 @@ export default function Hero() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
+  const [consultationOpen, setConsultationOpen] = useState(false);
   const { programs } = usePrograms();
   const [heroContent, setHeroContent] = useState<{
     tag: string;
@@ -119,9 +121,13 @@ export default function Hero() {
             >
               Find Your University
             </a>
-            <a href="#" className={styles.secondaryButton}>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              onClick={() => setConsultationOpen(true)}
+            >
               Book a Free Consultation
-            </a>
+            </button>
           </div>
         </div>
 
@@ -228,6 +234,14 @@ export default function Hero() {
           </form>
         </div>
       </div>
+      <AdmissionModal
+        open={consultationOpen}
+        onClose={() => setConsultationOpen(false)}
+        title="Get Your Admission"
+        subheading="Share your contact details for a consultation and our team will reach out to you."
+        submitLabel="Submit Consultation"
+        source="Home - Book a Free Consultation"
+      />
     </section>
   );
 }

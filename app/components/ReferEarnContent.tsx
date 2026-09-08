@@ -44,7 +44,7 @@ export default function ReferEarnContent() {
           earn.
         </p>
         <a
-          href="https://wa.me/910000000000?text=Hi%20PSC%2C%20I%20want%20to%20refer%20a%20friend."
+          href="https://wa.me/919946556002?text=Hi%20PSC%2C%20I%20want%20to%20refer%20a%20friend."
           target="_blank"
           rel="noopener noreferrer"
           className={styles.bannerButton}

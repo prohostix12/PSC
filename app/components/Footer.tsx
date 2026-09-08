@@ -105,28 +105,28 @@ export default function Footer() {
           <span className={styles.underline}></span>
           <ul className={styles.contactList}>
             <li>
-              <a href="tel:+910000000000" className={styles.contactLink}>
+              <a href="tel:+919946556002" className={styles.contactLink}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                   <path d="M4 5c0-1 .8-2 1.8-2h2.4c.5 0 1 .3 1.1.8l1 3.3c.1.4 0 .9-.3 1.2l-1.6 1.6a12 12 0 0 0 5.7 5.7l1.6-1.6c.3-.3.8-.4 1.2-.3l3.3 1c.5.1.8.6.8 1.1v2.4c0 1-.9 1.8-1.9 1.8C10.7 20 4 13.3 4 5Z" />
                 </svg>
-                <span>+91 00000 00000</span>
+                <span>+91 99465 56002</span>
               </a>
             </li>
             <li>
-              <a href="#" className={styles.contactLink}>
+              <a href="https://wa.me/919946556002" target="_blank" rel="noopener noreferrer" className={styles.contactLink}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-3.3-.7-2.7-1-4.5-3.8-4.6-4-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 1-2.2.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6c-.1.2-.2.3-.1.6.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.6-.1l.6-.8c.2-.3.4-.2.6-.1l1.9.9c.2.1.4.2.4.4 0 .2 0 .9-.2 1.5Z" />
                 </svg>
-                <span>+91 00000 00000</span>
+                <span>+91 99465 56002</span>
               </a>
             </li>
             <li>
-              <a href="mailto:info@example.com" className={styles.contactLink}>
+              <a href="mailto:professionalskillcampus@gmail.com" className={styles.contactLink}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
                   <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
                   <path d="M3.5 6L12 13L20.5 6" />
                 </svg>
-                <span>info@example.com</span>
+                <span>professionalskillcampus@gmail.com</span>
               </a>
             </li>
             <li>
@@ -135,7 +135,7 @@ export default function Footer() {
                   <path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z" />
                   <circle cx="12" cy="10" r="2.5" />
                 </svg>
-                <span>Your City, State, PIN</span>
+                <span>Thazhepalam, Tirur, Kerala<br />676101</span>
               </span>
             </li>
           </ul>

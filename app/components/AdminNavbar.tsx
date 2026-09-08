@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ADMIN_TAB_SESSION } from "../lib/adminSession";
 import styles from "./AdminNavbar.module.css";
 
 export type AdminView =
@@ -110,6 +111,7 @@ export default function AdminNavbar({ active, onSelect }: Props) {
         <button
           type="button"
           onClick={async () => {
+            window.sessionStorage.removeItem(ADMIN_TAB_SESSION);
             await fetch("/api/admin/logout", { method: "POST" });
             window.location.reload();
           }}
