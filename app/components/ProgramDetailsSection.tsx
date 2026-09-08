@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { ProgramDetails } from "../lib/programUtils";
 import AdmissionModal from "./AdmissionModal";
 import CareerOutcomes from "./CareerOutcomes";
+import SketchFrame from "./SketchFrame";
 import styles from "./ProgramDetailsSection.module.css";
 
 type Props = {
@@ -24,10 +25,13 @@ const fallbackDetails: ProgramDetails = {
   benefitsItems: [],
   intakeCount: "",
   brochureUrl: "",
+  sidebarMediaUrl: "",
   courseIncludes: [],
   quickQuestions: [],
   careerOutcomesPara: "",
   careerOutcomesLogos: [],
+  reviews: [],
+  faqs: [],
 };
 
 export default function ProgramDetailsSection({
@@ -47,9 +51,11 @@ export default function ProgramDetailsSection({
     courseIncludes: details?.courseIncludes || [],
     quickQuestions: details?.quickQuestions || [],
     careerOutcomesLogos: details?.careerOutcomesLogos || [],
+    reviews: details?.reviews || [],
+    faqs: details?.faqs || [],
   };
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const overviewParagraphs = content.overview.split(/\n\s*\n/).filter(Boolean);
-
   return (
     <section className={styles.section}>
       <h2 className={styles.heading}>What you will learn?</h2>
@@ -134,7 +140,16 @@ export default function ProgramDetailsSection({
 
         <aside className={styles.sidebar}>
           <div className={styles.videoCard} aria-hidden="true">
-            <span className={styles.playButton}>▷</span>
+            {content.sidebarMediaUrl ? (
+              content.sidebarMediaUrl.startsWith("data:video/") ? (
+                <video className={styles.sidebarMedia} src={content.sidebarMediaUrl} controls />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className={styles.sidebarMedia} src={content.sidebarMediaUrl} alt={`${programName} media`} />
+              )
+            ) : (
+              <span className={styles.playButton}>▷</span>
+            )}
           </div>
 
           <div className={styles.detailsCard}>
@@ -184,6 +199,68 @@ export default function ProgramDetailsSection({
           "Your learning journey doesn't end with a course; it leads to strong career outcomes through skills, support, and real-world exposure."
         }
       />
+
+      {content.reviews.length > 0 && (
+        <section className={styles.reviewsSection} aria-labelledby="program-reviews-heading">
+          <h2 id="program-reviews-heading" className={styles.reviewsHeading}>
+            What our students say
+          </h2>
+          <div className={styles.reviewsList}>
+            {content.reviews.map((review, index) => (
+              <article
+                className={`${styles.programReview} ${index % 2 === 1 ? styles.programReviewReverse : ""}`}
+                key={`${review.name}-${index}`}
+              >
+                <div className={styles.programReviewIdentity}>
+                  {review.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={review.image} alt={review.name} className={styles.programReviewImage} />
+                  ) : (
+                    <span className={styles.programReviewAvatar}>
+                      {review.name.charAt(0).toUpperCase() || "S"}
+                    </span>
+                  )}
+                  <strong>{review.name || "Student"}</strong>
+                  <span>Student</span>
+                </div>
+                <div className={styles.programReviewQuote}>
+                  <SketchFrame className={styles.reviewSketchFrame} rx={18} />
+                  <span className={styles.quoteMark} aria-hidden="true">“</span>
+                  <p>{review.review}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {content.faqs.length > 0 && (
+        <section className={styles.programFaqSection} aria-labelledby="program-faq-heading">
+          <h2 id="program-faq-heading" className={styles.programFaqHeading}>
+            Frequently Asked Questions
+          </h2>
+          <div className={styles.programFaqGrid}>
+            {content.faqs.map((faq, index) => {
+              const isOpen = openFaq === index;
+              return (
+                <article className={styles.programFaqItem} key={`${faq.question}-${index}`}>
+                  <SketchFrame className={styles.programFaqSketchFrame} rx={12} />
+                  <button
+                    type="button"
+                    className={styles.programFaqTrigger}
+                    onClick={() => setOpenFaq(isOpen ? null : index)}
+                    aria-expanded={isOpen}
+                  >
+                    <span>{faq.question}</span>
+                    <span className={styles.programFaqIcon}>{isOpen ? "−" : "+"}</span>
+                  </button>
+                  {isOpen && <p className={styles.programFaqAnswer}>{faq.answer}</p>}
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       <AdmissionModal
         open={consultOpen}

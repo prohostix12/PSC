@@ -2,6 +2,7 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import PageBackground from "../../components/PageBackground";
 import CourseHero from "../../components/CourseHero";
+import CourseCTA from "../../components/CourseCTA";
 import ProgramDetailsSection from "../../components/ProgramDetailsSection";
 import getClientPromise from "../../../lib/mongodb";
 import {
@@ -10,6 +11,7 @@ import {
   type Program,
 } from "../../lib/programUtils";
 import pageStyles from "../../page.module.css";
+import { getExistingProgramFaqs } from "../../lib/programFaqs";
 
 export const dynamic = "force-dynamic";
 
@@ -34,7 +36,13 @@ async function findProgram(slug: string): Promise<Program | null> {
           heroHeading: match.heroHeading ?? "",
           heroAbout: match.heroAbout ?? "",
           heroPoints: Array.isArray(match.heroPoints) ? match.heroPoints : [],
-          details: match.details,
+          details: {
+            ...(match.details || {}),
+            faqs:
+              Array.isArray(match.details?.faqs) && match.details.faqs.length > 0
+                ? match.details.faqs
+                : getExistingProgramFaqs(String(match.name || "")),
+          },
           createdAt: match.createdAt?.toISOString?.() ?? "",
         }
       : null;
@@ -101,6 +109,10 @@ export default async function CoursePage({
           duration={program?.duration || "4 months"}
           category={program?.category || "Offline / Online"}
           programName={name}
+        />
+        <CourseCTA
+          programName={program?.name || name}
+          category={program?.category || "Online"}
         />
       </div>
       <Footer />

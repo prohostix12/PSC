@@ -186,6 +186,35 @@
   font-weight: 600;
 }
 
+.reviewImageField {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.reviewImagePreview {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #dbe1ef;
+}
+
+.fileInput {
+  max-width: 100%;
+  color: #52617d;
+  font: inherit;
+  font-size: 13px;
+}
+
+.faqActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
 .logoPickerOverlay {
   position: fixed;
   inset: 0;

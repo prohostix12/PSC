@@ -90,6 +90,13 @@
   color: #ffffff;
 }
 
+.logoutLink {
+  margin-top: 12px;
+  color: #ffb8c1;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 18px;
+}
+
 @media (max-width: 640px) {
   .sidebar {
     width: 180px;

@@ -1,4 +1,7 @@
+"use client";
+
 import styles from "./WhatsAppButton.module.css";
+import { usePathname } from "next/navigation";
 
 // Same placeholder number used for the phone/WhatsApp links in the
 // Footer — update both together once the real number is available.
@@ -22,6 +25,9 @@ function WhatsAppIcon() {
 // Floating WhatsApp contact button, fixed at the bottom-left of the
 // viewport on every page.
 export default function WhatsAppButton() {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/admin")) return null;
+
   return (
     <a
       href={`https://wa.me/${WHATSAPP_NUMBER}`}

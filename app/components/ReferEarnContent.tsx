@@ -43,7 +43,12 @@ export default function ReferEarnContent() {
           No limit on referrals — the more friends you bring, the more you
           earn.
         </p>
-        <a href="#" className={styles.bannerButton}>
+        <a
+          href="https://wa.me/910000000000?text=Hi%20PSC%2C%20I%20want%20to%20refer%20a%20friend."
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.bannerButton}
+        >
           Refer Now
         </a>
       </div>

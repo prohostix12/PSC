@@ -40,12 +40,15 @@
   align-items: center;
   justify-content: center;
   padding: 15px 36px;
+  border: 0;
   border-radius: 12px;
   background: #ffffff;
   color: #0f9d78;
   font-size: 16px;
   font-weight: 700;
+  font-family: inherit;
   text-decoration: none;
+  cursor: pointer;
   transition: transform 0.15s ease, background 0.2s ease;
 }
 

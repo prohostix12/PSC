@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from "./AdminNavbar.module.css";
 
 export type AdminView =
+  | "dashboard"
   | "hero"
   | "enquiries"
   | "programs"
@@ -21,6 +22,7 @@ export type AdminView =
   | "career";
 
 const NAV_ITEMS: { id: AdminView; label: string }[] = [
+  { id: "dashboard", label: "Dashboard" },
   { id: "hero", label: "Hero Updation" },
   { id: "enquiries", label: "Enquiries" },
   { id: "reviews", label: "Reviews" },
@@ -51,7 +53,7 @@ export default function AdminNavbar({ active, onSelect }: Props) {
       <span className={styles.logo}>Admin Panel</span>
 
       <nav className={styles.nav}>
-        {NAV_ITEMS.slice(0, 2).map((item) => (
+        {NAV_ITEMS.slice(0, 3).map((item) => (
           <button
             key={item.id}
             type="button"
@@ -95,7 +97,7 @@ export default function AdminNavbar({ active, onSelect }: Props) {
           )}
         </div>
 
-        {NAV_ITEMS.slice(2).map((item) => (
+        {NAV_ITEMS.slice(3).map((item) => (
           <button
             key={item.id}
             type="button"
@@ -105,6 +107,16 @@ export default function AdminNavbar({ active, onSelect }: Props) {
             {item.label}
           </button>
         ))}
+        <button
+          type="button"
+          onClick={async () => {
+            await fetch("/api/admin/logout", { method: "POST" });
+            window.location.reload();
+          }}
+          className={`${styles.navLink} ${styles.logoutLink}`}
+        >
+          Logout
+        </button>
       </nav>
     </aside>
   );

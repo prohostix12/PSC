@@ -183,6 +183,14 @@
   min-height: 200px;
   display: grid;
   place-items: center;
+  overflow: hidden;
+}
+
+.sidebarMedia {
+  width: 100%;
+  height: 260px;
+  display: block;
+  object-fit: cover;
 }
 
 .playButton {
@@ -316,6 +324,217 @@
   color: #556;
   font-size: 13px;
   line-height: 1.6;
+}
+
+.reviewsSection {
+  margin-top: 72px;
+  padding: 52px 24px 60px;
+}
+
+.reviewsHeading {
+  margin: 0 0 34px;
+  color: #0f1b3d;
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(28px, 4vw, 42px);
+  text-align: center;
+}
+
+.reviewsList {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+}
+
+.programReview {
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 7vw, 82px);
+  width: min(900px, 100%);
+  min-height: 150px;
+  margin: 0 auto;
+}
+
+.programReviewReverse {
+  flex-direction: row-reverse;
+}
+
+.programReviewIdentity {
+  flex: 0 0 120px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 6px;
+  color: #0f1b3d;
+  text-align: center;
+}
+
+.programReviewIdentity strong {
+  font-size: 15px;
+}
+
+.programReviewIdentity span:last-child {
+  color: #445;
+  font-size: 13px;
+}
+
+.programReviewImage,
+.programReviewAvatar {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  object-fit: cover;
+  color: #ffffff;
+  background: #2451e0;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.programReviewQuote {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  padding: 24px 28px 22px;
+  border: 9px solid #ffffff;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 8px 14px rgba(15, 27, 61, 0.08);
+}
+
+.reviewSketchFrame rect {
+  stroke-width: 2.8px;
+}
+
+.programReviewQuote p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #17263f;
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.quoteMark {
+  position: absolute;
+  top: -20px;
+  left: 16px;
+  color: #52617d;
+  font-family: Georgia, serif;
+  font-size: 46px;
+  line-height: 1;
+}
+
+.programFaqSection {
+  margin-top: 72px;
+}
+
+.programFaqHeading {
+  margin: 0 auto 34px;
+  color: #0f1b3d;
+  font-family: var(--font-bitcount-prop-single), sans-serif;
+  font-size: clamp(28px, 4vw, 42px);
+  text-align: center;
+}
+
+.programFaqGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 34px;
+}
+
+.programFaqItem {
+  position: relative;
+  border: 6px solid #ffffff;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 8px 14px rgba(15, 27, 61, 0.08);
+}
+
+.programFaqSketchFrame {
+  z-index: 0;
+}
+
+.programFaqTrigger {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 68px;
+  padding: 16px 22px;
+  border: 0;
+  color: #0f1b3d;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.programFaqIcon {
+  flex: 0 0 auto;
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.programFaqAnswer {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 0 22px 22px;
+  color: #24304d;
+  font-size: 15px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 600px) {
+  .reviewsSection {
+    padding: 40px 14px 46px;
+  }
+
+  .programReview {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .programReviewReverse {
+    flex-direction: column;
+  }
+
+  .programReviewIdentity {
+    flex-basis: auto;
+    align-self: center;
+  }
+
+  .programReviewQuote {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .programFaqGrid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .programFaqTrigger {
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+
+  .programFaqAnswer {
+    padding: 0 16px 18px;
+  }
 }
 
 .outcomesPara {

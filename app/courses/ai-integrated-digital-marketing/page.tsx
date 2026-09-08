@@ -1,14 +1,12 @@
 import Navbar from "../../components/Navbar";
 import CourseHero from "../../components/CourseHero";
 import ProgramDetailsSection from "../../components/ProgramDetailsSection";
-import CareerOutcomes from "../../components/CareerOutcomes";
-import CourseTestimonials from "../../components/CourseTestimonials";
-import CourseFAQ from "../../components/CourseFAQ";
 import CourseCTA from "../../components/CourseCTA";
 import Footer from "../../components/Footer";
 import PageBackground from "../../components/PageBackground";
 import styles from "../../page.module.css";
 import getClientPromise from "../../../lib/mongodb";
+import { getExistingProgramFaqs } from "../../lib/programFaqs";
 
 async function getProgram() {
   try {
@@ -23,7 +21,13 @@ async function getProgram() {
           name: String(program.name),
           category: String(program.category || "Online"),
           duration: String(program.duration || "4 months"),
-          details: program.details,
+          details: {
+            ...(program.details || {}),
+            faqs:
+              Array.isArray(program.details?.faqs) && program.details.faqs.length > 0
+                ? program.details.faqs
+                : getExistingProgramFaqs(String(program.name || "")),
+          },
         }
       : null;
   } catch {
@@ -48,10 +52,10 @@ export default async function AiIntegratedDigitalMarketing() {
           category={program?.category || "Offline / Online"}
           programName={program?.name || "AI Integrated Digital Marketing"}
         />
-        <CareerOutcomes />
-        <CourseTestimonials />
-        <CourseFAQ />
-        <CourseCTA />
+        <CourseCTA
+          programName={program?.name || "AI Integrated Digital Marketing"}
+          category={program?.category || "Online"}
+        />
       </div>
       <Footer />
     </>

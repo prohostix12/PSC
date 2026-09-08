@@ -1,7 +1,18 @@
+"use client";
+
+import { useState } from "react";
+import AdmissionModal from "./AdmissionModal";
 import SketchFrame from "./SketchFrame";
 import styles from "./CourseCTA.module.css";
 
-export default function CourseCTA() {
+type Props = {
+  programName?: string;
+  category?: string;
+};
+
+export default function CourseCTA({ programName = "", category = "" }: Props) {
+  const [open, setOpen] = useState(false);
+
   return (
     <section className={styles.section}>
       <div className={styles.banner}>
@@ -12,10 +23,17 @@ export default function CourseCTA() {
           Don&apos;t miss out—limited seats available for our upcoming
           session.
         </p>
-        <a href="#" className={styles.button}>
+        <button type="button" className={styles.button} onClick={() => setOpen(true)}>
           Join Now
-        </a>
+        </button>
       </div>
+      <AdmissionModal
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Get Your Admission"
+        source="Course Page - Join the Next Batch Now"
+        defaultPreference={programName ? `${category} - ${programName}` : ""}
+      />
     </section>
   );
 }

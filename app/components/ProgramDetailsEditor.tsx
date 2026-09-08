@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from "react";
-import type { CourseModule, Program, ProgramDetails } from "../lib/programUtils";
+import type { CourseModule, Program, ProgramDetails, ProgramFaq, ProgramReview } from "../lib/programUtils";
+import { compressImageToDataUrl, MAX_RAW_IMAGE_BYTES } from "../lib/imageUpload";
 import styles from "./ProgramDetailsEditor.module.css";
 
 type Props = {
@@ -20,10 +21,13 @@ const emptyDetails: ProgramDetails = {
   benefitsItems: [],
   intakeCount: "",
   brochureUrl: "",
+  sidebarMediaUrl: "",
   courseIncludes: [],
   quickQuestions: [],
   careerOutcomesPara: "",
   careerOutcomesLogos: [],
+  reviews: [],
+  faqs: [],
 };
 
 const getDetails = (program: Program): ProgramDetails => ({
@@ -44,6 +48,8 @@ const getDetails = (program: Program): ProgramDetails => ({
   courseIncludes: program.details?.courseIncludes || [],
   quickQuestions: program.details?.quickQuestions || [],
   careerOutcomesLogos: program.details?.careerOutcomesLogos || [],
+  reviews: program.details?.reviews || [],
+  faqs: program.details?.faqs || [],
 });
 
 export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props) {
@@ -52,6 +58,8 @@ export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props
   const [error, setError] = useState("");
   const [careerLogos, setCareerLogos] = useState<string[]>([]);
   const [careerPickerOpen, setCareerPickerOpen] = useState(false);
+  const reviewFileRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const [faqSavingIndex, setFaqSavingIndex] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/career")
@@ -175,6 +183,25 @@ export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props
     reader.readAsDataURL(file);
   };
 
+  const handleSidebarMediaChange = (file: File | undefined) => {
+    if (!file) return;
+    if (!file.type.startsWith("image/") && !file.type.startsWith("video/")) {
+      setError("Sidebar media must be an image or video file.");
+      return;
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      setError("Sidebar media must be smaller than 20 MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      updateDetails("sidebarMediaUrl", String(reader.result || ""));
+      setError("");
+    };
+    reader.readAsDataURL(file);
+  };
+
   const toggleCareerLogo = (title: string) => {
     updateDetails(
       "careerOutcomesLogos",
@@ -184,31 +211,137 @@ export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props
     );
   };
 
+  const addReview = () =>
+    updateDetails("reviews", [...details.reviews, { name: "", review: "", image: "" }]);
+
+  const updateReview = (
+    index: number,
+    field: keyof ProgramReview,
+    value: string
+  ) =>
+    updateDetails(
+      "reviews",
+      details.reviews.map((review, reviewIndex) =>
+        reviewIndex === index ? { ...review, [field]: value } : review
+      )
+    );
+
+  const removeReview = (index: number) =>
+    updateDetails(
+      "reviews",
+      details.reviews.filter((_, reviewIndex) => reviewIndex !== index)
+    );
+
+  const addFaq = () =>
+    updateDetails("faqs", [...details.faqs, { question: "", answer: "" }]);
+
+  const updateFaq = (
+    index: number,
+    field: keyof ProgramFaq,
+    value: string
+  ) =>
+    updateDetails(
+      "faqs",
+      details.faqs.map((faq, faqIndex) =>
+        faqIndex === index ? { ...faq, [field]: value } : faq
+      )
+    );
+
+  const removeFaq = (index: number) =>
+    updateDetails(
+      "faqs",
+      details.faqs.filter((_, faqIndex) => faqIndex !== index)
+    );
+
+  const saveProgramDetails = async (nextDetails = details) => {
+    const response = await fetch(`/api/programs/${program._id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        category: program.category,
+        name: program.name,
+        duration: program.duration,
+        heroPara: program.heroPara || "",
+        heroHeading: program.heroHeading || "",
+        heroAbout: program.heroAbout || "",
+        heroPoints: program.heroPoints || [],
+        details: nextDetails,
+      }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Failed to save details");
+    onSaved();
+  };
+
+  const saveFaq = async (index: number) => {
+    const faq = details.faqs[index];
+    if (!faq.question.trim() || !faq.answer.trim()) {
+      setError("Add both a question and an answer before saving the FAQ.");
+      return;
+    }
+
+    setFaqSavingIndex(index);
+    setError("");
+    try {
+      await saveProgramDetails();
+    } catch (saveError) {
+      setError((saveError as Error).message);
+    } finally {
+      setFaqSavingIndex(null);
+    }
+  };
+
+  const deleteFaq = async (index: number) => {
+    const nextDetails = {
+      ...details,
+      faqs: details.faqs.filter((_, faqIndex) => faqIndex !== index),
+    };
+    setFaqSavingIndex(index);
+    setError("");
+    try {
+      await saveProgramDetails(nextDetails);
+      setDetails(nextDetails);
+    } catch (saveError) {
+      setError((saveError as Error).message);
+    } finally {
+      setFaqSavingIndex(null);
+    }
+  };
+
+  const handleReviewImageChange = async (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setError("Review image must be an image file.");
+      return;
+    }
+    if (file.size > MAX_RAW_IMAGE_BYTES) {
+      setError("Review image must be smaller than 10 MB.");
+      return;
+    }
+
+    try {
+      const image = await compressImageToDataUrl(file);
+      updateReview(index, "image", image);
+      setError("");
+    } catch (imageError) {
+      setError((imageError as Error).message);
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setStatus("saving");
     setError("");
 
     try {
-      const response = await fetch(`/api/programs/${program._id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          category: program.category,
-          name: program.name,
-          duration: program.duration,
-          heroPara: program.heroPara || "",
-          heroHeading: program.heroHeading || "",
-          heroAbout: program.heroAbout || "",
-          heroPoints: program.heroPoints || [],
-          details,
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Failed to save details");
-      onSaved();
-      onBack();
+      await saveProgramDetails();
+      setStatus("idle");
     } catch (saveError) {
       setStatus("error");
       setError((saveError as Error).message);
@@ -310,6 +443,7 @@ export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props
               </div>
             ))}
           </div>
+
         </section>
 
         <section className={styles.formSection}>
@@ -391,6 +525,20 @@ export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props
           />
           {details.brochureUrl && (
             <p className={styles.uploaded}>Brochure selected and ready to save.</p>
+          )}
+
+          <label className={styles.label} htmlFor="sidebar-media-upload">
+            Sidebar Media
+          </label>
+          <input
+            id="sidebar-media-upload"
+            className={styles.input}
+            type="file"
+            accept="image/*,video/*"
+            onChange={(event) => handleSidebarMediaChange(event.target.files?.[0])}
+          />
+          {details.sidebarMediaUrl && (
+            <p className={styles.uploaded}>Sidebar media selected and ready to save.</p>
           )}
 
           <div className={styles.moduleHeader}>
@@ -528,6 +676,156 @@ export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props
               </div>
             </div>
           )}
+
+        </section>
+
+        <section className={styles.formSection}>
+
+          <h2 className={styles.sectionHeading}>Reviews</h2>
+          <div className={styles.moduleHeader}>
+            <button type="button" className={styles.addButton} onClick={addReview}>
+              Add Review
+            </button>
+          </div>
+          <p className={styles.helperText}>
+            Add student reviews to display below Career Outcomes on this program page.
+          </p>
+          <div className={styles.modules}>
+            {details.reviews.map((review, index) => (
+              <div className={styles.module} key={`review-${index}`}>
+                <div className={styles.moduleTopline}>
+                  <strong>Review {index + 1}</strong>
+                  <button
+                    type="button"
+                    className={styles.deleteButton}
+                    onClick={() => removeReview(index)}
+                  >
+                    Delete Review
+                  </button>
+                </div>
+                <label className={styles.label} htmlFor={`program-review-name-${index}`}>
+                  Name
+                </label>
+                <input
+                  id={`program-review-name-${index}`}
+                  className={styles.input}
+                  value={review.name}
+                  placeholder="Student name"
+                  onChange={(event) => updateReview(index, "name", event.target.value)}
+                />
+                <label className={styles.label} htmlFor={`program-review-text-${index}`}>
+                  Review
+                </label>
+                <textarea
+                  id={`program-review-text-${index}`}
+                  className={styles.textarea}
+                  rows={4}
+                  value={review.review}
+                  placeholder="What did the student say?"
+                  onChange={(event) => updateReview(index, "review", event.target.value)}
+                />
+                <label className={styles.label} htmlFor={`program-review-image-${index}`}>
+                  Image
+                </label>
+                <div className={styles.reviewImageField}>
+                  {review.image && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={review.image} alt="" className={styles.reviewImagePreview} />
+                  )}
+                  <input
+                    ref={(element) => { reviewFileRefs.current[index] = element; }}
+                    id={`program-review-image-${index}`}
+                    type="file"
+                    accept="image/*"
+                    className={styles.fileInput}
+                    onChange={(event) => handleReviewImageChange(index, event)}
+                  />
+                  {review.image && (
+                    <button
+                      type="button"
+                      className={styles.deleteButton}
+                      onClick={() => {
+                        updateReview(index, "image", "");
+                        const input = reviewFileRefs.current[index];
+                        if (input) input.value = "";
+                      }}
+                    >
+                      Remove Image
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </section>
+
+        <section className={styles.formSection}>
+
+          <h2 className={styles.sectionHeading}>FAQ</h2>
+          <div className={styles.moduleHeader}>
+            <button type="button" className={styles.addButton} onClick={addFaq}>
+              Add FAQ
+            </button>
+          </div>
+          <p className={styles.helperText}>
+            Add questions and answers to display below the student reviews on this program page.
+          </p>
+          <div className={styles.modules}>
+            {details.faqs.map((faq, index) => (
+              <div className={styles.module} key={`program-faq-${index}`}>
+                <div className={styles.moduleTopline}>
+                  <strong>FAQ {index + 1}</strong>
+                  <button
+                    type="button"
+                    className={styles.deleteButton}
+                    onClick={() => removeFaq(index)}
+                  >
+                    Delete FAQ
+                  </button>
+                </div>
+                <label className={styles.label} htmlFor={`program-faq-question-${index}`}>
+                  Question
+                </label>
+                <input
+                  id={`program-faq-question-${index}`}
+                  className={styles.input}
+                  value={faq.question}
+                  placeholder="Enter the question"
+                  onChange={(event) => updateFaq(index, "question", event.target.value)}
+                />
+                <label className={styles.label} htmlFor={`program-faq-answer-${index}`}>
+                  Answer
+                </label>
+                <textarea
+                  id={`program-faq-answer-${index}`}
+                  className={styles.textarea}
+                  rows={4}
+                  value={faq.answer}
+                  placeholder="Enter the answer"
+                  onChange={(event) => updateFaq(index, "answer", event.target.value)}
+                />
+                <div className={styles.faqActions}>
+                  <button
+                    type="button"
+                    className={styles.addButton}
+                    onClick={() => saveFaq(index)}
+                    disabled={faqSavingIndex === index}
+                  >
+                    {faqSavingIndex === index ? "Saving..." : "Save FAQ"}
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.deleteButton}
+                    onClick={() => deleteFaq(index)}
+                    disabled={faqSavingIndex === index}
+                  >
+                    Remove FAQ
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
 
         <button type="submit" className={styles.saveButton} disabled={status === "saving"}>

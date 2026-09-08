@@ -1,9 +1,8 @@
 import Navbar from "../../components/Navbar";
 import CourseHero from "../../components/CourseHero";
 import AccountingCurriculum from "../../components/AccountingCurriculum";
-import AccountingCareerOutcomes from "../../components/AccountingCareerOutcomes";
 import CourseTestimonials from "../../components/CourseTestimonials";
-import AccountingFAQ from "../../components/AccountingFAQ";
+import ProgramFaqSection from "../../components/ProgramFaqSection";
 import CourseCTA from "../../components/CourseCTA";
 import Footer from "../../components/Footer";
 import PageBackground from "../../components/PageBackground";
@@ -36,10 +35,12 @@ export default function AiIntegratedAccountingTaxation() {
           details={details}
         />
         <AccountingCurriculum />
-        <AccountingCareerOutcomes />
-        <CourseTestimonials />
-        <AccountingFAQ />
-        <CourseCTA />
+        <CourseTestimonials programName="AI Integrated Accounting & Taxation" />
+        <ProgramFaqSection programName="AI Integrated Accounting & Taxation" />
+        <CourseCTA
+          programName="AI Integrated Accounting & Taxation"
+          category="Offline"
+        />
       </div>
       <Footer />
     </>

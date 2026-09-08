@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import getClientPromise from "../../../lib/mongodb";
+import { getExistingProgramFaqs } from "../../lib/programFaqs";
 
 export const dynamic = "force-dynamic";
 
@@ -51,6 +52,29 @@ const normalizeDetails = (value: unknown) => {
         })
         .filter((item) => item.heading || item.para)
     : [];
+  const reviews = Array.isArray(details.reviews)
+    ? details.reviews
+        .map((item) => {
+          const review = item as { name?: unknown; review?: unknown; image?: unknown };
+          return {
+            name: String(review?.name || "").trim(),
+            review: String(review?.review || "").trim(),
+            image: String(review?.image || "").trim(),
+          };
+        })
+        .filter((item) => item.name || item.review || item.image)
+    : [];
+  const faqs = Array.isArray(details.faqs)
+    ? details.faqs
+        .map((item) => {
+          const faq = item as { question?: unknown; answer?: unknown };
+          return {
+            question: String(faq?.question || "").trim(),
+            answer: String(faq?.answer || "").trim(),
+          };
+        })
+        .filter((item) => item.question || item.answer)
+    : [];
 
   return {
     overview: String(details.overview || "").trim(),
@@ -62,12 +86,15 @@ const normalizeDetails = (value: unknown) => {
     benefitsItems,
     intakeCount: String(details.intakeCount || "").trim(),
     brochureUrl: String(details.brochureUrl || "").trim(),
+    sidebarMediaUrl: String(details.sidebarMediaUrl || "").trim(),
     courseIncludes,
     quickQuestions,
     careerOutcomesPara: String(details.careerOutcomesPara || "").trim(),
     careerOutcomesLogos: Array.isArray(details.careerOutcomesLogos)
       ? details.careerOutcomesLogos.map((item) => String(item || "").trim()).filter(Boolean)
       : [],
+    reviews,
+    faqs,
   };
 };
 
@@ -93,6 +120,20 @@ export async function GET() {
       .find({})
       .sort({ createdAt: -1 })
       .toArray();
+
+    await Promise.all(
+      programs.map(async (program) => {
+        const existingFaqs = program.details?.faqs;
+        const seededFaqs = getExistingProgramFaqs(String(program.name || ""));
+        if (Array.isArray(existingFaqs) && existingFaqs.length > 0 || seededFaqs.length === 0) return;
+
+        await client.db(DB_NAME).collection(COLLECTION).updateOne(
+          { _id: program._id },
+          { $set: { "details.faqs": seededFaqs } }
+        );
+        program.details = { ...(program.details || {}), faqs: seededFaqs };
+      })
+    );
 
     return NextResponse.json({ programs });
   } catch (error) {

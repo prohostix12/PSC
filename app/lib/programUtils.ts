@@ -12,6 +12,17 @@ export type CourseModule = {
   para: string;
 };
 
+export type ProgramReview = {
+  name: string;
+  review: string;
+  image: string;
+};
+
+export type ProgramFaq = {
+  question: string;
+  answer: string;
+};
+
 export type ProgramDetails = {
   overview: string;
   curriculumHeading: string;
@@ -21,10 +32,13 @@ export type ProgramDetails = {
   benefitsItems: CourseModule[];
   intakeCount: string;
   brochureUrl: string;
+  sidebarMediaUrl: string;
   courseIncludes: string[];
   quickQuestions: CourseModule[];
   careerOutcomesPara: string;
   careerOutcomesLogos: string[];
+  reviews: ProgramReview[];
+  faqs: ProgramFaq[];
 };
 
 export type Program = {

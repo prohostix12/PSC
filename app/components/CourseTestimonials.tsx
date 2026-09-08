@@ -1,29 +1,6 @@
+import getClientPromise from "../../lib/mongodb";
 import SketchFrame from "./SketchFrame";
 import styles from "./CourseTestimonials.module.css";
-
-const testimonials = [
-  {
-    name: "Salman",
-    role: "Student",
-    initial: "S",
-    color: "#f5a623",
-    text: "The AI Integrated Digital Marketing course was highly practical and future-focused. Learning automation, analytics, and AI-driven strategies helped me improve efficiency and stay ahead in the competitive digital marketing field.",
-  },
-  {
-    name: "Shahin Sha",
-    role: "Student",
-    initial: "S",
-    color: "#d92b3f",
-    text: "I completed the AI Integrated Digital Marketing course at Skillage Academy. The blend of AI tools with SEO, ads, and content marketing gave me real-world skills and confidence to handle modern digital marketing projects effectively.",
-  },
-  {
-    name: "Raliya",
-    role: "Student",
-    initial: "R",
-    color: "#2451e0",
-    text: "This course helped me understand how AI can simplify digital marketing tasks. From content creation to campaign optimization, the practical training made learning easy, smart, and industry-ready.",
-  },
-];
 
 function QuoteMark() {
   return (
@@ -46,7 +23,35 @@ function QuoteMark() {
   );
 }
 
-export default function CourseTestimonials() {
+type Props = {
+  programName: string;
+};
+
+export default async function CourseTestimonials({ programName }: Props) {
+  let testimonials: Array<{ name: string; review: string; image: string }> = [];
+
+  try {
+    const client = await getClientPromise();
+    const program = await client
+      .db("psc")
+      .collection("programs")
+      .findOne({ name: { $regex: `^${programName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`, $options: "i" } });
+    const reviews = program?.details?.reviews;
+    testimonials = Array.isArray(reviews)
+      ? reviews
+          .map((review) => ({
+            name: String(review?.name || "").trim(),
+            review: String(review?.review || "").trim(),
+            image: String(review?.image || "").trim(),
+          }))
+          .filter((review) => review.name || review.review || review.image)
+      : [];
+  } catch {
+    testimonials = [];
+  }
+
+  if (testimonials.length === 0) return null;
+
   return (
     <section className={styles.section}>
       <h2 className={styles.heading}>What Our Students Saying</h2>
@@ -60,15 +65,17 @@ export default function CourseTestimonials() {
             }`}
           >
             <div className={styles.person}>
-              <span
-                className={styles.avatar}
-                style={{ background: testimonial.color }}
-              >
-                {testimonial.initial}
-              </span>
+                {testimonial.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={testimonial.image} alt={testimonial.name} className={styles.avatarImage} />
+                ) : (
+                  <span className={styles.avatar}>
+                    {testimonial.name.charAt(0).toUpperCase() || "S"}
+                  </span>
+                )}
               <div>
                 <p className={styles.name}>{testimonial.name}</p>
-                <p className={styles.role}>{testimonial.role}</p>
+                <p className={styles.role}>Student</p>
               </div>
             </div>
 
@@ -77,7 +84,7 @@ export default function CourseTestimonials() {
               <span className={styles.quoteMark}>
                 <QuoteMark />
               </span>
-              <p className={styles.quoteText}>{testimonial.text}</p>
+              <p className={styles.quoteText}>{testimonial.review}</p>
             </div>
           </div>
         ))}

@@ -2,9 +2,8 @@ import Navbar from "../../components/Navbar";
 import CourseHero from "../../components/CourseHero";
 import BusinessCurriculum from "../../components/BusinessCurriculum";
 import WhyChooseBusiness from "../../components/WhyChooseBusiness";
-import BusinessCareerOutcomes from "../../components/BusinessCareerOutcomes";
 import CourseTestimonials from "../../components/CourseTestimonials";
-import BusinessFAQ from "../../components/BusinessFAQ";
+import ProgramFaqSection from "../../components/ProgramFaqSection";
 import CourseCTA from "../../components/CourseCTA";
 import Footer from "../../components/Footer";
 import PageBackground from "../../components/PageBackground";
@@ -44,10 +43,12 @@ export default function BusinessAdministrationHospitalManagement() {
         />
         <BusinessCurriculum />
         <WhyChooseBusiness />
-        <BusinessCareerOutcomes />
-        <CourseTestimonials />
-        <BusinessFAQ />
-        <CourseCTA />
+        <CourseTestimonials programName="Business Administration & Hospital Management" />
+        <ProgramFaqSection programName="Business Administration & Hospital Management" />
+        <CourseCTA
+          programName="Business Administration & Hospital Management"
+          category="Online & Offline"
+        />
       </div>
       <Footer />
     </>
