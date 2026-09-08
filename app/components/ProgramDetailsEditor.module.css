@@ -215,6 +215,47 @@
   margin-top: 4px;
 }
 
+.faqDraft {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 18px;
+  border: 1px solid #dbe1ef;
+  border-radius: 10px;
+  background: #f8faff;
+}
+
+.faqTableWrap {
+  overflow-x: auto;
+  border: 1px solid #e1e6f2;
+  border-radius: 10px;
+}
+
+.faqTable {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+.faqTable th {
+  padding: 13px 14px;
+  color: #0f1b3d;
+  background: #f4f7ff;
+  font-size: 12px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.faqTable td {
+  padding: 14px;
+  border-top: 1px solid #eef1f8;
+  color: #24304d;
+  font-size: 13px;
+  vertical-align: top;
+}
+
 .logoPickerOverlay {
   position: fixed;
   inset: 0;

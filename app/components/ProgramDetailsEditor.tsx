@@ -60,6 +60,8 @@ export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props
   const [careerPickerOpen, setCareerPickerOpen] = useState(false);
   const reviewFileRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [faqSavingIndex, setFaqSavingIndex] = useState<number | null>(null);
+  const [faqDraft, setFaqDraft] = useState<ProgramFaq | null>(null);
+  const [faqEditingIndex, setFaqEditingIndex] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/career")
@@ -232,26 +234,10 @@ export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props
       details.reviews.filter((_, reviewIndex) => reviewIndex !== index)
     );
 
-  const addFaq = () =>
-    updateDetails("faqs", [...details.faqs, { question: "", answer: "" }]);
-
-  const updateFaq = (
-    index: number,
-    field: keyof ProgramFaq,
-    value: string
-  ) =>
-    updateDetails(
-      "faqs",
-      details.faqs.map((faq, faqIndex) =>
-        faqIndex === index ? { ...faq, [field]: value } : faq
-      )
-    );
-
-  const removeFaq = (index: number) =>
-    updateDetails(
-      "faqs",
-      details.faqs.filter((_, faqIndex) => faqIndex !== index)
-    );
+  const addFaq = () => {
+    setFaqEditingIndex(null);
+    setFaqDraft({ question: "", answer: "" });
+  };
 
   const saveProgramDetails = async (nextDetails = details) => {
     const response = await fetch(`/api/programs/${program._id}`, {
@@ -275,7 +261,8 @@ export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props
   };
 
   const saveFaq = async (index: number) => {
-    const faq = details.faqs[index];
+    const faq = faqDraft || details.faqs[index];
+    if (!faq) return;
     if (!faq.question.trim() || !faq.answer.trim()) {
       setError("Add both a question and an answer before saving the FAQ.");
       return;
@@ -284,13 +271,26 @@ export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props
     setFaqSavingIndex(index);
     setError("");
     try {
-      await saveProgramDetails();
+      const nextFaqs =
+        faqEditingIndex === null
+          ? [...details.faqs, faq]
+          : details.faqs.map((item, itemIndex) =>
+              itemIndex === faqEditingIndex ? faq : item
+            );
+      const nextDetails = { ...details, faqs: nextFaqs };
+      await saveProgramDetails(nextDetails);
+      setDetails(nextDetails);
+      setFaqDraft(null);
+      setFaqEditingIndex(null);
     } catch (saveError) {
       setError((saveError as Error).message);
     } finally {
       setFaqSavingIndex(null);
     }
   };
+
+  const updateFaqDraft = (field: keyof ProgramFaq, value: string) =>
+    setFaqDraft((current) => (current ? { ...current, [field]: value } : current));
 
   const deleteFaq = async (index: number) => {
     const nextDetails = {
@@ -771,60 +771,57 @@ export default function ProgramDetailsEditor({ program, onBack, onSaved }: Props
           <p className={styles.helperText}>
             Add questions and answers to display below the student reviews on this program page.
           </p>
-          <div className={styles.modules}>
-            {details.faqs.map((faq, index) => (
-              <div className={styles.module} key={`program-faq-${index}`}>
-                <div className={styles.moduleTopline}>
-                  <strong>FAQ {index + 1}</strong>
-                  <button
-                    type="button"
-                    className={styles.deleteButton}
-                    onClick={() => removeFaq(index)}
-                  >
-                    Delete FAQ
-                  </button>
-                </div>
-                <label className={styles.label} htmlFor={`program-faq-question-${index}`}>
-                  Question
-                </label>
-                <input
-                  id={`program-faq-question-${index}`}
-                  className={styles.input}
-                  value={faq.question}
-                  placeholder="Enter the question"
-                  onChange={(event) => updateFaq(index, "question", event.target.value)}
-                />
-                <label className={styles.label} htmlFor={`program-faq-answer-${index}`}>
-                  Answer
-                </label>
-                <textarea
-                  id={`program-faq-answer-${index}`}
-                  className={styles.textarea}
-                  rows={4}
-                  value={faq.answer}
-                  placeholder="Enter the answer"
-                  onChange={(event) => updateFaq(index, "answer", event.target.value)}
-                />
-                <div className={styles.faqActions}>
-                  <button
-                    type="button"
-                    className={styles.addButton}
-                    onClick={() => saveFaq(index)}
-                    disabled={faqSavingIndex === index}
-                  >
-                    {faqSavingIndex === index ? "Saving..." : "Save FAQ"}
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.deleteButton}
-                    onClick={() => deleteFaq(index)}
-                    disabled={faqSavingIndex === index}
-                  >
-                    Remove FAQ
-                  </button>
-                </div>
+          {faqDraft && (
+            <div className={styles.faqDraft}>
+              <label className={styles.label} htmlFor="program-faq-draft-question">Question</label>
+              <input
+                id="program-faq-draft-question"
+                className={styles.input}
+                value={faqDraft.question}
+                placeholder="Enter the question"
+                onChange={(event) => updateFaqDraft("question", event.target.value)}
+              />
+              <label className={styles.label} htmlFor="program-faq-draft-answer">Answer</label>
+              <textarea
+                id="program-faq-draft-answer"
+                className={styles.textarea}
+                rows={4}
+                value={faqDraft.answer}
+                placeholder="Enter the answer"
+                onChange={(event) => updateFaqDraft("answer", event.target.value)}
+              />
+              <div className={styles.faqActions}>
+                <button type="button" className={styles.addButton} onClick={() => saveFaq(-1)}>
+                  Save FAQ
+                </button>
+                <button type="button" className={styles.deleteButton} onClick={() => setFaqDraft(null)}>
+                  Cancel
+                </button>
               </div>
-            ))}
+            </div>
+          )}
+          <div className={styles.faqTableWrap}>
+            <table className={styles.faqTable}>
+              <thead><tr><th>Question</th><th>Answer</th><th>Actions</th></tr></thead>
+              <tbody>
+                {details.faqs.map((faq, index) => (
+                  <tr key={`program-faq-${index}`}>
+                    <td>{faq.question || "-"}</td>
+                    <td>{faq.answer || "-"}</td>
+                    <td>
+                      <div className={styles.faqActions}>
+                        <button type="button" className={styles.addButton} onClick={() => { setFaqEditingIndex(index); setFaqDraft(faq); }}>
+                          Update
+                        </button>
+                        <button type="button" className={styles.deleteButton} onClick={() => deleteFaq(index)} disabled={faqSavingIndex === index}>
+                          {faqSavingIndex === index ? "Removing..." : "Remove"}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </section>
 

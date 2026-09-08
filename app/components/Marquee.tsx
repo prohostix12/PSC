@@ -95,7 +95,7 @@ export default function Marquee() {
   const track = [...block, ...block];
 
   // Constant scroll speed regardless of how long the track ends up being.
-  const duration = Math.max(10, block.length * 1.8);
+  const duration = Math.max(10, block.length * 3.2);
 
   return (
     <div className={styles.ticker}>
