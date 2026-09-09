@@ -4,7 +4,16 @@ import Marquee from "../components/Marquee";
 import BlogsGrid from "../components/BlogsGrid";
 import Footer from "../components/Footer";
 import PageBackground from "../components/PageBackground";
+import { Metadata } from "next";
 import styles from "../page.module.css";
+
+export const metadata: Metadata = {
+  title: "Blogs | Professional Skill Campus",
+  description: "Practical guides, industry updates, and career advice from the Professional Skill Campus team to help you learn smarter and grow faster.",
+  alternates: {
+    canonical: "/blogs",
+  },
+};
 
 export default function Blogs() {
   return (

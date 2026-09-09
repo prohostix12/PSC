@@ -68,10 +68,13 @@ export default function ContactFormSection() {
           <input
             type="tel"
             name="phone"
-            placeholder="Phone"
+            placeholder="10-digit mobile number"
             className={styles.input}
             value={form.phone}
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            onChange={(e) => setForm({ ...form, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
+            pattern="[0-9]{10}"
+            title="Phone number must be exactly 10 digits"
+            maxLength={10}
             required
           />
           <input
@@ -81,6 +84,8 @@ export default function ContactFormSection() {
             className={styles.input}
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
+            pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+            title="Please enter a valid email address"
             required
           />
           <textarea

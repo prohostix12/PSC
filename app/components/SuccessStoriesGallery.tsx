@@ -13,7 +13,7 @@ import type { SuccessCategory } from "../lib/successStoryUtils";
 const CARD_SPAN_PX = 320;
 
 export default function SuccessStoriesGallery() {
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<{ src: string; alt: string }[]>([]);
   // Tracks the real viewport width so the repeated block is sized against
   // the screen that's actually showing it, not a fixed guess — a fixed
   // guess is exactly what let ultrawide screens outrun the block and hit
@@ -43,7 +43,7 @@ export default function SuccessStoriesGallery() {
             ? data.categories
             : [];
           const allImages = categories.flatMap((category) =>
-            category.images.map((image) => image.src)
+            category.images.map((image) => ({ src: image.src, alt: `Success story from ${category.name}` }))
           );
           if (allImages.length > 0) setImages(allImages);
         })
@@ -82,12 +82,12 @@ export default function SuccessStoriesGallery() {
 
       <div className={styles.viewport}>
         <div className={styles.track}>
-          {track.map((src, i) => (
+          {track.map((item, i) => (
             <div className={styles.card} key={i}>
               <SketchFrame rx={20} />
               <div className={styles.photoWrap}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt="" className={styles.photo} />
+                <img src={item.src} alt={item.alt} className={styles.photo} />
               </div>
             </div>
           ))}

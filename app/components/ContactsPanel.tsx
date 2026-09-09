@@ -228,9 +228,12 @@ export default function ContactsPanel() {
               id="contact-phone"
               type="tel"
               className={styles.input}
-              placeholder="+91 00000 00000"
+              placeholder="10-digit mobile number"
               value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              onChange={(e) => setForm({ ...form, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
+              pattern="[0-9]{10}"
+              title="Phone number must be exactly 10 digits"
+              maxLength={10}
             />
           </div>
 
@@ -242,11 +245,14 @@ export default function ContactsPanel() {
               id="contact-secondary-phone"
               type="tel"
               className={styles.input}
-              placeholder="+91 00000 00000"
+              placeholder="10-digit mobile number"
               value={form.secondaryPhone}
               onChange={(e) =>
-                setForm({ ...form, secondaryPhone: e.target.value })
+                setForm({ ...form, secondaryPhone: e.target.value.replace(/\D/g, '').slice(0, 10) })
               }
+              pattern="[0-9]{10}"
+              title="Phone number must be exactly 10 digits"
+              maxLength={10}
             />
           </div>
         </div>
@@ -262,6 +268,8 @@ export default function ContactsPanel() {
             placeholder="you@example.com"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
+            pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+            title="Please enter a valid email address"
           />
         </div>
 

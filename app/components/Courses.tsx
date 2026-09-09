@@ -90,9 +90,9 @@ export default function Courses() {
   return (
     <section id="courses" className={styles.section}>
       <div className={styles.header}>
-        <h2 className={styles.heading}>Our Courses</h2>
+        <h2 className={styles.heading}>What courses are available?</h2>
         <p className={styles.subheading}>
-          Explore industry-ready courses designed to build practical skills
+          Professional Skill Campus offers industry-ready courses designed to build practical skills
           and prepare you for real career success.
         </p>
       </div>

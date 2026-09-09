@@ -4,6 +4,7 @@ import Footer from "../../components/Footer";
 import PageBackground from "../../components/PageBackground";
 import getClientPromise from "../../../lib/mongodb";
 import { eventSlug, type EventItem } from "../../lib/eventUtils";
+import { getSiteUrl } from "../../lib/getSiteUrl";
 import pageStyles from "../../page.module.css";
 import styles from "./page.module.css";
 
@@ -49,6 +50,38 @@ const titleFromSlug = (slug: string) =>
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(" ");
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const events = await loadEvents();
+  const event = events.find((e) => eventSlug(e.eventName) === slug);
+  const name = event?.eventName ?? titleFromSlug(slug);
+
+  const title = `${name} | Events at Professional Skill Campus`;
+  const description = event?.sections?.[0]?.paragraph?.substring(0, 150) || `Check out ${name} at Professional Skill Campus. View event details and gallery.`;
+  const image = event?.image || undefined;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/events/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `/events/${slug}`,
+      type: "website",
+      ...(image ? { images: [{ url: image }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      ...(image ? { images: [image] } : {}),
+    },
+  };
+}
+
 export default async function EventDetailPage({
   params,
 }: {
@@ -75,8 +108,41 @@ export default async function EventDetailPage({
     }
   }
 
+  const siteUrl = getSiteUrl();
+  const providerUrl = siteUrl || "https://professionalskillcampus.vercel.app";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": name,
+    "description": sections[0]?.paragraph || name,
+    "image": event?.image || "",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "location": {
+      "@type": "Place",
+      "name": "Professional Skill Campus",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Tirur",
+        "addressRegion": "Kerala",
+        "postalCode": "676101",
+        "addressCountry": "IN"
+      }
+    },
+    "organizer": {
+      "@type": "Organization",
+      "name": "Professional Skill Campus",
+      "url": providerUrl
+    }
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <div className={pageStyles.pageContent}>
         <PageBackground />

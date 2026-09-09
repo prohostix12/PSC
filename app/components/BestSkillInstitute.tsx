@@ -49,6 +49,7 @@ export default function BestSkillInstitute() {
 
       <div className={styles.body}>
         <div className={styles.textCol}>
+          <h3 className={styles.questionHeading}>What is Professional Skill Campus?</h3>
           <p className={styles.paragraph}>
             Professional Skill Campus is a renowned skill-based learning hub
             in Kochi, Kerala, that helps students and professionals develop

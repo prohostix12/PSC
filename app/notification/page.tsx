@@ -1,9 +1,18 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PageBackground from "../components/PageBackground";
+import { Metadata } from "next";
 import { notificationItems } from "../lib/notifications";
 import pageStyles from "../page.module.css";
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  title: "Notifications | Professional Skill Campus",
+  description: "Stay updated with the latest announcements, news, and updates from Professional Skill Campus.",
+  alternates: {
+    canonical: "/notification",
+  },
+};
 
 function BellIcon() {
   return (

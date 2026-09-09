@@ -31,9 +31,9 @@ export default function Certifications() {
   return (
     <section className={styles.section}>
       <div className={styles.header}>
-        <h2 className={styles.heading}>Our Certification</h2>
+        <h2 className={styles.heading}>What certifications are available?</h2>
         <p className={styles.subheading}>
-          Our certifications showcase the skills you&rsquo;ve developed
+          Professional Skill Campus certifications showcase the skills you&rsquo;ve developed
           through practical, hands-on learning. They stand as proof of your
           growth and job-ready expertise.
         </p>

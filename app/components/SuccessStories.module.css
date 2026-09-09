@@ -16,7 +16,7 @@
   font-family: var(--font-bitcount-prop-single), sans-serif;
   font-size: clamp(28px, 4vw, 40px);
   font-weight: 800;
-  color: #3d1a0f;
+  color: #000;
   margin: 0 0 12px;
 }
 

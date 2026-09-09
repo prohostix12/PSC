@@ -9,7 +9,16 @@ import Reviews from "../components/Reviews";
 import ConsultationForm from "../components/ConsultationForm";
 import Footer from "../components/Footer";
 import PageBackground from "../components/PageBackground";
+import { Metadata } from "next";
 import styles from "../page.module.css";
+
+export const metadata: Metadata = {
+  title: "About Us | Professional Skill Campus",
+  description: "Get to know Professional Skill Campus — our story, our mission, and the promise we make to every student to build skills and shape careers.",
+  alternates: {
+    canonical: "/about-psc",
+  },
+};
 
 export default function AboutPsc() {
   return (

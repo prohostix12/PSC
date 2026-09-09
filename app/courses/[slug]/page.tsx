@@ -5,6 +5,7 @@ import CourseHero from "../../components/CourseHero";
 import CourseCTA from "../../components/CourseCTA";
 import ProgramDetailsSection from "../../components/ProgramDetailsSection";
 import getClientPromise from "../../../lib/mongodb";
+import { getSiteUrl } from "../../lib/getSiteUrl";
 import {
   normalizeProgramPoint,
   programSlug,
@@ -58,6 +59,34 @@ const titleFromSlug = (slug: string) =>
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(" ");
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const program = await findProgram(slug);
+  const name = program?.name ?? titleFromSlug(slug);
+
+  const title = `${name} | Professional Skill Campus`;
+  const description = program?.heroAbout || `Learn ${name} at Professional Skill Campus. Join our specialized program to accelerate your career.`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/courses/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `/courses/${slug}`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
+
 export default async function CoursePage({
   params,
 }: {
@@ -87,8 +116,42 @@ export default async function CoursePage({
       subtitle: point.para,
     }));
 
+  const siteUrl = getSiteUrl();
+  const providerUrl = siteUrl || "https://professionalskillcampus.vercel.app";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": name,
+    "description": heroAbout,
+    "provider": {
+      "@type": "Organization",
+      "name": "Professional Skill Campus",
+      "sameAs": providerUrl
+    },
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": program?.category?.toLowerCase().includes("online") ? "online" : "blended",
+      "location": {
+        "@type": "Place",
+        "name": "Professional Skill Campus",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Tirur",
+          "addressRegion": "Kerala",
+          "postalCode": "676101",
+          "addressCountry": "IN"
+        }
+      }
+    }
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <div className={pageStyles.pageContent}>
         <PageBackground />

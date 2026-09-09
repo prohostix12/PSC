@@ -9,6 +9,9 @@ import Footer from "../../components/Footer";
 import PageBackground from "../../components/PageBackground";
 import styles from "../../page.module.css";
 
+import { getSiteUrl } from "../../lib/getSiteUrl";
+import { Metadata } from "next";
+
 const features = [
   {
     title: "Dual Expertise",
@@ -27,9 +30,62 @@ const details = [
   { label: "Intake", value: "40" },
 ];
 
+export const metadata: Metadata = {
+  title: "Business Administration & Hospital Management Course | Professional Skill Campus",
+  description: "Master modern business concepts and healthcare administration with Professional Skill Campus. Get certified and placement-ready.",
+  alternates: {
+    canonical: "/courses/business-administration-hospital-management",
+  },
+  openGraph: {
+    title: "Business Administration & Hospital Management Course | Professional Skill Campus",
+    description: "Master modern business concepts and healthcare administration with Professional Skill Campus. Get certified and placement-ready.",
+    url: "/courses/business-administration-hospital-management",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Business Administration & Hospital Management Course | Professional Skill Campus",
+    description: "Master modern business concepts and healthcare administration with Professional Skill Campus. Get certified and placement-ready.",
+  },
+};
+
 export default function BusinessAdministrationHospitalManagement() {
+  const siteUrl = getSiteUrl();
+  const providerUrl = siteUrl || "https://professionalskillcampus.vercel.app";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Business Administration & Hospital Management",
+    "description": "Master modern business concepts and healthcare administration with Professional Skill Campus.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Professional Skill Campus",
+      "sameAs": providerUrl
+    },
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "blended",
+      "location": {
+        "@type": "Place",
+        "name": "Professional Skill Campus",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Tirur",
+          "addressRegion": "Kerala",
+          "postalCode": "676101",
+          "addressCountry": "IN"
+        }
+      }
+    }
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <div className={styles.pageContent}>
         <PageBackground />

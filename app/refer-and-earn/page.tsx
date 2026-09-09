@@ -4,7 +4,16 @@ import Marquee from "../components/Marquee";
 import ReferEarnContent from "../components/ReferEarnContent";
 import Footer from "../components/Footer";
 import PageBackground from "../components/PageBackground";
+import { Metadata } from "next";
 import styles from "../page.module.css";
+
+export const metadata: Metadata = {
+  title: "Refer & Earn | Professional Skill Campus",
+  description: "Love your experience at Professional Skill Campus? Share it with a friend — when they enroll, you both get rewarded.",
+  alternates: {
+    canonical: "/refer-and-earn",
+  },
+};
 
 export default function ReferAndEarn() {
   return (

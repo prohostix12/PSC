@@ -8,6 +8,7 @@ import {
   formatBlogDate,
   type BlogItem,
 } from "../../lib/blogUtils";
+import { getSiteUrl } from "../../lib/getSiteUrl";
 import pageStyles from "../../page.module.css";
 import styles from "./page.module.css";
 
@@ -54,6 +55,38 @@ const titleFromSlug = (slug: string) =>
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(" ");
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const blogs = await loadBlogs();
+  const blog = blogs.find((b) => blogSlug(b.subject) === slug);
+  const name = blog?.subject ?? titleFromSlug(slug);
+
+  const title = `${name} | Blog | Professional Skill Campus`;
+  const description = blog?.sectionPara?.substring(0, 150) || `Read ${name} on the Professional Skill Campus blog.`;
+  const image = blog?.image || undefined;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/blogs/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `/blogs/${slug}`,
+      type: "article",
+      ...(image ? { images: [{ url: image }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      ...(image ? { images: [image] } : {}),
+    },
+  };
+}
+
 export default async function BlogDetailPage({
   params,
 }: {
@@ -80,8 +113,37 @@ export default async function BlogDetailPage({
     }
   }
 
+  const siteUrl = getSiteUrl();
+  const providerUrl = siteUrl || "https://professionalskillcampus.vercel.app";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": name,
+    "description": blog?.sectionPara || name,
+    "image": blog?.image || "",
+    "datePublished": blog?.uploadedDate ? new Date(blog?.uploadedDate).toISOString() : new Date().toISOString(),
+    "author": {
+      "@type": "Organization",
+      "name": "Professional Skill Campus",
+      "url": providerUrl
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Professional Skill Campus",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${providerUrl}/logo-main.png`
+      }
+    }
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <div className={pageStyles.pageContent}>
         <PageBackground />

@@ -7,6 +7,7 @@ import PageBackground from "../../components/PageBackground";
 import styles from "../../page.module.css";
 import getClientPromise from "../../../lib/mongodb";
 import { getExistingProgramFaqs } from "../../lib/programFaqs";
+import { getSiteUrl } from "../../lib/getSiteUrl";
 
 async function getProgram() {
   try {
@@ -37,11 +38,69 @@ async function getProgram() {
 
 export const dynamic = "force-dynamic";
 
+export async function generateMetadata() {
+  const program = await getProgram();
+  const title = program?.name ? `${program.name} | Professional Skill Campus` : "AI Integrated Digital Marketing Course | Professional Skill Campus";
+  const description = "Learn AI Integrated Digital Marketing at Professional Skill Campus. Get certified and ready for a successful career in digital marketing.";
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: "/courses/ai-integrated-digital-marketing",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "/courses/ai-integrated-digital-marketing",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
+
 export default async function AiIntegratedDigitalMarketing() {
   const program = await getProgram();
 
+  const siteUrl = getSiteUrl();
+  const providerUrl = siteUrl || "https://professionalskillcampus.vercel.app";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Gamified AI Integrated Digital Marketing",
+    "description": "Learn digital marketing strategies, SEO, SEM, and social media marketing at Professional Skill Campus.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Professional Skill Campus",
+      "sameAs": providerUrl
+    },
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "blended",
+      "location": {
+        "@type": "Place",
+        "name": "Professional Skill Campus",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Tirur",
+          "addressRegion": "Kerala",
+          "postalCode": "676101",
+          "addressCountry": "IN"
+        }
+      }
+    }
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <div className={styles.pageContent}>
         <PageBackground />
