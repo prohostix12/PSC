@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./Navbar.module.css";
-import AdmissionModal from "./AdmissionModal";
 import {
   usePrograms,
   programSlug,
@@ -94,7 +93,6 @@ function CoursesDropdown({ groups }: { groups: ProgramGroup[] }) {
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileProgramsOpen, setMobileProgramsOpen] = useState(false);
-  const [admissionOpen, setAdmissionOpen] = useState(false);
   const { groups: programGroups } = usePrograms();
   const pathname = usePathname();
   const router = useRouter();
@@ -145,15 +143,15 @@ export default function Navbar() {
           </a>
 
           <div className={styles.navItem}>
-            <a
-              href="#"
+            <button
+              type="button"
               className={`${styles.navLink} ${
                 pathname.startsWith("/courses") ? styles.navLinkActive : ""
               }`}
             >
               Programs
               <ChevronDown />
-            </a>
+            </button>
             <CoursesDropdown groups={programGroups} />
           </div>
 
@@ -163,14 +161,6 @@ export default function Navbar() {
           <a href="/gallery" className={linkClass("/gallery")}>
             Our Gallery
           </a>
-          <a
-            href={STUDENTS_LOGIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.navLink}
-          >
-            Students Login
-          </a>
           <a href="/blogs" className={linkClass("/blogs")}>
             Blogs
           </a>
@@ -179,13 +169,14 @@ export default function Navbar() {
           </a>
         </nav>
 
-        <button
-          type="button"
+        <a
+          href={STUDENTS_LOGIN_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className={styles.cta}
-          onClick={() => setAdmissionOpen(true)}
         >
-          Get an Admission
-        </button>
+          Students Login
+        </a>
 
         <button
           type="button"
@@ -220,16 +211,6 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-
-          <a
-            href={STUDENTS_LOGIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.mobileNavLink}
-            onClick={() => setIsOpen(false)}
-          >
-            Students Login
-          </a>
 
           {navLinksAfterLogin.map((link) => (
             <a
@@ -280,22 +261,17 @@ export default function Navbar() {
             </div>
           )}
         </nav>
-        <button
-          type="button"
+        <a
+          href={STUDENTS_LOGIN_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className={styles.mobileCta}
-          onClick={() => {
-            setIsOpen(false);
-            setAdmissionOpen(true);
-          }}
+          onClick={() => setIsOpen(false)}
         >
-          Get an Admission
-        </button>
+          Students Login
+        </a>
       </div>
 
-      <AdmissionModal
-        open={admissionOpen}
-        onClose={() => setAdmissionOpen(false)}
-      />
     </header>
   );
 }

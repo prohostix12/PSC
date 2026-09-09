@@ -387,12 +387,12 @@ export default function CourseCurriculum() {
               </div>
             ))}
 
-            <a href="#" className={styles.consultButton}>
+            <a href="/contact" className={styles.consultButton}>
               Book a Free Consultation
             </a>
-            <a href="#" className={styles.brochureButton}>
+            <span className={styles.brochureButton}>
               Download Brochure
-            </a>
+            </span>
           </div>
 
           <div className={styles.includesCard}>

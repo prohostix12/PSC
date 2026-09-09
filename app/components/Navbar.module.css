@@ -54,6 +54,12 @@
   white-space: nowrap;
   transition: color 0.2s ease;
   padding-bottom: 4px;
+  border: 0;
+  padding-left: 0;
+  padding-right: 0;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .navLink:hover {

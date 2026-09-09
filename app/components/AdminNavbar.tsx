@@ -20,7 +20,8 @@ export type AdminView =
   | "notifications"
   | "certifications"
   | "blogs"
-  | "career";
+  | "career"
+  | "settings";
 
 const NAV_ITEMS: { id: AdminView; label: string }[] = [
   { id: "dashboard", label: "Dashboard" },
@@ -110,10 +111,17 @@ export default function AdminNavbar({ active, onSelect }: Props) {
         ))}
         <button
           type="button"
+          onClick={() => onSelect("settings")}
+          className={`${styles.navLink} ${styles.settingsLink} ${active === "settings" ? styles.navLinkActive : ""}`}
+        >
+          Settings
+        </button>
+        <button
+          type="button"
           onClick={async () => {
             window.sessionStorage.removeItem(ADMIN_TAB_SESSION);
             await fetch("/api/admin/logout", { method: "POST" });
-            window.location.reload();
+            window.location.href = "/";
           }}
           className={`${styles.navLink} ${styles.logoutLink}`}
         >

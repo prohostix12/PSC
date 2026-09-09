@@ -20,7 +20,7 @@ export default function AboutUs() {
             successful careers.
           </p>
 
-          <a href="#" className={styles.cta}>
+          <a href="/about-psc" className={styles.cta}>
             Know more
           </a>
         </div>

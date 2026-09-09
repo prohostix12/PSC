@@ -18,6 +18,7 @@ import CertificationsPanel from "./CertificationsPanel";
 import BlogsTable from "./BlogsTable";
 import CareerPanel from "./CareerPanel";
 import AdminOverview from "./AdminOverview";
+import AdminSettings from "./AdminSettings";
 import styles from "../admin/page.module.css";
 
 export default function AdminDashboard() {
@@ -28,6 +29,7 @@ export default function AdminDashboard() {
       <AdminNavbar active={view} onSelect={setView} />
       <main className={styles.content}>
         {view === "dashboard" && <AdminOverview onSelect={setView} />}
+        {view === "settings" && <AdminSettings />}
         {view === "hero" && <HeroUpdateForm />}
         {view === "enquiries" && <EnquiriesTable />}
         {view === "programs" && <ProgramsTable />}
