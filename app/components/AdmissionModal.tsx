@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import styles from "./AdmissionModal.module.css";
-import { usePrograms, programLabel } from "../hooks/usePrograms";
 
 type Props = {
   open: boolean;
@@ -15,11 +14,12 @@ type Props = {
 };
 
 const emptyForm = {
-  name: "",
-  email: "",
+  firstName: "",
+  lastName: "",
   phone: "",
-  preference: "",
-  message: "",
+  email: "",
+  company: "",
+  enquiry: "",
 };
 
 export default function AdmissionModal({
@@ -31,11 +31,10 @@ export default function AdmissionModal({
   source = "Navbar - Get Your Admission",
   defaultPreference = "",
 }: Props) {
-  const [form, setForm] = useState({ ...emptyForm, preference: defaultPreference });
+  const [form, setForm] = useState({ ...emptyForm, enquiry: defaultPreference });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
-  const { programs } = usePrograms();
 
   // Close on Escape and lock body scroll while the modal is open.
   useEffect(() => {
@@ -58,7 +57,7 @@ export default function AdmissionModal({
   // Reset the form the next time the modal is opened.
   useEffect(() => {
     if (open) {
-      setForm({ ...emptyForm, preference: defaultPreference });
+      setForm({ ...emptyForm, enquiry: defaultPreference });
       setStatus("idle");
     }
   }, [open, defaultPreference]);
@@ -71,11 +70,12 @@ export default function AdmissionModal({
 
     const data = new FormData(event.currentTarget);
     const payload = {
-      name: String(data.get("name") || form.name || ""),
-      email: String(data.get("email") || form.email || ""),
+      firstName: String(data.get("firstName") || form.firstName || ""),
+      lastName: String(data.get("lastName") || form.lastName || ""),
       phone: String(data.get("phone") || form.phone || ""),
-      preference: String(data.get("preference") || form.preference || ""),
-      message: String(data.get("message") || form.message || ""),
+      email: String(data.get("email") || form.email || ""),
+      company: String(data.get("company") || form.company || ""),
+      enquiry: String(data.get("enquiry") || form.enquiry || ""),
       source,
     };
 
@@ -120,35 +120,33 @@ export default function AdmissionModal({
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
-            <label htmlFor="admission-name" className={styles.label}>
-              Name
+            <label htmlFor="admission-firstName" className={styles.label}>
+              First Name
             </label>
             <input
-              id="admission-name"
-              name="name"
+              id="admission-firstName"
+              name="firstName"
               type="text"
-              placeholder="Your full name"
+              placeholder="Your first name"
               className={styles.input}
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              value={form.firstName}
+              onChange={(e) => setForm({ ...form, firstName: e.target.value })}
               required
             />
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="admission-email" className={styles.label}>
-              Email
+            <label htmlFor="admission-lastName" className={styles.label}>
+              Last Name
             </label>
             <input
-              id="admission-email"
-              name="email"
-              type="email"
-              placeholder="you@example.com"
+              id="admission-lastName"
+              name="lastName"
+              type="text"
+              placeholder="Your last name"
               className={styles.input}
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
-              title="Please enter a valid email address"
+              value={form.lastName}
+              onChange={(e) => setForm({ ...form, lastName: e.target.value })}
               required
             />
           </div>
@@ -173,43 +171,48 @@ export default function AdmissionModal({
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="admission-preference" className={styles.label}>
-              Preference
+            <label htmlFor="admission-email" className={styles.label}>
+              Email
             </label>
-            <select
-              id="admission-preference"
-              name="preference"
-              className={styles.select}
-              value={form.preference}
-              onChange={(e) =>
-                setForm({ ...form, preference: e.target.value })
-              }
-            >
-              <option value="" disabled>
-                Select a course
-              </option>
-              {programs.map((program) => (
-                <option key={program._id} value={programLabel(program)}>
-                  {programLabel(program)}
-                </option>
-              ))}
-            </select>
+            <input
+              id="admission-email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              className={styles.input}
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              required
+            />
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="admission-message" className={styles.label}>
-              Message
+            <label htmlFor="admission-company" className={styles.label}>
+              Company
+            </label>
+            <input
+              id="admission-company"
+              name="company"
+              type="text"
+              placeholder="Your company (optional)"
+              className={styles.input}
+              value={form.company}
+              onChange={(e) => setForm({ ...form, company: e.target.value })}
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="admission-enquiry" className={styles.label}>
+              Enquiry
             </label>
             <textarea
-              id="admission-message"
-              name="message"
+              id="admission-enquiry"
+              name="enquiry"
               rows={3}
-              placeholder="Tell us what you're looking for..."
+              placeholder="Tell us how we can help..."
               className={styles.textarea}
-              value={form.message}
-              onChange={(e) =>
-                setForm({ ...form, message: e.target.value })
-              }
+              value={form.enquiry}
+              onChange={(e) => setForm({ ...form, enquiry: e.target.value })}
             />
           </div>
 

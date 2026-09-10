@@ -6,10 +6,12 @@ import styles from "./ConsultationForm.module.css";
 
 export default function ConsultationForm() {
   const [form, setForm] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     phone: "",
     email: "",
-    message: "",
+    company: "",
+    enquiry: "",
   });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
@@ -25,10 +27,12 @@ export default function ConsultationForm() {
     // would otherwise leave the component state empty at submit time.
     const data = new FormData(event.currentTarget);
     const payload = {
-      name: String(data.get("name") || form.name || ""),
+      firstName: String(data.get("firstName") || form.firstName || ""),
+      lastName: String(data.get("lastName") || form.lastName || ""),
       phone: String(data.get("phone") || form.phone || ""),
       email: String(data.get("email") || form.email || ""),
-      message: String(data.get("message") || form.message || ""),
+      company: String(data.get("company") || form.company || ""),
+      enquiry: String(data.get("enquiry") || form.enquiry || ""),
       source: "About - Get a Free Consultation",
     };
 
@@ -42,7 +46,7 @@ export default function ConsultationForm() {
       if (!response.ok) throw new Error("Failed to submit");
 
       setStatus("sent");
-      setForm({ name: "", phone: "", email: "", message: "" });
+      setForm({ firstName: "", lastName: "", phone: "", email: "", company: "", enquiry: "" });
     } catch {
       setStatus("error");
     }
@@ -65,21 +69,39 @@ export default function ConsultationForm() {
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.fieldRow}>
             <div className={styles.field}>
-              <label htmlFor="consult-name" className={styles.fieldLabel}>
-                Name
+              <label htmlFor="consult-firstName" className={styles.fieldLabel}>
+                First Name
               </label>
               <input
-                id="consult-name"
-                name="name"
+                id="consult-firstName"
+                name="firstName"
                 type="text"
-                placeholder="Your name"
+                placeholder="Your first name"
                 className={styles.input}
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                value={form.firstName}
+                onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                 required
               />
             </div>
 
+            <div className={styles.field}>
+              <label htmlFor="consult-lastName" className={styles.fieldLabel}>
+                Last Name
+              </label>
+              <input
+                id="consult-lastName"
+                name="lastName"
+                type="text"
+                placeholder="Your last name"
+                className={styles.input}
+                value={form.lastName}
+                onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                required
+              />
+            </div>
+          </div>
+
+          <div className={styles.fieldRow}>
             <div className={styles.field}>
               <label htmlFor="consult-phone" className={styles.fieldLabel}>
                 Phone
@@ -98,40 +120,51 @@ export default function ConsultationForm() {
                 required
               />
             </div>
+
+            <div className={styles.field}>
+              <label htmlFor="consult-email" className={styles.fieldLabel}>
+                Email
+              </label>
+              <input
+                id="consult-email"
+                name="email"
+                type="email"
+                placeholder="your@email.com"
+                className={styles.input}
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                required
+              />
+            </div>
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="consult-email" className={styles.fieldLabel}>
-              Email
+            <label htmlFor="consult-company" className={styles.fieldLabel}>
+              Company
             </label>
             <input
-              id="consult-email"
-              name="email"
-              type="email"
-              placeholder="your@email.com"
+              id="consult-company"
+              name="company"
+              type="text"
+              placeholder="Your company (optional)"
               className={styles.input}
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
-              title="Please enter a valid email address"
-              required
+              value={form.company}
+              onChange={(e) => setForm({ ...form, company: e.target.value })}
             />
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="consult-message" className={styles.fieldLabel}>
-              Message
+            <label htmlFor="consult-enquiry" className={styles.fieldLabel}>
+              Enquiry
             </label>
             <textarea
-              id="consult-message"
-              name="message"
+              id="consult-enquiry"
+              name="enquiry"
               rows={4}
-              placeholder="Tell us what you're looking for..."
+              placeholder="Tell us how we can help..."
               className={styles.textarea}
-              value={form.message}
-              onChange={(e) =>
-                setForm({ ...form, message: e.target.value })
-              }
+              value={form.enquiry}
+              onChange={(e) => setForm({ ...form, enquiry: e.target.value })}
             ></textarea>
           </div>
 

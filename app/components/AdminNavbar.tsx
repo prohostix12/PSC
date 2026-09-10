@@ -21,6 +21,7 @@ export type AdminView =
   | "certifications"
   | "blogs"
   | "career"
+  | "integration"
   | "settings";
 
 const NAV_ITEMS: { id: AdminView; label: string }[] = [
@@ -115,6 +116,13 @@ export default function AdminNavbar({ active, onSelect }: Props) {
           className={`${styles.navLink} ${styles.settingsLink} ${active === "settings" ? styles.navLinkActive : ""}`}
         >
           Settings
+        </button>
+        <button
+          type="button"
+          onClick={() => onSelect("integration")}
+          className={`${styles.navLink} ${active === "integration" ? styles.navLinkActive : ""}`}
+        >
+          Integration
         </button>
         <button
           type="button"

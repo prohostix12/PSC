@@ -6,10 +6,12 @@ import styles from "./ContactFormSection.module.css";
 
 export default function ContactFormSection() {
   const [form, setForm] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     phone: "",
     email: "",
-    message: "",
+    company: "",
+    enquiry: "",
   });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
@@ -25,10 +27,12 @@ export default function ContactFormSection() {
     // would otherwise leave the component state empty at submit time.
     const data = new FormData(event.currentTarget);
     const payload = {
-      name: String(data.get("name") || form.name || ""),
+      firstName: String(data.get("firstName") || form.firstName || ""),
+      lastName: String(data.get("lastName") || form.lastName || ""),
       phone: String(data.get("phone") || form.phone || ""),
       email: String(data.get("email") || form.email || ""),
-      message: String(data.get("message") || form.message || ""),
+      company: String(data.get("company") || form.company || ""),
+      enquiry: String(data.get("enquiry") || form.enquiry || ""),
       source: "Contact - Send your Query",
     };
 
@@ -42,7 +46,7 @@ export default function ContactFormSection() {
       if (!response.ok) throw new Error("Failed to submit");
 
       setStatus("sent");
-      setForm({ name: "", phone: "", email: "", message: "" });
+      setForm({ firstName: "", lastName: "", phone: "", email: "", company: "", enquiry: "" });
     } catch {
       setStatus("error");
     }
@@ -58,11 +62,20 @@ export default function ContactFormSection() {
         <form className={styles.form} onSubmit={handleSubmit}>
           <input
             type="text"
-            name="name"
-            placeholder="Name"
+            name="firstName"
+            placeholder="First Name"
             className={styles.input}
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            value={form.firstName}
+            onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+            required
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            className={styles.input}
+            value={form.lastName}
+            onChange={(e) => setForm({ ...form, lastName: e.target.value })}
             required
           />
           <input
@@ -89,13 +102,21 @@ export default function ContactFormSection() {
             required
           />
           <textarea
-            name="message"
+            name="enquiry"
             placeholder="Message"
             rows={5}
             className={styles.textarea}
-            value={form.message}
-            onChange={(e) => setForm({ ...form, message: e.target.value })}
+            value={form.enquiry}
+            onChange={(e) => setForm({ ...form, enquiry: e.target.value })}
           ></textarea>
+          <input
+            type="text"
+            name="company"
+            placeholder="Company (optional)"
+            className={styles.input}
+            value={form.company}
+            onChange={(e) => setForm({ ...form, company: e.target.value })}
+          />
 
           <button
             type="submit"

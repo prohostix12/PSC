@@ -5,10 +5,12 @@ import styles from "./EnquiriesTable.module.css";
 
 type Enquiry = {
   _id: string;
-  name: string;
+  name?: string;
+  firstName?: string;
+  lastName?: string;
   email: string;
   phone: string;
-  preference: string;
+  company?: string;
   message: string;
   source: string;
   createdAt: string;
@@ -62,11 +64,12 @@ export default function EnquiriesTable() {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone</th>
                 <th>Email</th>
-                <th>Phone Number</th>
-                <th>Preference</th>
-                <th>Message</th>
+                <th>Company</th>
+                <th>Enquiry</th>
                 <th>Source</th>
                 <th>Submitted</th>
               </tr>
@@ -74,10 +77,11 @@ export default function EnquiriesTable() {
             <tbody>
               {enquiries.map((enquiry) => (
                 <tr key={enquiry._id}>
-                  <td>{enquiry.name}</td>
-                  <td>{enquiry.email}</td>
+                  <td>{enquiry.firstName || enquiry.name || "—"}</td>
+                  <td>{enquiry.lastName || "—"}</td>
                   <td>{enquiry.phone}</td>
-                  <td>{enquiry.preference || "—"}</td>
+                  <td>{enquiry.email}</td>
+                  <td>{enquiry.company || "—"}</td>
                   <td>{enquiry.message || "—"}</td>
                   <td>{enquiry.source || "—"}</td>
                   <td>

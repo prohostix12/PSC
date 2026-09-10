@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import styles from "./AdmissionModal.module.css";
-import { usePrograms, programLabel } from "../hooks/usePrograms";
 
 const emptyForm = {
-  name: "",
-  email: "",
+  firstName: "",
+  lastName: "",
   phone: "",
-  preference: "",
-  message: "",
+  email: "",
+  company: "",
+  enquiry: "",
 };
 
 const POPUP_DELAY_MS = 10000;
@@ -27,7 +27,6 @@ export default function ConnectModal() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
-  const { programs } = usePrograms();
 
   useEffect(() => {
     if (dismissed) return;
@@ -55,7 +54,6 @@ export default function ConnectModal() {
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = prevOverflow;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   if (pathname?.startsWith("/admin")) return null;
@@ -67,11 +65,12 @@ export default function ConnectModal() {
 
     const data = new FormData(event.currentTarget);
     const payload = {
-      name: String(data.get("name") || form.name || ""),
-      email: String(data.get("email") || form.email || ""),
+      firstName: String(data.get("firstName") || form.firstName || ""),
+      lastName: String(data.get("lastName") || form.lastName || ""),
       phone: String(data.get("phone") || form.phone || ""),
-      preference: String(data.get("preference") || form.preference || ""),
-      message: String(data.get("message") || form.message || ""),
+      email: String(data.get("email") || form.email || ""),
+      company: String(data.get("company") || form.company || ""),
+      enquiry: String(data.get("enquiry") || form.enquiry || ""),
       source: "Connect With Us Popup",
     };
 
@@ -118,35 +117,33 @@ export default function ConnectModal() {
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
-            <label htmlFor="connect-name" className={styles.label}>
-              Name
+            <label htmlFor="connect-firstName" className={styles.label}>
+              First Name
             </label>
             <input
-              id="connect-name"
-              name="name"
+              id="connect-firstName"
+              name="firstName"
               type="text"
-              placeholder="Your full name"
+              placeholder="Your first name"
               className={styles.input}
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              value={form.firstName}
+              onChange={(e) => setForm({ ...form, firstName: e.target.value })}
               required
             />
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="connect-email" className={styles.label}>
-              Email
+            <label htmlFor="connect-lastName" className={styles.label}>
+              Last Name
             </label>
             <input
-              id="connect-email"
-              name="email"
-              type="email"
-              placeholder="you@example.com"
+              id="connect-lastName"
+              name="lastName"
+              type="text"
+              placeholder="Your last name"
               className={styles.input}
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
-              title="Please enter a valid email address"
+              value={form.lastName}
+              onChange={(e) => setForm({ ...form, lastName: e.target.value })}
               required
             />
           </div>
@@ -171,43 +168,48 @@ export default function ConnectModal() {
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="connect-preference" className={styles.label}>
-              Preference
+            <label htmlFor="connect-email" className={styles.label}>
+              Email
             </label>
-            <select
-              id="connect-preference"
-              name="preference"
-              className={styles.select}
-              value={form.preference}
-              onChange={(e) =>
-                setForm({ ...form, preference: e.target.value })
-              }
-            >
-              <option value="" disabled>
-                Select a course
-              </option>
-              {programs.map((program) => (
-                <option key={program._id} value={programLabel(program)}>
-                  {programLabel(program)}
-                </option>
-              ))}
-            </select>
+            <input
+              id="connect-email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              className={styles.input}
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              required
+            />
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="connect-message" className={styles.label}>
-              Message
+            <label htmlFor="connect-company" className={styles.label}>
+              Company
+            </label>
+            <input
+              id="connect-company"
+              name="company"
+              type="text"
+              placeholder="Your company (optional)"
+              className={styles.input}
+              value={form.company}
+              onChange={(e) => setForm({ ...form, company: e.target.value })}
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="connect-enquiry" className={styles.label}>
+              Enquiry
             </label>
             <textarea
-              id="connect-message"
-              name="message"
+              id="connect-enquiry"
+              name="enquiry"
               rows={3}
-              placeholder="Tell us what you're looking for..."
+              placeholder="Tell us how we can help..."
               className={styles.textarea}
-              value={form.message}
-              onChange={(e) =>
-                setForm({ ...form, message: e.target.value })
-              }
+              value={form.enquiry}
+              onChange={(e) => setForm({ ...form, enquiry: e.target.value })}
             />
           </div>
 

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import AdmissionModal from "./AdmissionModal";
 import styles from "./Hero.module.css";
-import { usePrograms, programLabel } from "../hooks/usePrograms";
 import {
   DEFAULT_HERO_TAG,
   DEFAULT_HERO_HEADING,
@@ -13,16 +12,17 @@ import {
 
 export default function Hero() {
   const [form, setForm] = useState({
-    name: "",
-    email: "",
+    firstName: "",
+    lastName: "",
     phone: "",
-    preference: "",
+    email: "",
+    company: "",
+    enquiry: "",
   });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
   const [consultationOpen, setConsultationOpen] = useState(false);
-  const { programs } = usePrograms();
   const [heroContent, setHeroContent] = useState<{
     tag: string;
     heading: string;
@@ -61,10 +61,12 @@ export default function Hero() {
     // would otherwise leave the component state empty at submit time.
     const data = new FormData(event.currentTarget);
     const payload = {
-      name: String(data.get("name") || form.name || ""),
-      email: String(data.get("email") || form.email || ""),
+      firstName: String(data.get("firstName") || form.firstName || ""),
+      lastName: String(data.get("lastName") || form.lastName || ""),
       phone: String(data.get("phone") || form.phone || ""),
-      preference: String(data.get("preference") || form.preference || ""),
+      email: String(data.get("email") || form.email || ""),
+      company: String(data.get("company") || form.company || ""),
+      enquiry: String(data.get("enquiry") || form.enquiry || ""),
       source: "Home - Make Your Enquiry",
     };
 
@@ -78,7 +80,7 @@ export default function Hero() {
       if (!response.ok) throw new Error("Failed to submit");
 
       setStatus("sent");
-      setForm({ name: "", email: "", phone: "", preference: "" });
+      setForm({ firstName: "", lastName: "", phone: "", email: "", company: "", enquiry: "" });
     } catch {
       setStatus("error");
     }
@@ -136,23 +138,42 @@ export default function Hero() {
             <h2 className={styles.enquiryHeading}>Make Your Enquiry</h2>
 
             <div className={styles.enquiryField}>
-              <label htmlFor="enquiry-name" className={styles.enquiryLabel}>
-                Name
+              <label htmlFor="enquiry-firstName" className={styles.enquiryLabel}>
+                First Name
               </label>
               <input
-                id="enquiry-name"
-                name="name"
+                id="enquiry-firstName"
+                name="firstName"
                 type="text"
-                placeholder="Your full name"
+                placeholder="Your first name"
                 className={styles.enquiryInput}
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                value={form.firstName}
+                onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                 required
               />
             </div>
 
             <div className={styles.enquiryField}>
-              <label htmlFor="enquiry-email" className={styles.enquiryLabel}>
+              <label htmlFor="enquiry-lastName" className={styles.enquiryLabel}>
+                Last Name
+              </label>
+              <input
+                id="enquiry-lastName"
+                name="lastName"
+                type="text"
+                placeholder="Your last name"
+                className={styles.enquiryInput}
+                value={form.lastName}
+                onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                required
+              />
+            </div>
+
+            <div className={styles.enquiryField}>
+              <label
+                htmlFor="enquiry-email"
+                className={styles.enquiryLabel}
+              >
                 Email
               </label>
               <input
@@ -163,18 +184,13 @@ export default function Hero() {
                 className={styles.enquiryInput}
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
-                title="Please enter a valid email address"
                 required
               />
             </div>
 
             <div className={styles.enquiryField}>
-              <label
-                htmlFor="enquiry-phone"
-                className={styles.enquiryLabel}
-              >
-                Phone Number
+              <label htmlFor="enquiry-phone" className={styles.enquiryLabel}>
+                Phone
               </label>
               <input
                 id="enquiry-phone"
@@ -192,30 +208,33 @@ export default function Hero() {
             </div>
 
             <div className={styles.enquiryField}>
-              <label
-                htmlFor="enquiry-preference"
-                className={styles.enquiryLabel}
-              >
-                Preference
+              <label htmlFor="enquiry-company" className={styles.enquiryLabel}>
+                Company
               </label>
-              <select
-                id="enquiry-preference"
-                name="preference"
-                className={styles.enquirySelect}
-                value={form.preference}
-                onChange={(e) =>
-                  setForm({ ...form, preference: e.target.value })
-                }
-              >
-                <option value="" disabled>
-                  Select a course
-                </option>
-                {programs.map((program) => (
-                  <option key={program._id} value={programLabel(program)}>
-                    {programLabel(program)}
-                  </option>
-                ))}
-              </select>
+              <input
+                id="enquiry-company"
+                name="company"
+                type="text"
+                placeholder="Your company (optional)"
+                className={styles.enquiryInput}
+                value={form.company}
+                onChange={(e) => setForm({ ...form, company: e.target.value })}
+              />
+            </div>
+
+            <div className={styles.enquiryField}>
+              <label htmlFor="enquiry-enquiry" className={styles.enquiryLabel}>
+                Enquiry
+              </label>
+              <textarea
+                id="enquiry-enquiry"
+                name="enquiry"
+                rows={3}
+                placeholder="Tell us how we can help..."
+                className={styles.enquiryInput}
+                value={form.enquiry}
+                onChange={(e) => setForm({ ...form, enquiry: e.target.value })}
+              />
             </div>
 
             <button
