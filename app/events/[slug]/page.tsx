@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const event = events.find((e) => eventSlug(e.eventName) === slug);
   const name = event?.eventName ?? titleFromSlug(slug);
 
-  const title = `${name} | Events at Professional Skill Campus`;
+  const title = `${name} | Events`;
   const description = event?.sections?.[0]?.paragraph?.substring(0, 150) || `Check out ${name} at Professional Skill Campus. View event details and gallery.`;
   const image = event?.image || undefined;
 
@@ -116,9 +116,7 @@ export default async function EventDetailPage({
     "@type": "Event",
     "name": name,
     "description": sections[0]?.paragraph || name,
-    "image": event?.image || "",
-    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-    "eventStatus": "https://schema.org/EventScheduled",
+    ...(event?.image ? { "image": event.image } : {}),
     "location": {
       "@type": "Place",
       "name": "Professional Skill Campus",

@@ -127,7 +127,7 @@ export default async function CoursePage({
     "provider": {
       "@type": "Organization",
       "name": "Professional Skill Campus",
-      "sameAs": providerUrl
+      "url": providerUrl
     },
     "hasCourseInstance": {
       "@type": "CourseInstance",

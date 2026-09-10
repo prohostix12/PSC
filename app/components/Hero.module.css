@@ -157,10 +157,17 @@
   background: #ffffff;
   border-radius: 24px;
   padding: 26px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 13px;
   box-shadow: 0 24px 48px rgba(15, 27, 61, 0.16);
+}
+
+.enquiryHeading,
+.enquireButton,
+.enquiryStatus,
+.enquiryStatusError {
+  grid-column: 1 / -1;
 }
 
 .enquiryHeading {
@@ -326,5 +333,14 @@
 
   .enquiryCard {
     padding: 20px 17px;
+    grid-template-columns: 1fr;
+  }
+
+  .enquiryField,
+  .enquiryHeading,
+  .enquireButton,
+  .enquiryStatus,
+  .enquiryStatusError {
+    grid-column: 1;
   }
 }

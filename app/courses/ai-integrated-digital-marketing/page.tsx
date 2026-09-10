@@ -76,7 +76,7 @@ export default async function AiIntegratedDigitalMarketing() {
     "provider": {
       "@type": "Organization",
       "name": "Professional Skill Campus",
-      "sameAs": providerUrl
+      "url": providerUrl
     },
     "hasCourseInstance": {
       "@type": "CourseInstance",

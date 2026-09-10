@@ -8,10 +8,21 @@ import { Metadata } from "next";
 import styles from "../page.module.css";
 
 export const metadata: Metadata = {
-  title: "Success Stories | Professional Skill Campus",
+  title: "Success Stories",
   description: "Real students, real growth. See how learners at Professional Skill Campus turned hands-on training into job offers, promotions, and new businesses.",
   alternates: {
     canonical: "/success-stories",
+  },
+  openGraph: {
+    title: "Success Stories | Professional Skill Campus",
+    description: "Real students, real growth. See how learners at Professional Skill Campus turned hands-on training into job offers, promotions, and new businesses.",
+    url: "/success-stories",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Success Stories | Professional Skill Campus",
+    description: "Real students, real growth. See how learners at Professional Skill Campus turned hands-on training into job offers, promotions, and new businesses.",
   },
 };
 

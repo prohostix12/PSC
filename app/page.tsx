@@ -46,6 +46,22 @@ export default async function Home() {
       "url": providerUrl,
       "logo": `${providerUrl}/logo-main.png`,
       "description": "Expert training in IT and Business sectors.",
+      "telephone": "+91 99465 56002",
+      "email": "professionalskillcampus@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Thazhepalam",
+        "addressLocality": "Tirur",
+        "addressRegion": "Kerala",
+        "postalCode": "676101",
+        "addressCountry": "IN"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91 99465 56002",
+        "contactType": "customer service",
+        "email": "professionalskillcampus@gmail.com"
+      },
       "sameAs": [
         "https://x.com/proskillcampus",
         "https://www.facebook.com/professionalskillcampus/?rdid=Pk7ZLW94ZB8r6Gvu",

@@ -9,10 +9,21 @@ import { Metadata } from "next";
 import styles from "../page.module.css";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Professional Skill Campus",
+  title: "Contact Us",
   description: "Have a question about a course or admissions? Reach out to Professional Skill Campus and our team will get back to you.",
   alternates: {
     canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact Us | Professional Skill Campus",
+    description: "Have a question about a course or admissions? Reach out to Professional Skill Campus and our team will get back to you.",
+    url: "/contact",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Us | Professional Skill Campus",
+    description: "Have a question about a course or admissions? Reach out to Professional Skill Campus and our team will get back to you.",
   },
 };
 

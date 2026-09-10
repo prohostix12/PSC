@@ -22,7 +22,7 @@ const navLinksAfterLogin = [
   { label: "Contact us", href: "/contact" },
 ];
 
-const STUDENTS_LOGIN_URL = "https://pypeerm.com/login";
+const STUDENTS_LOGIN_URL = "/students-login";
 
 function ChevronDown({ className }: { className?: string } = {}) {
   return (
@@ -171,8 +171,6 @@ export default function Navbar() {
 
         <a
           href={STUDENTS_LOGIN_URL}
-          target="_blank"
-          rel="noopener noreferrer"
           className={styles.cta}
         >
           Students Login
@@ -263,8 +261,6 @@ export default function Navbar() {
         </nav>
         <a
           href={STUDENTS_LOGIN_URL}
-          target="_blank"
-          rel="noopener noreferrer"
           className={styles.mobileCta}
           onClick={() => setIsOpen(false)}
         >

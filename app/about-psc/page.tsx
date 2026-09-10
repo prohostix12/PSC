@@ -13,10 +13,21 @@ import { Metadata } from "next";
 import styles from "../page.module.css";
 
 export const metadata: Metadata = {
-  title: "About Us | Professional Skill Campus",
+  title: "About Us",
   description: "Get to know Professional Skill Campus — our story, our mission, and the promise we make to every student to build skills and shape careers.",
   alternates: {
     canonical: "/about-psc",
+  },
+  openGraph: {
+    title: "About Us | Professional Skill Campus",
+    description: "Get to know Professional Skill Campus — our story, our mission, and the promise we make to every student to build skills and shape careers.",
+    url: "/about-psc",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | Professional Skill Campus",
+    description: "Get to know Professional Skill Campus — our story, our mission, and the promise we make to every student to build skills and shape careers.",
   },
 };
 

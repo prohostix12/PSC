@@ -65,6 +65,22 @@
   gap: 16px;
 }
 
+.leadForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.leadField:nth-child(5),
+.leadField:nth-child(6),
+.leadWide {
+  grid-column: 1 / -1;
+}
+
+.leadWide {
+  width: 100%;
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -198,5 +214,18 @@
   from {
     opacity: 0;
     transform: translateY(8px) scale(0.98);
+  }
+}
+
+@media (max-width: 560px) {
+  .leadForm {
+    grid-template-columns: 1fr;
+  }
+
+  .leadField,
+  .leadField:nth-child(5),
+  .leadField:nth-child(6),
+  .leadWide {
+    grid-column: 1;
   }
 }

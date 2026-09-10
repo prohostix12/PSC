@@ -118,8 +118,8 @@ export default function AdmissionModal({
         </h2>
         <p className={styles.subheading}>{subheading}</p>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.field}>
+        <form className={`${styles.form} ${styles.leadForm}`} onSubmit={handleSubmit}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="admission-firstName" className={styles.label}>
               First Name
             </label>
@@ -135,7 +135,7 @@ export default function AdmissionModal({
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="admission-lastName" className={styles.label}>
               Last Name
             </label>
@@ -151,7 +151,7 @@ export default function AdmissionModal({
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="admission-phone" className={styles.label}>
               Phone Number
             </label>
@@ -170,7 +170,7 @@ export default function AdmissionModal({
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="admission-email" className={styles.label}>
               Email
             </label>
@@ -186,7 +186,7 @@ export default function AdmissionModal({
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="admission-company" className={styles.label}>
               Company
             </label>
@@ -201,7 +201,7 @@ export default function AdmissionModal({
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="admission-enquiry" className={styles.label}>
               Enquiry
             </label>
@@ -218,19 +218,19 @@ export default function AdmissionModal({
 
           <button
             type="submit"
-            className={styles.submit}
+            className={`${styles.submit} ${styles.leadWide}`}
             disabled={status === "sending"}
           >
             {status === "sending" ? "Sending..." : submitLabel}
           </button>
 
           {status === "sent" && (
-            <p className={styles.statusMessage}>
+            <p className={`${styles.statusMessage} ${styles.leadWide}`}>
               Thanks! Our admissions team will get back to you shortly.
             </p>
           )}
           {status === "error" && (
-            <p className={styles.statusMessageError}>
+            <p className={`${styles.statusMessageError} ${styles.leadWide}`}>
               Something went wrong. Please try again.
             </p>
           )}

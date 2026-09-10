@@ -61,7 +61,7 @@ export default function BusinessAdministrationHospitalManagement() {
     "provider": {
       "@type": "Organization",
       "name": "Professional Skill Campus",
-      "sameAs": providerUrl
+      "url": providerUrl
     },
     "hasCourseInstance": {
       "@type": "CourseInstance",

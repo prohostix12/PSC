@@ -170,25 +170,6 @@ export default function Hero() {
             </div>
 
             <div className={styles.enquiryField}>
-              <label
-                htmlFor="enquiry-email"
-                className={styles.enquiryLabel}
-              >
-                Email
-              </label>
-              <input
-                id="enquiry-email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                className={styles.enquiryInput}
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                required
-              />
-            </div>
-
-            <div className={styles.enquiryField}>
               <label htmlFor="enquiry-phone" className={styles.enquiryLabel}>
                 Phone
               </label>
@@ -203,6 +184,22 @@ export default function Hero() {
                 pattern="[0-9]{10}"
                 title="Phone number must be exactly 10 digits"
                 maxLength={10}
+                required
+              />
+            </div>
+
+            <div className={styles.enquiryField}>
+              <label htmlFor="enquiry-email" className={styles.enquiryLabel}>
+                Email
+              </label>
+              <input
+                id="enquiry-email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                className={styles.enquiryInput}
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
                 required
               />
             </div>

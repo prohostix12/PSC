@@ -7,10 +7,21 @@ import pageStyles from "../page.module.css";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Notifications | Professional Skill Campus",
+  title: "Notifications",
   description: "Stay updated with the latest announcements, news, and updates from Professional Skill Campus.",
   alternates: {
     canonical: "/notification",
+  },
+  openGraph: {
+    title: "Notifications | Professional Skill Campus",
+    description: "Stay updated with the latest announcements, news, and updates from Professional Skill Campus.",
+    url: "/notification",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Notifications | Professional Skill Campus",
+    description: "Stay updated with the latest announcements, news, and updates from Professional Skill Campus.",
   },
 };
 

@@ -8,10 +8,21 @@ import { Metadata } from "next";
 import styles from "../page.module.css";
 
 export const metadata: Metadata = {
-  title: "Gallery | Professional Skill Campus",
+  title: "Gallery",
   description: "A look through our success stories, moments, and milestones at Professional Skill Campus — organized by category.",
   alternates: {
     canonical: "/gallery",
+  },
+  openGraph: {
+    title: "Gallery | Professional Skill Campus",
+    description: "A look through our success stories, moments, and milestones at Professional Skill Campus — organized by category.",
+    url: "/gallery",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gallery | Professional Skill Campus",
+    description: "A look through our success stories, moments, and milestones at Professional Skill Campus — organized by category.",
   },
 };
 

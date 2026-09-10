@@ -17,8 +17,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/blogs`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
     { url: `${siteUrl}/events`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${siteUrl}/gallery`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${siteUrl}/notification`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.5 },
     { url: `${siteUrl}/success-stories`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
     { url: `${siteUrl}/refer-and-earn`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${siteUrl}/courses/ai-integrated-accounting-taxation`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${siteUrl}/courses/ai-integrated-digital-marketing`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${siteUrl}/courses/business-administration-hospital-management`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
   ];
 
   try {
@@ -54,9 +58,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Fetch Events
     const events = await db.collection('events').find({}).toArray();
     events.forEach(event => {
-      if (event.name) {
+      if (event.eventName) {
         sitemapUrls.push({
-          url: `${siteUrl}/events/${eventSlug(String(event.name))}`,
+          url: `${siteUrl}/events/${eventSlug(String(event.eventName))}`,
           lastModified: event.createdAt ? new Date(event.createdAt) : new Date(),
           changeFrequency: 'monthly',
           priority: 0.7,

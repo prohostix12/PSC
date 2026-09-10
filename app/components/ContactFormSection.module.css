@@ -33,6 +33,12 @@
   gap: 20px;
 }
 
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
 .input {
   width: 100%;
   border: 1.5px solid rgba(15, 27, 61, 0.3);
@@ -119,5 +125,10 @@
 
   .card {
     padding: 28px 22px;
+  }
+
+  .fieldRow {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }

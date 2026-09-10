@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const blog = blogs.find((b) => blogSlug(b.subject) === slug);
   const name = blog?.subject ?? titleFromSlug(slug);
 
-  const title = `${name} | Blog | Professional Skill Campus`;
+  const title = `${name} | Blog`;
   const description = blog?.sectionPara?.substring(0, 150) || `Read ${name} on the Professional Skill Campus blog.`;
   const image = blog?.image || undefined;
 
@@ -115,6 +115,12 @@ export default async function BlogDetailPage({
 
   const siteUrl = getSiteUrl();
   const providerUrl = siteUrl || "https://professionalskillcampus.vercel.app";
+  const publishedDate = blog?.uploadedDate
+    ? new Date(blog.uploadedDate)
+    : null;
+  const validPublishedDate = publishedDate && !Number.isNaN(publishedDate.getTime())
+    ? publishedDate.toISOString()
+    : undefined;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -122,7 +128,9 @@ export default async function BlogDetailPage({
     "headline": name,
     "description": blog?.sectionPara || name,
     "image": blog?.image || "",
-    "datePublished": blog?.uploadedDate ? new Date(blog?.uploadedDate).toISOString() : new Date().toISOString(),
+    ...(validPublishedDate ? { "datePublished": validPublishedDate } : {}),
+    "url": `${providerUrl}/blogs/${slug}`,
+    "mainEntityOfPage": `${providerUrl}/blogs/${slug}`,
     "author": {
       "@type": "Organization",
       "name": "Professional Skill Campus",

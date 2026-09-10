@@ -1,0 +1,33 @@
+# Professional Skill Campus
+
+Professional Skill Campus is an education and training organization offering skill-focused courses in IT, business, management, accounting, taxation, digital marketing, and hospital management.
+
+## Organization
+
+- Name: Professional Skill Campus
+- Website: https://professionalskillcampus.vercel.app
+- Address: Thazhepalam, Tirur, Kerala 676101, India
+- Phone: +91 99465 56002
+- Email: professionalskillcampus@gmail.com
+
+## Public pages
+
+- Home: https://professionalskillcampus.vercel.app/
+- About: https://professionalskillcampus.vercel.app/about-psc
+- Contact: https://professionalskillcampus.vercel.app/contact
+- Courses: https://professionalskillcampus.vercel.app/courses/ai-integrated-accounting-taxation
+- Courses: https://professionalskillcampus.vercel.app/courses/ai-integrated-digital-marketing
+- Courses: https://professionalskillcampus.vercel.app/courses/business-administration-hospital-management
+- Blogs: https://professionalskillcampus.vercel.app/blogs
+- Events: https://professionalskillcampus.vercel.app/events
+- Notifications: https://professionalskillcampus.vercel.app/notification
+- Success stories: https://professionalskillcampus.vercel.app/success-stories
+- Gallery: https://professionalskillcampus.vercel.app/gallery
+- Refer and earn: https://professionalskillcampus.vercel.app/refer-and-earn
+
+## Official social profiles
+
+- X: https://x.com/proskillcampus
+- Facebook: https://www.facebook.com/professionalskillcampus/
+- Instagram: https://www.instagram.com/professionalskillcampus/
+- YouTube: https://www.youtube.com/@professionalskillcampus

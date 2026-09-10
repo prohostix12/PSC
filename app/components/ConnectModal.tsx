@@ -115,8 +115,8 @@ export default function ConnectModal() {
           Leave your details and our team will reach out to you shortly.
         </p>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.field}>
+        <form className={`${styles.form} ${styles.leadForm}`} onSubmit={handleSubmit}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="connect-firstName" className={styles.label}>
               First Name
             </label>
@@ -132,7 +132,7 @@ export default function ConnectModal() {
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="connect-lastName" className={styles.label}>
               Last Name
             </label>
@@ -148,7 +148,7 @@ export default function ConnectModal() {
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="connect-phone" className={styles.label}>
               Phone Number
             </label>
@@ -167,7 +167,7 @@ export default function ConnectModal() {
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="connect-email" className={styles.label}>
               Email
             </label>
@@ -183,7 +183,7 @@ export default function ConnectModal() {
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="connect-company" className={styles.label}>
               Company
             </label>
@@ -198,7 +198,7 @@ export default function ConnectModal() {
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`${styles.field} ${styles.leadField}`}>
             <label htmlFor="connect-enquiry" className={styles.label}>
               Enquiry
             </label>
@@ -215,7 +215,7 @@ export default function ConnectModal() {
 
           <button
             type="submit"
-            className={styles.submit}
+            className={`${styles.submit} ${styles.leadWide}`}
             disabled={status === "sending" || status === "sent"}
           >
             {status === "sending"
@@ -226,12 +226,12 @@ export default function ConnectModal() {
           </button>
 
           {status === "sent" && (
-            <p className={styles.statusMessage}>
+            <p className={`${styles.statusMessage} ${styles.leadWide}`}>
               Thanks! We&apos;ll get back to you shortly.
             </p>
           )}
           {status === "error" && (
-            <p className={styles.statusMessageError}>
+            <p className={`${styles.statusMessageError} ${styles.leadWide}`}>
               Something went wrong. Please try again.
             </p>
           )}

@@ -53,7 +53,7 @@ export default function AiIntegratedAccountingTaxation() {
     "provider": {
       "@type": "Organization",
       "name": "Professional Skill Campus",
-      "sameAs": providerUrl
+      "url": providerUrl
     },
     "hasCourseInstance": {
       "@type": "CourseInstance",
