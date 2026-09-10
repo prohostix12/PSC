@@ -45,7 +45,6 @@ export function isAdminApiPath(pathname: string): boolean {
     pathname.startsWith("/api/certifications") ||
     pathname.startsWith("/api/contacts") ||
     pathname.startsWith("/api/directors") ||
-    pathname.startsWith("/api/enquiries") ||
     pathname.startsWith("/api/events") ||
     pathname.startsWith("/api/faqs") ||
     pathname.startsWith("/api/hero") ||
