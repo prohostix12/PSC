@@ -7,6 +7,7 @@ import styles from "./Navbar.module.css";
 import {
   usePrograms,
   programSlug,
+  type Program,
   type ProgramGroup,
 } from "../hooks/usePrograms";
 
@@ -90,10 +91,10 @@ function CoursesDropdown({ groups }: { groups: ProgramGroup[] }) {
   );
 }
 
-export default function Navbar() {
+export default function Navbar({ initialPrograms }: { initialPrograms?: Program[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileProgramsOpen, setMobileProgramsOpen] = useState(false);
-  const { groups: programGroups } = usePrograms();
+  const { groups: programGroups } = usePrograms(initialPrograms);
   const pathname = usePathname();
   const router = useRouter();
   const logoClickTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);

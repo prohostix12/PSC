@@ -24,16 +24,20 @@ export const metadata: Metadata = {
 };
 
 import getClientPromise from "../lib/mongodb";
+import { getPrograms } from "./lib/programs";
+import type { Program } from "./lib/programUtils";
 
 export default async function Home() {
   const siteUrl = getSiteUrl();
   const providerUrl = siteUrl || "https://professionalskillcampus.vercel.app";
 
   let faqs: { question: string; answer: string }[] = [];
+  let programs: Program[] = [];
   try {
     const client = await getClientPromise();
     const dbFaqs = await client.db("psc").collection("faqs").find({}).toArray();
     faqs = dbFaqs.map(f => ({ question: f.question, answer: f.answer }));
+    programs = await getPrograms();
   } catch (e) {
     // Ignore db error
   }
@@ -89,7 +93,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Navbar />
+      <Navbar initialPrograms={programs} />
       <div className={styles.pageContent}>
         <PageBackground />
         <Hero />
@@ -98,7 +102,7 @@ export default async function Home() {
         <AboutUs />
         <Certifications />
         <SkillCreators />
-        <Courses />
+        <Courses initialPrograms={programs} />
         <WhyUs />
         <Reviews />
         <Directors />

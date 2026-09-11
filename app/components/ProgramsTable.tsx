@@ -6,10 +6,10 @@ import ProgramDetailsEditor from "./ProgramDetailsEditor";
 import styles from "./EnquiriesTable.module.css";
 import type { Program } from "../lib/programUtils";
 
-export default function ProgramsTable() {
-  const [programs, setPrograms] = useState<Program[]>([]);
+export default function ProgramsTable({ initialPrograms }: { initialPrograms?: Program[] }) {
+  const [programs, setPrograms] = useState<Program[]>(initialPrograms || []);
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
-    "loading"
+    initialPrograms ? "loaded" : "loading"
   );
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Program | null>(null);
@@ -31,8 +31,19 @@ export default function ProgramsTable() {
   }, []);
 
   useEffect(() => {
-    load();
-  }, [load]);
+    if (initialPrograms) return;
+
+    fetch("/api/programs")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load programs");
+        return res.json();
+      })
+      .then((data) => {
+        setPrograms(data.programs || []);
+        setStatus("loaded");
+      })
+      .catch(() => setStatus("error"));
+  }, [initialPrograms, load]);
 
   const openAdd = () => {
     setEditing(null);

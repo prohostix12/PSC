@@ -3,7 +3,7 @@
 import { useMemo, useRef } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./Courses.module.css";
-import { usePrograms, programSlug } from "../hooks/usePrograms";
+import { usePrograms, programSlug, type Program } from "../hooks/usePrograms";
 
 const icons = [
   <svg key="i1" width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
@@ -39,8 +39,8 @@ function ArrowIcon({ direction }: { direction: "left" | "right" }) {
   );
 }
 
-export default function Courses() {
-  const { programs, loading } = usePrograms();
+export default function Courses({ initialPrograms }: { initialPrograms?: Program[] }) {
+  const { programs, loading } = usePrograms(initialPrograms);
   const trackRef = useRef<HTMLDivElement>(null);
 
   // Programs are stored per-category, so a course offered both Online and

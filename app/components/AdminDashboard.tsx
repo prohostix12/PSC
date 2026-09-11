@@ -21,8 +21,9 @@ import AdminOverview from "./AdminOverview";
 import AdminSettings from "./AdminSettings";
 import Integration from "./Integration";
 import styles from "../admin/page.module.css";
+import type { Program } from "../lib/programUtils";
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ initialPrograms }: { initialPrograms?: Program[] }) {
   const [view, setView] = useState<AdminView>("dashboard");
 
   return (
@@ -34,7 +35,7 @@ export default function AdminDashboard() {
         {view === "integration" && <Integration />}
         {view === "hero" && <HeroUpdateForm />}
         {view === "enquiries" && <EnquiriesTable />}
-        {view === "programs" && <ProgramsTable />}
+        {view === "programs" && <ProgramsTable initialPrograms={initialPrograms} />}
         {view === "reviews" && <ReviewsTable />}
         {view === "faq" && <FaqTable />}
         {view === "events" && <EventsTable />}

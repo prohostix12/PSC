@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import getClientPromise from "../../../lib/mongodb";
-import { getExistingProgramFaqs } from "../../lib/programFaqs";
+import { getPrograms } from "../../lib/programs";
 
 export const dynamic = "force-dynamic";
 
@@ -113,28 +113,7 @@ const normalizePoint = (item: unknown) => {
 
 export async function GET() {
   try {
-    const client = await getClientPromise();
-    const programs = await client
-      .db(DB_NAME)
-      .collection(COLLECTION)
-      .find({})
-      .sort({ createdAt: -1 })
-      .toArray();
-
-    await Promise.all(
-      programs.map(async (program) => {
-        const existingFaqs = program.details?.faqs;
-        const seededFaqs = getExistingProgramFaqs(String(program.name || ""));
-        if (Array.isArray(existingFaqs) && existingFaqs.length > 0 || seededFaqs.length === 0) return;
-
-        await client.db(DB_NAME).collection(COLLECTION).updateOne(
-          { _id: program._id },
-          { $set: { "details.faqs": seededFaqs } }
-        );
-        program.details = { ...(program.details || {}), faqs: seededFaqs };
-      })
-    );
-
+    const programs = await getPrograms();
     return NextResponse.json({ programs });
   } catch (error) {
     return NextResponse.json(

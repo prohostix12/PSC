@@ -16,9 +16,10 @@ export type ProgramGroup = {
  * Fetches the programs created in /admin -> Programs and exposes them
  * grouped by category. Shared by the Navbar dropdown and the enquiry forms.
  */
-export function usePrograms() {
-  const [programs, setPrograms] = useState<Program[]>([]);
-  const [loading, setLoading] = useState(true);
+export function usePrograms(initialPrograms?: Program[]) {
+  const hasInitialPrograms = Array.isArray(initialPrograms);
+  const [programs, setPrograms] = useState<Program[]>(initialPrograms || []);
+  const [loading, setLoading] = useState(!hasInitialPrograms);
 
   const reload = useCallback(() => {
     setLoading(true);
@@ -35,13 +36,20 @@ export function usePrograms() {
 
   useEffect(() => {
     let active = true;
-    reload().then(() => {
-      if (!active) return;
-    });
+    fetch("/api/programs")
+      .then((res) => (res.ok ? res.json() : { programs: [] }))
+      .then((data) => {
+        if (!active) return;
+        if (Array.isArray(data.programs)) setPrograms(data.programs);
+        setLoading(false);
+      })
+      .catch(() => {
+        if (active) setLoading(false);
+      });
     return () => {
       active = false;
     };
-  }, [reload]);
+  }, [hasInitialPrograms]);
 
   const groups: ProgramGroup[] = [
     {
