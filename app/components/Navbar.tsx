@@ -106,8 +106,11 @@ export default function Navbar({ initialPrograms }: { initialPrograms?: Program[
   const isActive = (href: string) => href !== "#" && pathname === href;
   const linkClass = (href: string) =>
     `${styles.navLink} ${isActive(href) ? styles.navLinkActive : ""}`;
-  const handleProgramsClick = () => {
+  const loadPrograms = () => {
     void reloadPrograms();
+  };
+  const handleProgramsClick = () => {
+    loadPrograms();
     setMobileProgramsOpen((open) => !open);
   };
 
@@ -151,7 +154,7 @@ export default function Navbar({ initialPrograms }: { initialPrograms?: Program[
             About
           </a>
 
-          <div className={styles.navItem}>
+          <div className={styles.navItem} onMouseEnter={loadPrograms} onFocus={loadPrograms}>
             <button
               type="button"
               className={`${styles.navLink} ${

@@ -12,6 +12,8 @@ export type ProgramGroup = {
   programs: Program[];
 };
 
+const PROGRAMS_LOADED_EVENT = "psc:programs-loaded";
+
 /**
  * Fetches the programs created in /admin -> Programs and exposes them
  * grouped by category. Shared by the Navbar dropdown and the enquiry forms.
@@ -30,16 +32,34 @@ export function usePrograms(
     return fetch(`/api/programs${summary ? "?summary=true" : ""}`)
       .then((res) => (res.ok ? res.json() : { programs: [] }))
       .then((data) => {
-        setPrograms(Array.isArray(data.programs) ? data.programs : []);
+        const loadedPrograms = Array.isArray(data.programs) ? data.programs : [];
+        setPrograms(loadedPrograms);
+        window.dispatchEvent(
+          new CustomEvent(PROGRAMS_LOADED_EVENT, { detail: loadedPrograms })
+        );
         setLoading(false);
+        return loadedPrograms;
       })
       .catch(() => {
         setLoading(false);
+        return [] as Program[];
       });
   }, [summary]);
 
   useEffect(() => {
-    if (!fetchOnMount) return;
+    const handleProgramsLoaded = (event: Event) => {
+      const loadedPrograms = (event as CustomEvent<Program[]>).detail;
+      if (Array.isArray(loadedPrograms)) {
+        setPrograms(loadedPrograms);
+        setLoading(false);
+      }
+    };
+
+    window.addEventListener(PROGRAMS_LOADED_EVENT, handleProgramsLoaded);
+
+    if (!fetchOnMount) {
+      return () => window.removeEventListener(PROGRAMS_LOADED_EVENT, handleProgramsLoaded);
+    }
 
     let active = true;
     fetch(`/api/programs${summary ? "?summary=true" : ""}`)
@@ -54,6 +74,7 @@ export function usePrograms(
       });
     return () => {
       active = false;
+      window.removeEventListener(PROGRAMS_LOADED_EVENT, handleProgramsLoaded);
     };
   }, [fetchOnMount, hasInitialPrograms, summary]);
 
