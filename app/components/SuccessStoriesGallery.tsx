@@ -5,7 +5,6 @@ import Link from "next/link";
 import SketchFrame from "./SketchFrame";
 import styles from "./SuccessStoriesGallery.module.css";
 import type { SuccessCategory } from "../lib/successStoryUtils";
-import { useSectionVisible } from "../hooks/useSectionVisible";
 
 // Roughly how wide one card + its gap is, used to make sure a repeated
 // block of images is always wider than the viewport — otherwise a short
@@ -14,7 +13,6 @@ import { useSectionVisible } from "../hooks/useSectionVisible";
 const CARD_SPAN_PX = 320;
 
 export default function SuccessStoriesGallery() {
-  const { ref: sectionRef, visible } = useSectionVisible<HTMLElement>();
   const [images, setImages] = useState<{ src: string; alt: string }[]>([]);
   // Tracks the real viewport width so the repeated block is sized against
   // the screen that's actually showing it, not a fixed guess — a fixed
@@ -30,7 +28,6 @@ export default function SuccessStoriesGallery() {
   }, []);
 
   useEffect(() => {
-    if (!visible) return;
     // Refetch periodically so newly added gallery images show up without a
     // page reload, but a failed or empty response never clears what's
     // already on screen — the section keeps scrolling with its last known
@@ -56,10 +53,10 @@ export default function SuccessStoriesGallery() {
     load();
     const interval = setInterval(load, 60000);
     return () => clearInterval(interval);
-  }, [visible]);
+  }, []);
 
-  if (!visible || images.length === 0) {
-    return <section ref={sectionRef} className={styles.section} aria-hidden="true" />;
+  if (images.length === 0) {
+    return <section className={styles.section} aria-hidden="true" />;
   }
 
   // Repeat the image list enough times that one "half" of the track is
@@ -76,7 +73,7 @@ export default function SuccessStoriesGallery() {
   const track = [...block, ...block];
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section className={styles.section}>
       <div className={styles.header}>
         <h2 className={styles.heading}>Success Stories</h2>
         <p className={styles.subheading}>

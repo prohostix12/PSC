@@ -12,11 +12,18 @@ export async function GET() {
     const categories = await client
       .db(DB_NAME)
       .collection(COLLECTION)
-      .find({})
+      .find({}, { projection: { _id: 1, name: 1, images: 1, createdAt: 1 } })
       .sort({ createdAt: -1 })
       .toArray();
 
-    return NextResponse.json({ categories });
+    return NextResponse.json(
+      { categories },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json(
       { error: (error as Error).message },

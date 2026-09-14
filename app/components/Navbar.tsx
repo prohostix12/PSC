@@ -154,13 +154,17 @@ export default function Navbar({ initialPrograms }: { initialPrograms?: Program[
             About
           </a>
 
-          <div className={styles.navItem} onMouseEnter={loadPrograms} onFocus={loadPrograms}>
+          <div
+            className={styles.navItem}
+            onMouseEnter={loadPrograms}
+            onFocus={loadPrograms}
+          >
             <button
               type="button"
               className={`${styles.navLink} ${
                 pathname.startsWith("/courses") ? styles.navLinkActive : ""
               }`}
-              onClick={() => void reloadPrograms()}
+              onClick={loadPrograms}
             >
               Programs
               <ChevronDown />

@@ -99,7 +99,7 @@ export default function SuccessStories() {
                       }}
                       src={video.url}
                       playsInline
-                      preload="auto"
+                      preload="metadata"
                       disablePictureInPicture
                       controlsList="nofullscreen nodownload noremoteplayback"
                       className={styles.player}
@@ -151,6 +151,7 @@ export default function SuccessStories() {
                   <iframe
                     src={toEmbedUrl(video)}
                     className={styles.player}
+                    loading="lazy"
                     allow="autoplay; encrypted-media"
                     allowFullScreen
                   />

@@ -17,7 +17,14 @@ export async function GET() {
       .sort({ createdAt: -1 })
       .toArray();
 
-    return NextResponse.json({ videos });
+    return NextResponse.json(
+      { videos },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json(
       { error: (error as Error).message },

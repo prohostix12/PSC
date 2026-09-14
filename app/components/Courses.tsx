@@ -42,7 +42,7 @@ function ArrowIcon({ direction }: { direction: "left" | "right" }) {
 
 export default function Courses({ initialPrograms }: { initialPrograms?: Program[] }) {
   const { ref: sectionRef, visible } = useSectionVisible<HTMLElement>();
-  const { programs, loading } = usePrograms(initialPrograms, visible);
+  const { programs, loading } = usePrograms(initialPrograms, visible, true);
   const trackRef = useRef<HTMLDivElement>(null);
 
   // Programs are stored per-category, so a course offered both Online and

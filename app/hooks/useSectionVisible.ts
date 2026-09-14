@@ -22,7 +22,7 @@ export function useSectionVisible<T extends HTMLElement>() {
           observer.disconnect();
         }
       },
-      { rootMargin: "300px 0px" }
+      { rootMargin: "800px 0px" }
     );
 
     observer.observe(element);
