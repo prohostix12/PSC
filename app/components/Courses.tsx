@@ -4,7 +4,7 @@ import { useMemo, useRef } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./Courses.module.css";
 import { usePrograms, programSlug, type Program } from "../hooks/usePrograms";
-import { useOnScreen } from "../hooks/useOnScreen";
+import { useSectionVisible } from "../hooks/useSectionVisible";
 
 const icons = [
   <svg key="i1" width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
@@ -41,10 +41,9 @@ function ArrowIcon({ direction }: { direction: "left" | "right" }) {
 }
 
 export default function Courses({ initialPrograms }: { initialPrograms?: Program[] }) {
+  const { ref: sectionRef, visible } = useSectionVisible<HTMLElement>();
+  const { programs, loading } = usePrograms(initialPrograms, visible);
   const trackRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(sectionRef);
-  const { programs, loading } = usePrograms(initialPrograms, isVisible, true);
 
   // Programs are stored per-category, so a course offered both Online and
   // Offline exists as two rows in the DB — merge them into one card whose

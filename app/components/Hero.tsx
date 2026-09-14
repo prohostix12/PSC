@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import AdmissionModal from "./AdmissionModal";
 import styles from "./Hero.module.css";
 import {
@@ -9,11 +9,10 @@ import {
   DEFAULT_HERO_CHILDREN,
   type HeroChild,
 } from "../lib/heroUtils";
-import { useOnScreen } from "../hooks/useOnScreen";
+import { useSectionVisible } from "../hooks/useSectionVisible";
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(sectionRef, "0px");
+  const { ref: sectionRef, visible } = useSectionVisible<HTMLElement>();
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -37,8 +36,7 @@ export default function Hero() {
   });
 
   useEffect(() => {
-    if (!isVisible) return;
-
+    if (!visible) return;
     fetch("/api/hero")
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
@@ -53,7 +51,7 @@ export default function Hero() {
         });
       })
       .catch(() => {});
-  }, [isVisible]);
+  }, [visible]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

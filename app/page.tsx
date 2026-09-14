@@ -23,22 +23,11 @@ export const metadata: Metadata = {
   keywords: ["IT Training", "Business Training", "Digital Marketing Course", "Accounting Course", "Hospital Management Course", "Kerala", "Professional Skill Campus", "PSC"],
 };
 
-import getClientPromise from "../lib/mongodb";
-
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const siteUrl = getSiteUrl();
   const providerUrl = siteUrl || "https://professionalskillcampus.vercel.app";
-
-  let faqs: { question: string; answer: string }[] = [];
-  try {
-    const client = await getClientPromise();
-    const dbFaqs = await client.db("psc").collection("faqs").find({}).toArray();
-    faqs = dbFaqs.map(f => ({ question: f.question, answer: f.answer }));
-  } catch (e) {
-    // Ignore db error
-  }
 
   const jsonLd = [
     {
@@ -71,18 +60,6 @@ export default async function Home() {
         "https://www.youtube.com/@professionalskillcampus"
       ]
     },
-    ...(faqs.length > 0 ? [{
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": faqs.map(f => ({
-        "@type": "Question",
-        "name": f.question,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": f.answer
-        }
-      }))
-    }] : [])
   ];
 
   return (

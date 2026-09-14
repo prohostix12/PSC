@@ -1,22 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./Certifications.module.css";
 import type { Certification } from "../lib/certificationUtils";
-import { useOnScreen } from "../hooks/useOnScreen";
+import { useSectionVisible } from "../hooks/useSectionVisible";
 
 export default function Certifications() {
+  const { ref: sectionRef, visible } = useSectionVisible<HTMLElement>();
   const [certifications, setCertifications] = useState<Certification[]>([]);
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
     "loading"
   );
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(sectionRef);
 
   useEffect(() => {
-    if (!isVisible) return;
-
+    if (!visible) return;
     fetch("/api/certifications")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load certifications");
@@ -29,10 +27,10 @@ export default function Certifications() {
         setStatus("loaded");
       })
       .catch(() => setStatus("error"));
-  }, [isVisible]);
+  }, [visible]);
 
-  if (status !== "loaded" || certifications.length === 0) {
-    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 240 }} />;
+  if (!visible || status !== "loaded" || certifications.length === 0) {
+    return <section ref={sectionRef} className={styles.section} aria-hidden="true" />;
   }
 
   return (

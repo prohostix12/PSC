@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./Reviews.module.css";
 import type { Review } from "../lib/reviewUtils";
-import { useOnScreen } from "../hooks/useOnScreen";
+import { useSectionVisible } from "../hooks/useSectionVisible";
 
 const avatarColors = ["#2e7d5b", "#7b3fa0", "#3949ab", "#c2410c", "#0f766e"];
 
@@ -67,17 +67,15 @@ function VerifiedBadge() {
 }
 
 export default function Reviews() {
+  const { ref: sectionRef, visible } = useSectionVisible<HTMLElement>();
   const trackRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(sectionRef);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
     "loading"
   );
 
   useEffect(() => {
-    if (!isVisible) return;
-
+    if (!visible) return;
     fetch("/api/reviews")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load reviews");
@@ -88,7 +86,7 @@ export default function Reviews() {
         setStatus("loaded");
       })
       .catch(() => setStatus("error"));
-  }, [isVisible]);
+  }, [visible]);
 
   const scroll = (direction: "left" | "right") => {
     const track = trackRef.current;
@@ -107,8 +105,8 @@ export default function Reviews() {
       )
     : 5;
 
-  if (status !== "loaded" || reviews.length === 0) {
-    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 240 }} />;
+  if (!visible || status !== "loaded" || reviews.length === 0) {
+    return <section ref={sectionRef} className={styles.section} aria-hidden="true" />;
   }
 
   return (

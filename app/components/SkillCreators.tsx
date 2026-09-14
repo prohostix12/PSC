@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./SkillCreators.module.css";
 import type { SkillCreator } from "../lib/skillCreatorUtils";
-import { useOnScreen } from "../hooks/useOnScreen";
+import { useSectionVisible } from "../hooks/useSectionVisible";
 
 function ArrowIcon({ direction }: { direction: "left" | "right" }) {
   return (
@@ -21,17 +21,15 @@ function ArrowIcon({ direction }: { direction: "left" | "right" }) {
 }
 
 export default function SkillCreators() {
+  const { ref: sectionRef, visible } = useSectionVisible<HTMLElement>();
   const [skillCreators, setSkillCreators] = useState<SkillCreator[]>([]);
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
     "loading"
   );
   const trackRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(sectionRef);
 
   useEffect(() => {
-    if (!isVisible) return;
-
+    if (!visible) return;
     fetch("/api/skill-creators")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load skill creators");
@@ -44,7 +42,7 @@ export default function SkillCreators() {
         setStatus("loaded");
       })
       .catch(() => setStatus("error"));
-  }, [isVisible]);
+  }, [visible]);
 
   const scrollByCard = (direction: "left" | "right") => {
     const track = trackRef.current;
@@ -57,8 +55,8 @@ export default function SkillCreators() {
     });
   };
 
-  if (status !== "loaded" || skillCreators.length === 0) {
-    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 240 }} />;
+  if (!visible || status !== "loaded" || skillCreators.length === 0) {
+    return <section ref={sectionRef} className={styles.section} aria-hidden="true" />;
   }
 
   return (

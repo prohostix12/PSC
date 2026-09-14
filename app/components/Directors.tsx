@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./Directors.module.css";
 import type { Director } from "../lib/directorUtils";
-import { useOnScreen } from "../hooks/useOnScreen";
+import { useSectionVisible } from "../hooks/useSectionVisible";
 
 function ArrowIcon({ direction }: { direction: "left" | "right" }) {
   return (
@@ -21,17 +21,15 @@ function ArrowIcon({ direction }: { direction: "left" | "right" }) {
 }
 
 export default function Directors() {
+  const { ref: sectionRef, visible } = useSectionVisible<HTMLElement>();
   const [directors, setDirectors] = useState<Director[]>([]);
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
     "loading"
   );
   const trackRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(sectionRef);
 
   useEffect(() => {
-    if (!isVisible) return;
-
+    if (!visible) return;
     fetch("/api/directors")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load directors");
@@ -42,7 +40,7 @@ export default function Directors() {
         setStatus("loaded");
       })
       .catch(() => setStatus("error"));
-  }, [isVisible]);
+  }, [visible]);
 
   const scrollByCard = (direction: "left" | "right") => {
     const track = trackRef.current;
@@ -55,8 +53,8 @@ export default function Directors() {
     });
   };
 
-  if (status !== "loaded" || directors.length === 0) {
-    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 240 }} />;
+  if (!visible || status !== "loaded" || directors.length === 0) {
+    return <section ref={sectionRef} className={styles.section} aria-hidden="true" />;
   }
 
   return (

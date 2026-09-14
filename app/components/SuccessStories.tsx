@@ -3,16 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./SuccessStories.module.css";
-import { useOnScreen } from "../hooks/useOnScreen";
 import {
   toEmbedUrl,
   type SuccessVideo,
 } from "../lib/successVideoUtils";
+import { useSectionVisible } from "../hooks/useSectionVisible";
 
 export default function SuccessStories() {
+  const { ref: sectionRef, visible } = useSectionVisible<HTMLElement>();
   const trackRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(sectionRef);
   const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
   const [videos, setVideos] = useState<SuccessVideo[]>([]);
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
@@ -33,8 +32,7 @@ export default function SuccessStories() {
   };
 
   useEffect(() => {
-    if (!isVisible) return;
-
+    if (!visible) return;
     fetch("/api/success-videos")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load videos");
@@ -45,7 +43,7 @@ export default function SuccessStories() {
         setStatus("loaded");
       })
       .catch(() => setStatus("error"));
-  }, [isVisible]);
+  }, [visible]);
 
   const scroll = (direction: "left" | "right") => {
     const track = trackRef.current;
@@ -57,8 +55,8 @@ export default function SuccessStories() {
     });
   };
 
-  if (status !== "loaded" || videos.length === 0) {
-    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 240 }} />;
+  if (!visible || status !== "loaded" || videos.length === 0) {
+    return <section ref={sectionRef} className={styles.section} aria-hidden="true" />;
   }
 
   return (

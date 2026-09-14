@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import SketchFrame from "./SketchFrame";
 import styles from "./SuccessStoriesGallery.module.css";
 import type { SuccessCategory } from "../lib/successStoryUtils";
-import { useOnScreen } from "../hooks/useOnScreen";
+import { useSectionVisible } from "../hooks/useSectionVisible";
 
 // Roughly how wide one card + its gap is, used to make sure a repeated
 // block of images is always wider than the viewport — otherwise a short
@@ -14,8 +14,7 @@ import { useOnScreen } from "../hooks/useOnScreen";
 const CARD_SPAN_PX = 320;
 
 export default function SuccessStoriesGallery() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(sectionRef);
+  const { ref: sectionRef, visible } = useSectionVisible<HTMLElement>();
   const [images, setImages] = useState<{ src: string; alt: string }[]>([]);
   // Tracks the real viewport width so the repeated block is sized against
   // the screen that's actually showing it, not a fixed guess — a fixed
@@ -24,15 +23,14 @@ export default function SuccessStoriesGallery() {
   const [viewportWidth, setViewportWidth] = useState(1600);
 
   useEffect(() => {
-    if (!isVisible) return;
-
     const updateWidth = () => setViewportWidth(window.innerWidth);
     updateWidth();
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
-  }, [isVisible]);
+  }, []);
 
   useEffect(() => {
+    if (!visible) return;
     // Refetch periodically so newly added gallery images show up without a
     // page reload, but a failed or empty response never clears what's
     // already on screen — the section keeps scrolling with its last known
@@ -58,10 +56,10 @@ export default function SuccessStoriesGallery() {
     load();
     const interval = setInterval(load, 60000);
     return () => clearInterval(interval);
-  }, []);
+  }, [visible]);
 
-  if (images.length === 0) {
-    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 240 }} />;
+  if (!visible || images.length === 0) {
+    return <section ref={sectionRef} className={styles.section} aria-hidden="true" />;
   }
 
   // Repeat the image list enough times that one "half" of the track is

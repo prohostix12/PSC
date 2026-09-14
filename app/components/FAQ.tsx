@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./FAQ.module.css";
 import type { Faq } from "../lib/faqUtils";
-import { useOnScreen } from "../hooks/useOnScreen";
+import { useSectionVisible } from "../hooks/useSectionVisible";
 
 function FAQItem({
   question,
@@ -39,17 +39,15 @@ function FAQItem({
 }
 
 export default function FAQ() {
+  const { ref: sectionRef, visible } = useSectionVisible<HTMLElement>();
   const [faqs, setFaqs] = useState<Faq[]>([]);
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
     "loading"
   );
   const [openKey, setOpenKey] = useState<string | null>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isVisible = useOnScreen(sectionRef);
 
   useEffect(() => {
-    if (!isVisible) return;
-
+    if (!visible) return;
     fetch("/api/faqs")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load FAQs");
@@ -60,10 +58,10 @@ export default function FAQ() {
         setStatus("loaded");
       })
       .catch(() => setStatus("error"));
-  }, [isVisible]);
+  }, [visible]);
 
-  if (status !== "loaded" || faqs.length === 0) {
-    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 240 }} />;
+  if (!visible || status !== "loaded" || faqs.length === 0) {
+    return <section ref={sectionRef} className={styles.section} aria-hidden="true" />;
   }
 
   // Split into two reading columns, same layout as before but driven by
