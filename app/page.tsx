@@ -27,6 +27,8 @@ import getClientPromise from "../lib/mongodb";
 import { getPrograms } from "./lib/programs";
 import type { Program } from "./lib/programUtils";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const siteUrl = getSiteUrl();
   const providerUrl = siteUrl || "https://professionalskillcampus.vercel.app";
