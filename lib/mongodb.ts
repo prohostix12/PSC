@@ -69,14 +69,10 @@ async function createClient(): Promise<MongoClient> {
 }
 
 export default function getClientPromise(): Promise<MongoClient> {
-  if (process.env.NODE_ENV === "development") {
-    // Reuse the client across HMR reloads in dev so we don't open a new
-    // connection to Atlas on every file change.
-    if (!global._mongoClientPromise) {
-      global._mongoClientPromise = createClient();
-    }
-    return global._mongoClientPromise;
+  // Reuse the connection in every long-lived server process. Without this,
+  // production API requests reconnect to MongoDB instead of using the pool.
+  if (!global._mongoClientPromise) {
+    global._mongoClientPromise = createClient();
   }
-
-  return createClient();
+  return global._mongoClientPromise;
 }

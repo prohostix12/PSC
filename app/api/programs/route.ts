@@ -111,9 +111,11 @@ const normalizePoint = (item: unknown) => {
   };
 };
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const programs = await getPrograms();
+    const programs = await getPrograms({
+      summary: request.nextUrl.searchParams.get("summary") === "true",
+    });
     return NextResponse.json({ programs });
   } catch (error) {
     return NextResponse.json(

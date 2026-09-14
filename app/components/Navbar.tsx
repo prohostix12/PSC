@@ -94,7 +94,11 @@ function CoursesDropdown({ groups }: { groups: ProgramGroup[] }) {
 export default function Navbar({ initialPrograms }: { initialPrograms?: Program[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileProgramsOpen, setMobileProgramsOpen] = useState(false);
-  const { groups: programGroups } = usePrograms(initialPrograms);
+  const { groups: programGroups, reload: reloadPrograms } = usePrograms(
+    initialPrograms,
+    false,
+    true
+  );
   const pathname = usePathname();
   const router = useRouter();
   const logoClickTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -102,6 +106,10 @@ export default function Navbar({ initialPrograms }: { initialPrograms?: Program[
   const isActive = (href: string) => href !== "#" && pathname === href;
   const linkClass = (href: string) =>
     `${styles.navLink} ${isActive(href) ? styles.navLinkActive : ""}`;
+  const handleProgramsClick = () => {
+    void reloadPrograms();
+    setMobileProgramsOpen((open) => !open);
+  };
 
   return (
     <header className={styles.navbar}>
@@ -149,6 +157,7 @@ export default function Navbar({ initialPrograms }: { initialPrograms?: Program[
               className={`${styles.navLink} ${
                 pathname.startsWith("/courses") ? styles.navLinkActive : ""
               }`}
+              onClick={() => void reloadPrograms()}
             >
               Programs
               <ChevronDown />
@@ -228,7 +237,7 @@ export default function Navbar({ initialPrograms }: { initialPrograms?: Program[
             type="button"
             className={`${styles.mobileNavLink} ${styles.mobileProgramsToggle}`}
             aria-expanded={mobileProgramsOpen}
-            onClick={() => setMobileProgramsOpen((open) => !open)}
+            onClick={handleProgramsClick}
           >
             Programs
             <ChevronDown

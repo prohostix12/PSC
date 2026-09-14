@@ -16,14 +16,18 @@ export type ProgramGroup = {
  * Fetches the programs created in /admin -> Programs and exposes them
  * grouped by category. Shared by the Navbar dropdown and the enquiry forms.
  */
-export function usePrograms(initialPrograms?: Program[]) {
+export function usePrograms(
+  initialPrograms?: Program[],
+  fetchOnMount = true,
+  summary = false
+) {
   const hasInitialPrograms = Array.isArray(initialPrograms);
   const [programs, setPrograms] = useState<Program[]>(initialPrograms || []);
-  const [loading, setLoading] = useState(!hasInitialPrograms);
+  const [loading, setLoading] = useState(!hasInitialPrograms && fetchOnMount);
 
   const reload = useCallback(() => {
     setLoading(true);
-    return fetch("/api/programs")
+    return fetch(`/api/programs${summary ? "?summary=true" : ""}`)
       .then((res) => (res.ok ? res.json() : { programs: [] }))
       .then((data) => {
         setPrograms(Array.isArray(data.programs) ? data.programs : []);
@@ -32,11 +36,13 @@ export function usePrograms(initialPrograms?: Program[]) {
       .catch(() => {
         setLoading(false);
       });
-  }, []);
+  }, [summary]);
 
   useEffect(() => {
+    if (!fetchOnMount) return;
+
     let active = true;
-    fetch("/api/programs")
+    fetch(`/api/programs${summary ? "?summary=true" : ""}`)
       .then((res) => (res.ok ? res.json() : { programs: [] }))
       .then((data) => {
         if (!active) return;
@@ -49,7 +55,7 @@ export function usePrograms(initialPrograms?: Program[]) {
     return () => {
       active = false;
     };
-  }, [hasInitialPrograms]);
+  }, [fetchOnMount, hasInitialPrograms, summary]);
 
   const groups: ProgramGroup[] = [
     {
