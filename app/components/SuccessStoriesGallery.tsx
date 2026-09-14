@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import SketchFrame from "./SketchFrame";
 import styles from "./SuccessStoriesGallery.module.css";
 import type { SuccessCategory } from "../lib/successStoryUtils";
+import { useOnScreen } from "../hooks/useOnScreen";
 
 // Roughly how wide one card + its gap is, used to make sure a repeated
 // block of images is always wider than the viewport — otherwise a short
@@ -13,6 +14,8 @@ import type { SuccessCategory } from "../lib/successStoryUtils";
 const CARD_SPAN_PX = 320;
 
 export default function SuccessStoriesGallery() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isVisible = useOnScreen(sectionRef);
   const [images, setImages] = useState<{ src: string; alt: string }[]>([]);
   // Tracks the real viewport width so the repeated block is sized against
   // the screen that's actually showing it, not a fixed guess — a fixed
@@ -21,11 +24,13 @@ export default function SuccessStoriesGallery() {
   const [viewportWidth, setViewportWidth] = useState(1600);
 
   useEffect(() => {
+    if (!isVisible) return;
+
     const updateWidth = () => setViewportWidth(window.innerWidth);
     updateWidth();
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
-  }, []);
+  }, [isVisible]);
 
   useEffect(() => {
     // Refetch periodically so newly added gallery images show up without a
@@ -55,7 +60,9 @@ export default function SuccessStoriesGallery() {
     return () => clearInterval(interval);
   }, []);
 
-  if (images.length === 0) return null;
+  if (images.length === 0) {
+    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 240 }} />;
+  }
 
   // Repeat the image list enough times that one "half" of the track is
   // always comfortably wider than the current viewport (2x it, so there's
@@ -71,7 +78,7 @@ export default function SuccessStoriesGallery() {
   const track = [...block, ...block];
 
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={styles.header}>
         <h2 className={styles.heading}>Success Stories</h2>
         <p className={styles.subheading}>

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./SkillCreators.module.css";
 import type { SkillCreator } from "../lib/skillCreatorUtils";
+import { useOnScreen } from "../hooks/useOnScreen";
 
 function ArrowIcon({ direction }: { direction: "left" | "right" }) {
   return (
@@ -25,8 +26,12 @@ export default function SkillCreators() {
     "loading"
   );
   const trackRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isVisible = useOnScreen(sectionRef);
 
   useEffect(() => {
+    if (!isVisible) return;
+
     fetch("/api/skill-creators")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load skill creators");
@@ -39,7 +44,7 @@ export default function SkillCreators() {
         setStatus("loaded");
       })
       .catch(() => setStatus("error"));
-  }, []);
+  }, [isVisible]);
 
   const scrollByCard = (direction: "left" | "right") => {
     const track = trackRef.current;
@@ -52,10 +57,12 @@ export default function SkillCreators() {
     });
   };
 
-  if (status !== "loaded" || skillCreators.length === 0) return null;
+  if (status !== "loaded" || skillCreators.length === 0) {
+    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 240 }} />;
+  }
 
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={styles.header}>
         <h2 className={styles.heading}>Our Skill Creators</h2>
         <p className={styles.subheading}>

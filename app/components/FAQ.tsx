@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./FAQ.module.css";
 import type { Faq } from "../lib/faqUtils";
+import { useOnScreen } from "../hooks/useOnScreen";
 
 function FAQItem({
   question,
@@ -43,8 +44,12 @@ export default function FAQ() {
     "loading"
   );
   const [openKey, setOpenKey] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isVisible = useOnScreen(sectionRef);
 
   useEffect(() => {
+    if (!isVisible) return;
+
     fetch("/api/faqs")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load FAQs");
@@ -55,9 +60,11 @@ export default function FAQ() {
         setStatus("loaded");
       })
       .catch(() => setStatus("error"));
-  }, []);
+  }, [isVisible]);
 
-  if (status !== "loaded" || faqs.length === 0) return null;
+  if (status !== "loaded" || faqs.length === 0) {
+    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 240 }} />;
+  }
 
   // Split into two reading columns, same layout as before but driven by
   // however many FAQs exist in the DB.
@@ -66,7 +73,7 @@ export default function FAQ() {
   const rightFaqs = faqs.slice(mid);
 
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={styles.header}>
         <h2 className={styles.heading}>FAQ</h2>
         <p className={styles.subheading}>

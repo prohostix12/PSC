@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Marquee.module.css";
 import { PAGE_PATH_MAP } from "../lib/pageNotificationUtils";
+import { useOnScreen } from "../hooks/useOnScreen";
 
 // Roughly how wide one ticker item is, used to make sure a repeated block
 // of notifications is always wider than the viewport — otherwise a short
@@ -47,6 +48,8 @@ function pageLabelForPath(pathname: string | null): string | null {
 // nothing renders at all until real data (or the "no notifications" state)
 // is known.
 export default function Marquee() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isVisible = useOnScreen(sectionRef, "0px");
   const pathname = usePathname();
   const [items, setItems] = useState<string[] | null>(null);
   // Tracks the real viewport width so the repeated block is sized against
@@ -62,6 +65,8 @@ export default function Marquee() {
   }, []);
 
   useEffect(() => {
+    if (!isVisible) return;
+
     const pageLabel = pageLabelForPath(pathname);
     if (!pageLabel) {
       setItems([]);
@@ -77,9 +82,11 @@ export default function Marquee() {
         setItems(messages);
       })
       .catch(() => setItems([]));
-  }, [pathname]);
+  }, [isVisible, pathname]);
 
-  if (!items || items.length === 0) return null;
+  if (!items || items.length === 0) {
+    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 32 }} />;
+  }
 
   // Repeat the notification list enough times that one "half" of the
   // track is always comfortably wider than the viewport, then duplicate
@@ -98,7 +105,7 @@ export default function Marquee() {
   const duration = Math.max(10, block.length * 3.2);
 
   return (
-    <div className={styles.ticker}>
+    <div ref={sectionRef} className={styles.ticker}>
       <Link
         href="/notification"
         className={styles.bell}

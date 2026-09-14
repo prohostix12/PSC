@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import SketchFrame from "./SketchFrame";
 import styles from "./Directors.module.css";
 import type { Director } from "../lib/directorUtils";
+import { useOnScreen } from "../hooks/useOnScreen";
 
 function ArrowIcon({ direction }: { direction: "left" | "right" }) {
   return (
@@ -25,8 +26,12 @@ export default function Directors() {
     "loading"
   );
   const trackRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isVisible = useOnScreen(sectionRef);
 
   useEffect(() => {
+    if (!isVisible) return;
+
     fetch("/api/directors")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load directors");
@@ -37,7 +42,7 @@ export default function Directors() {
         setStatus("loaded");
       })
       .catch(() => setStatus("error"));
-  }, []);
+  }, [isVisible]);
 
   const scrollByCard = (direction: "left" | "right") => {
     const track = trackRef.current;
@@ -50,10 +55,12 @@ export default function Directors() {
     });
   };
 
-  if (status !== "loaded" || directors.length === 0) return null;
+  if (status !== "loaded" || directors.length === 0) {
+    return <div ref={sectionRef} aria-hidden="true" style={{ minHeight: 240 }} />;
+  }
 
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={styles.header}>
         <h2 className={styles.heading}>Meet Our Directors</h2>
         <p className={styles.subheading}>
